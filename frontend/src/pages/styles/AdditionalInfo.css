@@ -1,0 +1,14 @@
+.form-box {
+    padding: 20px;
+    border: 1px solid #e0e0e0;
+    margin: 20px 0;
+}
+
+.education-info-section {
+    border: 1px solid #e0e0e0;
+    padding: 20px;
+    margin: 20px;
+    justify-content: space-between;
+    display: flex;
+    flex-direction: row;
+}
