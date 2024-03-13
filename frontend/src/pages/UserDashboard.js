@@ -6,9 +6,9 @@ import JobPostingCard from "../components/joblist/JobPostingCard";
 
 function UserDashboard() {
   return (
-    <Container fluid className="p-0">
+    <Container fluid className="d-flex justify-content-center align-items-center">
       {/* Main Content Column */}
-      <Col md={9} lg={12} className="px-md-4 py-4 overflow-auto">
+      <Col md={9} lg={11} className="p-4 overflow-auto">
         <Container fluid>
           {/* Welcome Section */}
           <Row className="mb-5">
@@ -22,7 +22,7 @@ function UserDashboard() {
               {/* Actions */}
               <div className="d-flex flex-column flex-md-row align-items-center justify-content-center mt-5 gap-3 p-3">
                 <div className="ms-md-5">
-                  <Link to="#" className="btn btn-primary rounded-pill">
+                  <Link to="/all-jobs" className="btn btn-primary rounded-pill">
                     View More Jobs
                   </Link>
                 </div>
