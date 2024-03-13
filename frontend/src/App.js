@@ -7,6 +7,7 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import AdditionalInfo from './pages/AdditionalInfo';
 import RecruiterDashboard from './pages/RecruiterDashboard';
+import AllJobs from './pages/AllJobs';
 
 function App() {
 	return (
@@ -18,6 +19,7 @@ function App() {
 					<Route path="/login" element={<Login />} />
 					<Route path="/signup" element={<Signup />} />
 					<Route path="/additional-info" element={<AdditionalInfo />} />
+					<Route path='/all-jobs' element={<AllJobs />} />
 				</Routes>
 		</BrowserRouter>
 	);
