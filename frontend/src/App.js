@@ -9,6 +9,7 @@ import AdditionalInfo from './pages/AdditionalInfo';
 import RecruiterDashboard from './pages/RecruiterDashboard';
 import AllJobs from './pages/AllJobs';
 import JobApplication from './pages/JobApplications';
+import NewJobPosting from './pages/NewJobPosting';
 
 function App() {
 	return (
@@ -22,6 +23,7 @@ function App() {
 					<Route path="/additional-info" element={<AdditionalInfo />} />
 					<Route path='/all-jobs' element={<AllJobs />} />
 					<Route path='/job-applications' element={<JobApplication />} />
+					<Route path="/new-job-posting" element={<NewJobPosting />} />
 				</Routes>
 		</BrowserRouter>
 	);

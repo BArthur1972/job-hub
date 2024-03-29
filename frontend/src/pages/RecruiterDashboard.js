@@ -3,6 +3,7 @@ import { Container, Row, Col, Button, Card } from "react-bootstrap";
 import { HiOutlinePlusSmall } from "react-icons/hi2";
 import { FaClipboardCheck } from "react-icons/fa6";
 import { FaUser } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 function RecruiterDashboard() {
   return (
@@ -15,9 +16,12 @@ function RecruiterDashboard() {
           <Card.Body className="p-0">
             <Row className="bg-primary rounded-top py-3 px-4">
               <Col className="d-flex justify-content-end">
-                <Button variant="light" className="d-flex align-items-center">
+                <Link
+                  to="/new-job-posting"
+                  className="btn btn-light d-flex align-items-center text-decoration-none"
+                >
                   <HiOutlinePlusSmall className="me-2" /> New job posting
-                </Button>
+                </Link>
               </Col>
             </Row>
             <Row className="p-5">
