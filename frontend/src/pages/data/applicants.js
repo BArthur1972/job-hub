@@ -15,7 +15,7 @@ export const initialApplicants = [
       id: '2',
       name: 'Jane Smith',
       jobTitle: 'UI/UX Designer',
-      status: 'Interviewed',
+      status: 'Interviewing',
       location: 'San Francisco, CA',
       email: 'jane.smith@example.com',
       resumeURL: 'https://example.com/janeresume.pdf',
