@@ -136,7 +136,7 @@ function AdditionalInfo() {
     };
 
     const skip = () => {
-        navigate("/userdashboard");
+        navigate("/jobseekerdashboard");
     };
 
     // Function to handle form submission
@@ -146,7 +146,7 @@ function AdditionalInfo() {
 
 
         // Navigate to the dashboard
-        navigate("/userdashboard");
+        navigate("/jobseekerdashboard");
     };
 
     return (
