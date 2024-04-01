@@ -2,7 +2,7 @@ import './App.css';
 import { BrowserRouter } from 'react-router-dom';
 import Navigation from './components/Navigation';
 import { Routes, Route } from 'react-router-dom';
-import UserDashboard from './pages/UserDashboard';
+import JobSeekerDashboard from './pages/JobSeekerDashboard';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import AdditionalInfo from './pages/AdditionalInfo';
@@ -12,16 +12,20 @@ import JobApplication from './pages/JobApplications';
 import NewJobPosting from './pages/NewJobPosting';
 import JobPostings from './pages/RecuiterJobPosting';
 import ApplicantListPage from './pages/RecuiterApplicatant';
+import LandingPage from './pages/LandingPage';
+import Account from './pages/Account';
 
 function App() {
 	return (
 		<BrowserRouter>
 			<Navigation />
 				<Routes>
-					<Route path="/userdashboard" element={<UserDashboard />} />
+					<Route path="/" element={<LandingPage />} />
+					<Route path="/jobseekerdashboard" element={<JobSeekerDashboard />} />
 					<Route path="/recruiterdashboard" element={<RecruiterDashboard />} />
 					<Route path="/login" element={<Login />} />
 					<Route path="/signup" element={<Signup />} />
+					<Route path="/account" element={<Account />} />
 					<Route path="/additional-info" element={<AdditionalInfo />} />
 					<Route path='/all-jobs' element={<AllJobs />} />
 					<Route path='/job-applications' element={<JobApplication />} />
