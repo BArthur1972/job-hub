@@ -11,6 +11,7 @@ import AllJobs from './pages/AllJobs';
 import JobApplication from './pages/JobApplications';
 import NewJobPosting from './pages/NewJobPosting';
 import JobPostings from './pages/RecuiterJobPosting';
+import ApplicantListPage from './pages/RecuiterApplicatant';
 
 function App() {
 	return (
@@ -26,6 +27,7 @@ function App() {
 					<Route path='/job-applications' element={<JobApplication />} />
 					<Route path="/new-job-posting" element={<NewJobPosting />} />
 					<Route path="/job-posting" element={<JobPostings />} />
+					<Route path="/job-applicatant" element={<ApplicantListPage />} />
 				</Routes>
 		</BrowserRouter>
 	);
