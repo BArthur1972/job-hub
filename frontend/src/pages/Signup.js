@@ -3,27 +3,75 @@ import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import './styles/Signup.css';
 import defaultProfilePic from '../assets/defaultProfilePic.jpg';
+import { useSignupRecruiterMutation, useSignupJobSeekerMutation } from '../services/appApi';
+import { useSelector } from 'react-redux';
 
 function Signup() {
     // States for storing user data
-    const [name, setName] = useState("");
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [contactNumber, setContactNumber] = useState("");
     const [bio, setBio] = useState("");
     const [role, setRole] = useState("");
+    const [profilePicture, setProfilePicture] = useState("");
+    const [companyID, setCompanyID] = useState(0);
     const navigate = useNavigate();
+    const [signupJobSeeker] = useSignupJobSeekerMutation();
+    const [signupRecruiter] = useSignupRecruiterMutation();
 
+    const { user, userRole } = useSelector((state) => state.user);
 
     async function handleSignup(e) {
         e.preventDefault();
 
-        // TODO: Sign up the user
-
-        // Navigate to additional details page if user is seeking a job seeker
         if (role == "recruiter") {
-            navigate("/recruiterdashboard");
-        } else {
-            navigate("/additional-info");
+            const recruiter = {
+                firstName,
+                lastName,
+                email,
+                password,
+                contactNumber,
+                bio,
+                profilePicture,
+                companyID
+            };
+
+            await signupRecruiter(recruiter).then((response) => {
+                if (response && response.data) {
+                    console.log("Recruiter signed up successfully");
+                    console.log(response.data);
+
+                    navigate("/recruiterdashboard");
+                }
+            }).catch((error) => {
+                console.log("Error signing up recruiter")
+                console.log(error);
+            });
+
+        } else { // Sign up a job seeker
+            const jobSeeker = {
+                firstName,
+                lastName,
+                email,
+                password,
+                contactNumber,
+                bio,
+                profilePicture
+            };
+
+            await signupJobSeeker(jobSeeker).then((response) => {
+                if (response && response.data) {
+                    console.log("Job Seeker signed up successfully");
+                    console.log(response.data);
+
+                    navigate("/additional-info");
+                }
+            }).catch((error) => {
+                console.log("Error signing up job seeker")
+                console.log(error);
+            });
         }
     }
 
@@ -47,16 +95,25 @@ function Signup() {
                                 id="image-upload"
                                 hidden
                                 accept="image/png, image/jpeg"
-                                onChange={null}
+                                onChange={(e) => setProfilePicture(e.target.files[0])}
                             />
                         </div>
                         <Form.Group className="mb-3" controlId="formBasicName">
-                            <Form.Label>Name</Form.Label>
+                            <Form.Label>First Name</Form.Label>
                             <Form.Control
                                 type="text"
-                                placeholder="Enter Your Name"
-                                onChange={(e) => setName(e.target.value)}
-                                value={name}
+                                placeholder="Enter Your First Name"
+                                onChange={(e) => setFirstName(e.target.value)}
+                                value={firstName}
+                            />
+                        </Form.Group>
+                        <Form.Group className="mb-3" controlId="formBasicName">
+                            <Form.Label>Last Name</Form.Label>
+                            <Form.Control
+                                type="text"
+                                placeholder="Enter Your Last Name"
+                                onChange={(e) => setLastName(e.target.value)}
+                                value={lastName}
                             />
                         </Form.Group>
 
@@ -83,6 +140,16 @@ function Signup() {
                             />
                         </Form.Group>
 
+                        <Form.Group className="mb-3" controlId="formBasicNumber">
+                            <Form.Label>Contact Number</Form.Label>
+                            <Form.Control
+                                type="text"
+                                placeholder="Enter Your Contact Number"
+                                onChange={(e) => setContactNumber(e.target.value)}
+                                value={contactNumber}
+                            />
+                        </Form.Group>
+
                         <Form.Group className="mb-3" controlId="formBasicBio">
                             <Form.Label>Bio</Form.Label>
                             <Form.Control
@@ -106,6 +173,16 @@ function Signup() {
                                 <option value="recruiter">Recruiter</option>
                             </Form.Control>
                         </Form.Group>
+
+                        {role==="recruiter" ? <Form.Group className="mb-3" controlId="formBasicNumber">
+                            <Form.Label>Company ID</Form.Label>
+                            <Form.Control
+                                type="text"
+                                placeholder="Enter Your Company ID"
+                                onChange={(e) => setCompanyID(e.target.value)}
+                                value={companyID}
+                            />
+                        </Form.Group> : <></>}
 
                         <Button variant="primary" type="submit">
                             Sign Up

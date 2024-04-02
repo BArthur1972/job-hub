@@ -2,16 +2,28 @@ import React from 'react';
 import { Container, Nav, Navbar, NavDropdown, Button } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { useLogoutRecruiterMutation, useLogoutJobSeekerMutation } from '../services/appApi';
 import logo from '../assets/logo192.png';
 
 function Navigation() {
+	const { user, userRole } = useSelector((state) => state.user);
 	const navigate = useNavigate();
+	const [logoutRecruiter] = useLogoutRecruiterMutation();
+	const [logoutJobSeeker] = useLogoutJobSeekerMutation();
 
-	const handleLogout = () => {
-		// TODO: Implement logout
-
-		// Redirect to login page
-		navigate('/login');
+	const handleLogout = async () => {
+		if (userRole === 'recruiter') {
+			await logoutRecruiter(user);
+			console.log("Logged out recruiter", user);
+			console.log("User role", userRole);
+			navigate('/login');
+		} else {
+			await logoutJobSeeker(user)
+			console.log("Logged out job seeker", user);
+			console.log("User role", userRole);
+			navigate('/login');
+		}
 	}
 
 	const goToAccountSettings = () => {
