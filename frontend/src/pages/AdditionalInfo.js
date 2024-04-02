@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom';
 
 function AdditionalInfo() {
     // States for storing additional information
-    const [phone, setPhone] = useState("");
     const [educationLevel, setEducationLevel] = useState("");
     const [educationInfoList, setEducationInfoList] = useState([{ degree: '', discipline: '', school: '', startDate: '', endDate: '' }]);
     const [country, setCountry] = useState("");
@@ -157,15 +156,6 @@ function AdditionalInfo() {
                 </Col>
             </Row>
             <Form onSubmit={handleSubmit} className='form-box'>
-                <FormGroup className="mt-4" style={{ margin: "30px" }}>
-                    <Form.Label>Phone</Form.Label>
-                    <FormControl
-                        type="text"
-                        placeholder="Enter your phone number"
-                        onChange={(e) => setPhone(e.target.value)}
-                        value={phone}
-                    />
-                </FormGroup>
 
                 <FormGroup style={{ margin: "30px" }}>
                     <Form.Label>What is your highest education level?<span style={{ color: "red" }}>*</span></Form.Label>
