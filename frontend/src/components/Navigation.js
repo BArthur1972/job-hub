@@ -50,7 +50,6 @@ function Navigation() {
 	return (
 		<Navbar bg="light" expand="lg">
 			<Container>
-				{/*TODO: Update this. It should depend on the user's role. */}
 				<LinkContainer to="/">
 					<Navbar.Brand>
 						<img src={logo} alt="" style={{ width: 50, height: 50 }} />
@@ -59,16 +58,20 @@ function Navigation() {
 				<Navbar.Toggle aria-controls="basic-navbar-nav" />
 				<Navbar.Collapse id="basic-navbar-nav">
 					<Nav className="ms-auto">
-						<LinkContainer to="/login">
-							<Nav.Link>Login</Nav.Link>
-						</LinkContainer>
-						<NavDropdown title="Dropdown" id="basic-nav-dropdown">
-							<NavDropdown.Item onClick={goToAccountSettings}>My Account</NavDropdown.Item>
-							<NavDropdown.Divider />
-							<NavDropdown.Item>
-								<Button variant="danger" onClick={handleLogout}>Logout</Button>
-							</NavDropdown.Item>
-						</NavDropdown>
+						{!user && (
+							<LinkContainer to="/login">
+								<Nav.Link>Login</Nav.Link>
+							</LinkContainer>
+						)}
+						{user && (
+							<NavDropdown title="Menu" id="basic-nav-dropdown">
+								<NavDropdown.Item onClick={goToAccountSettings}>My Account</NavDropdown.Item>
+								<NavDropdown.Divider />
+								<NavDropdown.Item>
+									<Button variant="danger" onClick={handleLogout}>Logout</Button>
+								</NavDropdown.Item>
+							</NavDropdown>
+						)}
 					</Nav>
 				</Navbar.Collapse>
 			</Container>

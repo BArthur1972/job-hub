@@ -10,7 +10,7 @@ router.get('/', async (req, res) => {
         console.log(jobSeekers);
     } catch (err) {
         console.log('Error getting all job seekers: ', err);
-        res.status(500).send({error: 'Error getting all job seekers'});
+        res.status(500).send({error: err});
     }
 });
 
@@ -23,7 +23,7 @@ router.get('/:jobSeekerID', async (req, res) => {
         console.log(jobSeeker);
     } catch (err) {
         console.log('Error getting job seeker: ', err);
-        res.status(500).send({error: 'Error getting job seeker'});
+        res.status(500).send({error: err});
     }
 });
 
@@ -36,7 +36,7 @@ router.post('/signup', async (req, res) => {
         res.status(200).send({user: jobSeekerWithToken, token: jobSeekerWithToken.token});
     } catch (err) {
         console.log("Error signing up job seeker: ", err);
-        res.status(500).send(err);
+        res.status(500).send({error: err});
     }
 });
 
@@ -50,7 +50,7 @@ router.post('/login', async (req, res) => {
         res.status(200).send({user: jobSeekerWithToken, token: jobSeekerWithToken.token});
     } catch (err) {
         console.log("Error logging in job seeker: ", err);
-        res.status(500).send(err);
+        res.status(500).send({error: err});
     }
 });
 
@@ -62,7 +62,7 @@ router.post('/logout/', auth, async (req, res) => {
         res.status(200).send({data: "Job seeker logged out successfully"});
     } catch (err) {
         console.log("Error logging out job seeker: ", err);
-        res.status(500).send(err);
+        res.status(500).send({error: err});
     }
 });
 
@@ -74,7 +74,7 @@ router.put('/update/', async (req, res) => {
         res.status(200).send({user: updatedJobSeeker});
     } catch (err) {
         console.log("Error updating job seeker: ", err);
-        res.status(500).send(err);
+        res.status(500).send({error: err});
     }
 });
 

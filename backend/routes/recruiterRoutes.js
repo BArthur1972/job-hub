@@ -10,7 +10,7 @@ router.get('/', async (req, res) => {
         console.log(recruiters);
     } catch (err) {
         console.log('Error getting all recruiters: ', err);
-        res.status(500).send({error: 'Error getting all recruiters'});
+        res.status(500).send({error: err});
     }
 });
 
@@ -23,7 +23,7 @@ router.get('/:recruiterID', async (req, res) => {
         console.log(recruiter);
     } catch (err) {
         console.log('Error getting recruiter: ', err);
-        res.status(500).send({error: 'Error getting recruiter'});
+        res.status(500).send({error: err});
     }
 });
 
@@ -36,7 +36,7 @@ router.post('/signup', async (req, res) => {
         res.status(200).send({user: recruiterWithToken, token: recruiterWithToken.token});
     } catch (err) {
         console.log("Error signing up recruiter: ", err);
-        res.status(500).send(err);
+        res.status(500).send({error: err});
     }
 });
 
@@ -50,7 +50,7 @@ router.post('/login', async (req, res) => {
         res.status(200).send({user: recruiterWithToken, token: recruiterWithToken.token});
     } catch (err) {
         console.log("Error logging in recruiter: ", err);
-        res.status(500).send(err);
+        res.status(500).send({error: err});
     }
 });
 
@@ -62,7 +62,7 @@ router.post('/logout/', auth, async (req, res) => {
         res.status(200).send({data: "Recruiter logged out successfully"});
     } catch (err) {
         console.log("Error logging out recruiter: ", err);
-        res.status(500).send(err);
+        res.status(500).send({error: err});
     }
 });
 
