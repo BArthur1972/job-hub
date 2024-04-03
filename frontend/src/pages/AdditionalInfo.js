@@ -3,11 +3,18 @@ import { Container, Row, Col, Form, Button, FormGroup, FormControl } from 'react
 import { Link } from 'react-router-dom';
 import './styles/AdditionalInfo.css';
 import { useNavigate } from 'react-router-dom';
+import { skillList } from './data/skills';
+import { disciplines } from './data/disciplines';
+import { useSelector } from 'react-redux';
+import { useUpdateJobSeekerMutation, useAddJobSeekerEducationMutation, useAddJobSeekerExperienceMutation, useAddJobSeekerSkillsMutation } from '../services/appApi';
 
 function AdditionalInfo() {
+    const { user } = useSelector((state) => state.user);
+
     // States for storing additional information
     const [educationLevel, setEducationLevel] = useState("");
-    const [educationInfoList, setEducationInfoList] = useState([{ degree: '', discipline: '', school: '', startDate: '', endDate: '' }]);
+    const [educationInfoList, setEducationInfoList] = useState([{ school: '', degree: '', discipline: '', startYear: 0, endYear: 0 }]);
+    const [experienceInfoList, setExperienceInfoList] = useState([{ company: '', role: '', startDate: '', endDate: '' }]);
     const [country, setCountry] = useState("");
     const [state, setState] = useState("");
     const [skills, setSkills] = useState([]);
@@ -15,104 +22,33 @@ function AdditionalInfo() {
     const [resumeFiles, setResumeFiles] = useState([]);
     const navigate = useNavigate();
 
-    // list of disciplines
-    const disciplines = [
-        "Accounting",
-        "Aerospace Engineering",
-        "Agriculture",
-        "Anthropology",
-        "Architecture",
-        "Art and Design",
-        "Automotive Engineering",
-        "Biochemistry",
-        "Biology",
-        "Biomedical Engineering",
-        "Business Administration",
-        "Chemical Engineering",
-        "Chemistry",
-        "Civil Engineering",
-        "Computer Science",
-        "Criminal Justice",
-        "Dentistry",
-        "Earth Sciences",
-        "Economics",
-        "Education",
-        "Electrical Engineering",
-        "Environmental Science",
-        "Fashion Design",
-        "Film and Media Studies",
-        "Finance",
-        "Food Science",
-        "Geography",
-        "Geology",
-        "Graphic Design",
-        "History",
-        "Hospitality Management",
-        "Industrial Engineering",
-        "Information Technology",
-        "Interior Design",
-        "International Relations",
-        "Journalism",
-        "Law",
-        "Linguistics",
-        "Management",
-        "Marketing",
-        "Mathematics",
-        "Mechanical Engineering",
-        "Medicine",
-        "Music",
-        "Nursing",
-        "Nutrition",
-        "Pharmacy",
-        "Philosophy",
-        "Physics",
-        "Political Science",
-        "Psychology",
-        "Public Health",
-        "Religious Studies",
-        "Sociology",
-        "Software Engineering",
-        "Sports Science",
-        "Statistics",
-        "Supply Chain Management",
-        "Telecommunications",
-        "Theater Arts",
-        "Urban Planning",
-        "Veterinary Services"
-    ];
-
-    const skillList = [
-        'Python',
-        'JavaScript',
-        'SQL',
-        'C++',
-        'C',
-        'Java',
-        'TypeScript',
-        'Bash',
-        'Swift',
-        'Kotlin',
-        'Dart',
-        'Go',
-        'HTML',
-        'C#',
-        'Ruby',
-        'PHP',
-        'R',
-        'Gradle',
-        'Rust',
-        'Matlab',
-        'Perl',
-        'VB.NET',
-        'Scala',
-        'Objective-C',
-        'Pascal',
-        'Lua',
-    ];
+    const [updateJobSeeker] = useUpdateJobSeekerMutation();
+    const [addJobSeekerEducation] = useAddJobSeekerEducationMutation();
+    const [addJobSeekerExperience] = useAddJobSeekerExperienceMutation();
+    const [addJobSeekerSkills] = useAddJobSeekerSkillsMutation();
 
     // Function to add another education info section
     const addEducationInfo = () => {
-        setEducationInfoList([...educationInfoList, { degree: '', discipline: '', school: '', startDate: '', endDate: '' }]);
+        setEducationInfoList([...educationInfoList, { school: '', degree: '', discipline: '', startYear: 0, endYear: 0 }]);
+    };
+
+    // Function to add another experience info section
+    const addExperienceInfo = () => {
+        setExperienceInfoList([...experienceInfoList, { company: '', role: '', startDate: '', endDate: '' }]);
+    };
+
+    // Function to remove an education info section
+    const removeEducationInfo = (index) => {
+        const updatedEducationInfoList = [...educationInfoList];
+        updatedEducationInfoList.splice(index, 1);
+        setEducationInfoList(updatedEducationInfoList);
+    };
+
+    // Function to remove an experience info section
+    const removeExperienceInfo = (index) => {
+        const updatedExperienceInfoList = [...experienceInfoList];
+        updatedExperienceInfoList.splice(index, 1);
+        setExperienceInfoList(updatedExperienceInfoList);
     };
 
     // Function to handle file upload
@@ -138,14 +74,87 @@ function AdditionalInfo() {
         navigate("/jobseekerdashboard");
     };
 
+    const updateJobSeekerHandler = async (fields) => {
+
+        // Update the jobseeker with the country and state
+        try {
+            await updateJobSeeker(fields).then((response) => {
+                if (response && response.data) {
+                    console.log("Job Seeker updated successfully: ", response.data);
+                } else {
+                    console.log("Error updating job seeker: ", response.error);
+                }
+            });
+        } catch (err) {
+            console.log("Error updating job seeker: ", err);
+        }
+    };
+
+    const updateJobSeekerEducationHandler = async (educations) => {
+        // Add the education info
+        educations.forEach(async (educationInfo) => {
+            try {
+                await addJobSeekerEducation({ seekerID: user.seekerID, educationInfo }).then((response) => {
+                    if (response && response.data) {
+                        console.log("Job Seeker education added successfully: ", response.data);
+                    } else {
+                        console.log("Error adding job seeker education: ", response.error);
+                    }
+                });
+            } catch (err) {
+                console.log("Error adding job seeker education: ", err);
+            }
+        });
+    };
+
+    const updateJobSeekerExperienceHandler = async (experiences) => {
+         // Add the experience info
+         experiences.forEach(async (experienceInfo) => {
+            try {
+                await addJobSeekerExperience({ seekerID: user.seekerID, experienceInfo }).then((response) => {
+                    if (response && response.data) {
+                        console.log("Job Seeker experience added successfully: ", response.data);
+                    } else {
+                        console.log("Error adding job seeker experience: ", response.error);
+                    }
+                });
+            } catch (err) {
+                console.log("Error adding job seeker experience: ", err);
+            }
+        });
+    };
+
+    const updateJobSeekerSkillsHandler = async (listOfSkills) => {
+        // Add the skills
+        listOfSkills.forEach(async (skill) => {
+            try {
+                await addJobSeekerSkills({ seekerID: user.seekerID, skill }).then((response) => {
+                    if (response && response.data) {
+                        console.log("Job Seeker skill added successfully: ", response.data);
+                    } else {
+                        console.log("Error adding job seeker skill: ", response.error);
+                    }
+                });
+            } catch (err) {
+                console.log("Error adding job seeker skill: ", err);
+            } 
+        });
+    };
+
     // Function to handle form submission
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // TODO: Handle form submission
 
+        await updateJobSeekerHandler({ seekerID: user.seekerID, country, state });
 
-        // Navigate to the dashboard
-        navigate("/jobseekerdashboard");
+        await updateJobSeekerEducationHandler(educationInfoList);
+    
+        await updateJobSeekerExperienceHandler(experienceInfoList);
+
+        await updateJobSeekerSkillsHandler(skills);
+        
+        // Navigate to the dashboard and replace the current page in the history so the user can't go back to this page
+        navigate("/jobseekerdashboard", { replace: true });
     };
 
     return (
@@ -175,11 +184,12 @@ function AdditionalInfo() {
                     </FormControl>
                 </FormGroup>
 
+                <h5 className="text-center">Education</h5>
                 {/* Education info section (Multiple) */}
                 {educationInfoList.map((educationInfo, index) => (
                     <div key={index} className='education-info-section'>
                         <FormGroup>
-                            <Form.Label>Degree</Form.Label>
+                            <Form.Label>Degree<span style={{ color: "red" }}>*</span></Form.Label>
                             <FormControl
                                 as="select"
                                 onChange={(e) => {
@@ -201,7 +211,7 @@ function AdditionalInfo() {
                             </FormControl>
                         </FormGroup>
                         <FormGroup>
-                            <Form.Label>Discipline</Form.Label>
+                            <Form.Label>Discipline<span style={{ color: "red" }}>*</span></Form.Label>
                             <FormControl
                                 as="select"
                                 onChange={(e) => {
@@ -218,10 +228,10 @@ function AdditionalInfo() {
                             </FormControl>
                         </FormGroup>
                         <FormGroup>
-                            <Form.Label>School</Form.Label>
+                            <Form.Label>Institution<span style={{ color: "red" }}>*</span></Form.Label>
                             <FormControl
                                 type="text"
-                                placeholder="Enter your school"
+                                placeholder="Enter your institution"
                                 onChange={(e) => {
                                     const updatedEducationInfoList = [...educationInfoList];
                                     updatedEducationInfoList[index].school = e.target.value;
@@ -231,15 +241,77 @@ function AdditionalInfo() {
                             />
                         </FormGroup>
                         <FormGroup>
+                            <Form.Label>Start Year<span style={{ color: "red" }}>*</span></Form.Label>
+                            <FormControl
+                                type="number"
+                                style={{width: '100px'}}
+                                onChange={(e) => {
+                                    const updatedEducationInfoList = [...educationInfoList];
+                                    updatedEducationInfoList[index].startYear = e.target.value;
+                                    setEducationInfoList(updatedEducationInfoList);
+                                }}
+                                value={educationInfo.startYear}
+                            />
+                        </FormGroup>
+                        <FormGroup>
+                            <Form.Label>End Year</Form.Label>
+                            <FormControl
+                                type="number"
+                                style={{width: '100px'}}
+                                onChange={(e) => {
+                                    const updatedEducationInfoList = [...educationInfoList];
+                                    updatedEducationInfoList[index].endYear = e.target.value;
+                                    setEducationInfoList(updatedEducationInfoList);
+                                }}
+                                value={educationInfo.endYear}
+                            />
+                        </FormGroup>
+                        <Button variant="danger" style={{borderRadius:"50%", width:"40px", height:"40px"}} onClick={() => removeEducationInfo(index)}>X</Button>
+                    </div>
+                ))}
+
+                <Link style={{ margin: "30px" }} variant="primary" onClick={addEducationInfo}>Add An Education</Link>
+
+                <h5 className="text-center">Experience</h5>
+                {/* Experience info section (Multiple) */}
+                {experienceInfoList.map((experienceInfo, index) => (
+                    <div key={index} className='education-info-section'>
+                        <FormGroup>
+                            <Form.Label>Role</Form.Label>
+                            <FormControl
+                                type="text"
+                                placeholder="Enter your role"
+                                onChange={(e) => {
+                                    const updatedExperienceInfoList = [...experienceInfoList];
+                                    updatedExperienceInfoList[index].role = e.target.value;
+                                    setExperienceInfoList(updatedExperienceInfoList);
+                                }}
+                                value={experienceInfo.role}
+                            />
+                        </FormGroup>
+                        <FormGroup>
+                            <Form.Label>Company</Form.Label>
+                            <FormControl
+                                type="text"
+                                placeholder="Enter your company"
+                                onChange={(e) => {
+                                    const updatedExperienceInfoList = [...experienceInfoList];
+                                    updatedExperienceInfoList[index].company = e.target.value;
+                                    setExperienceInfoList(updatedExperienceInfoList);
+                                }}
+                                value={experienceInfo.company}
+                            />
+                        </FormGroup>
+                        <FormGroup>
                             <Form.Label>Start Date</Form.Label>
                             <FormControl
                                 type="date"
                                 onChange={(e) => {
-                                    const updatedEducationInfoList = [...educationInfoList];
-                                    updatedEducationInfoList[index].startDate = e.target.value;
-                                    setEducationInfoList(updatedEducationInfoList);
+                                    const updatedExperienceInfoList = [...experienceInfoList];
+                                    updatedExperienceInfoList[index].startDate = e.target.value;
+                                    setExperienceInfoList(updatedExperienceInfoList);
                                 }}
-                                value={educationInfo.startDate}
+                                value={experienceInfo.startDate}
                             />
                         </FormGroup>
                         <FormGroup>
@@ -247,18 +319,18 @@ function AdditionalInfo() {
                             <FormControl
                                 type="date"
                                 onChange={(e) => {
-                                    const updatedEducationInfoList = [...educationInfoList];
-                                    updatedEducationInfoList[index].endDate = e.target.value;
-                                    setEducationInfoList(updatedEducationInfoList);
+                                    const updatedExperienceInfoList = [...experienceInfoList];
+                                    updatedExperienceInfoList[index].endDate = e.target.value;
+                                    setExperienceInfoList(updatedExperienceInfoList);
                                 }}
-                                value={educationInfo.endDate}
+                                value={experienceInfo.endDate}
                             />
                         </FormGroup>
+                        <Button variant="danger" style={{borderRadius:"50%", width:"40px", height:"40px"}} onClick={() => removeExperienceInfo(index)}>X</Button>
                     </div>
                 ))}
 
-                <Link style={{ margin: "30px" }} variant="primary" onClick={addEducationInfo}>Add Another Education</Link>
-
+                <Link style={{ margin: "30px" }} variant="primary" onClick={addExperienceInfo}>Add An Experience</Link>
 
                 <FormGroup style={{ margin: "30px" }}>
                     <Form.Label>In which country do you currently reside?<span style={{ color: "red" }}>*</span></Form.Label>

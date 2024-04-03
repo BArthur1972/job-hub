@@ -14,15 +14,31 @@ function Navigation() {
 
 	const handleLogout = async () => {
 		if (userRole === 'recruiter') {
-			await logoutRecruiter(user);
-			console.log("Logged out recruiter", user);
-			console.log("User role", userRole);
-			navigate('/login');
+			await logoutRecruiter(user).then((response) => {
+				if (response && response.data && !response.error) {
+					console.log("Recruiter logged out successfully");
+					console.log(response.data);
+					console.log("User role", userRole);
+					navigate('/login');
+				}
+			}).catch((error) => {
+				console.log("Error logging out recruiter")
+				alert(error);
+				return;
+			});
 		} else {
-			await logoutJobSeeker(user)
-			console.log("Logged out job seeker", user);
-			console.log("User role", userRole);
-			navigate('/login');
+			await logoutJobSeeker(user).then((response) => {
+				if (response && response.data && !response.error) {
+					console.log("Job Seeker logged out successfully");
+					console.log(response.data);
+					console.log("User role", userRole);
+					navigate('/login');
+				}
+			}).catch((error) => {
+				console.log("Error logging out job seeker")
+				alert(error);
+				return;
+			});
 		}
 	}
 
