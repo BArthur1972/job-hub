@@ -83,6 +83,42 @@ const appApi = createApi({
                 method: 'GET',
             }),
         }),
+
+        // Update job seeker
+        updateJobSeeker: builder.mutation({
+            query: (payload) => ({
+                url: '/jobseeker/update',
+                method: 'PUT',
+                body: payload,
+            }),
+        }),
+
+        // Add a job seeker education
+        addJobSeekerEducation: builder.mutation({
+            query: (payload) => ({
+                url: '/education/insert',
+                method: 'POST',
+                body: payload,
+            }),
+        }),
+
+        // Add a job seeker experience
+        addJobSeekerExperience: builder.mutation({
+            query: (payload) => ({
+                url: '/experience/insert',
+                method: 'POST',
+                body: payload,
+            }),
+        }),
+
+        // Add a job seeker skills
+        addJobSeekerSkills: builder.mutation({
+            query: (payload) => ({
+                url: '/skills/insert',
+                method: 'POST',
+                body: payload,
+            }),
+        }),
     }),
 });
 
@@ -94,6 +130,10 @@ export const {
     useLogoutJobSeekerMutation,
     useLogoutRecruiterMutation,
     useGetJobSeekerByIdMutation,
-    useGetRecruiterByIdMutation } = appApi;
+    useGetRecruiterByIdMutation,
+    useUpdateJobSeekerMutation,
+    useAddJobSeekerEducationMutation,
+    useAddJobSeekerExperienceMutation,
+    useAddJobSeekerSkillsMutation } = appApi;
 
 export default appApi;

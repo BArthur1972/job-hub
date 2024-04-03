@@ -96,7 +96,6 @@ class Recruiter {
                 if (err) {
                     reject(err.sqlMessage);
                 } else {
-                    console.log(result.protocol41);
                     resolve('Recruiter logged out successfully');
                 }
             });
@@ -139,8 +138,13 @@ class Recruiter {
                 if (err) {
                     reject(err.sqlMessage);
                 } else {
-                    console.log(token)
-                    resolve(token);
+                    // Get the user again and return it
+                    this.getRecruiterById(recruiter.recruiterID).then((recruiter) => {
+                        console.log("Recruiter after generating token: ", recruiter);
+                        resolve(recruiter[0]);
+                    }).catch((err) => {
+                        reject(err);
+                    });
                 }
             });
         });

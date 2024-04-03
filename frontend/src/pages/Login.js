@@ -43,7 +43,6 @@ function Login() {
                 email,
                 password
             };
-
             await loginJobSeeker(jobSeeker).then((response) => {
                 if (response && response.data) {
                     console.log("Job Seeker logged in successfully");
@@ -52,8 +51,16 @@ function Login() {
                     navigate("/jobseekerdashboard");
                 }
             }).catch((error) => {
-                console.log("Error logging in job seeker")
+                console.log("Error logging in job seeker");
                 console.log(error);
+                // Display error message to the user
+                if (error.data === "User not found") {
+                    alert("User not found. Please check your email.");
+                } else if (error.data === "Incorrect password") {
+                    alert("Incorrect password. Please try again.");
+                } else {
+                    alert("An error occurred. Please try again.");
+                }
             });
         }
     }

@@ -60,8 +60,6 @@ export const userSlice = createSlice({
         builder.addMatcher(
             appApi.endpoints.logoutJobSeeker.matchFulfilled,
             (state) => {
-                console.log("Logging out recruiter");
-                console.log(state);
                 state.user = null;
                 state.userRole = null;
                 state.token = null;
@@ -75,6 +73,14 @@ export const userSlice = createSlice({
                 state.user = null;
                 state.userRole = null;
                 state.token = null;
+            }
+        );
+
+        // save user after updating job seeker
+        builder.addMatcher(
+            appApi.endpoints.updateJobSeeker.matchFulfilled,
+            (state, action) => {
+                state.user = action.payload.user;
             }
         );
     }
