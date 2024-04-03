@@ -56,7 +56,7 @@ function RecruiterDashboard() {
                       </div>
                     </div>
                     <Link
-                      to="/job-applicatant"
+                      to="/job-applicant"
                       variant="primary"
                       className="px-4 mx-2 btn btn-primary"
                     >
