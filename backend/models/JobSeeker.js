@@ -121,21 +121,22 @@ class JobSeeker {
     }
 
     // Get job seeker by email and password
-    static getUserByCredentials(email, password) {
+    static async getUserByCredentials(email, password) {
         const query = `SELECT * FROM JobSeeker WHERE email = '${email}'`;
         return new Promise((resolve, reject) => {
-            dbConnection.query(query, (err, result) => {
+            dbConnection.query(query, async (err, result) => {
                 if (err) {
                     reject(err.sqlMessage);
                 } else {
                     if (result.length === 0) {
                         reject('User not found');
                     } else {
-                        const recruiter = result[0];
-                        const isMatch = Utils.comparePassword(password, recruiter.password);
+                        const jobSeeker = result[0];
+                        console.log("JobSeeker: ", jobSeeker);
+                        const isMatch = await Utils.comparePassword(password, jobSeeker.password);
                         if (isMatch) {
-                            delete recruiter.password;
-                            resolve(Utils.toJSON(recruiter));
+                            delete jobSeeker.password;
+                            resolve(Utils.toJSON(jobSeeker));
                         } else {
                             reject('Incorrect password');
                         }
@@ -156,7 +157,6 @@ class JobSeeker {
                 } else {
                     // Get the user again and return it
                     this.getJobSeekerById(jobSeeker.seekerID).then((jobSeeker) => {
-                        console.log("Recruiter after generating token: ", jobSeeker);
                         resolve(jobSeeker[0]);
                     }).catch((err) => {
                         reject(err);
