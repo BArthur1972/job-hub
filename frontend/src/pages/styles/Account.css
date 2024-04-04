@@ -1,0 +1,69 @@
+.divider_1 {
+	margin-top: 20px;
+	margin-bottom: 20px;
+	border: 1px solid #ccc;
+}
+
+.header {
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+.change_profile_picture {
+	display: flex;
+}
+
+.user_info {
+	padding: 20px;
+}
+
+.user_image_box {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.user_info_box {
+	border: 1px solid #ccc;
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	padding: 25px;
+}
+
+.account_container {
+	height: 660px;
+	margin-top: 50px;
+	margin-bottom: 50px;
+	border: 1px solid #ccc;
+}
+
+.user_name_box,
+.user_email_box,
+.user_bio_box,
+.user_password_box,
+.user_date_joined_box {
+	display: flex;
+	flex-direction: row;
+}
+
+.user_name,
+.user_email,
+.user_bio,
+.user_date_joined,
+.user_password {
+	padding: 20px;
+	margin: 0px;
+}
+
+.delete_account {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+@media screen and (max-width: 768px) {
+	.account_container {
+		display: inline;
+	}
+}

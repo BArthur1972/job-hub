@@ -1,0 +1,41 @@
+.card {
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+  }
+  
+  .card:hover {
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
+  }
+  
+  .userIcon {
+    color: #6b7280;
+  }
+  
+  .name {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #374151;
+  }
+  
+  .jobTitle,
+  .location,
+  .email {
+    font-size: 0.875rem;
+    color: #6b7280;
+  }
+  
+  .button {
+    font-weight: 600;
+  }
+  
+  .statusSelect {
+    font-size: 0.875rem;
+    color: #374151;
+    border-color: #e5e7eb;
+  }
+  
+  .statusIcon {
+    font-size: 1.25rem;
+  }
