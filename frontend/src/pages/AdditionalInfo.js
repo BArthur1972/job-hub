@@ -277,7 +277,7 @@ function AdditionalInfo() {
                 {experienceInfoList.map((experienceInfo, index) => (
                     <div key={index} className='education-info-section'>
                         <FormGroup>
-                            <Form.Label>Role</Form.Label>
+                            <Form.Label>Role<span style={{ color: "red" }}>*</span></Form.Label>
                             <FormControl
                                 type="text"
                                 placeholder="Enter your role"
@@ -290,7 +290,7 @@ function AdditionalInfo() {
                             />
                         </FormGroup>
                         <FormGroup>
-                            <Form.Label>Company</Form.Label>
+                            <Form.Label>Company<span style={{ color: "red" }}>*</span></Form.Label>
                             <FormControl
                                 type="text"
                                 placeholder="Enter your company"
@@ -303,7 +303,7 @@ function AdditionalInfo() {
                             />
                         </FormGroup>
                         <FormGroup>
-                            <Form.Label>Start Date</Form.Label>
+                            <Form.Label>Start Date<span style={{ color: "red" }}>*</span></Form.Label>
                             <FormControl
                                 type="date"
                                 onChange={(e) => {
