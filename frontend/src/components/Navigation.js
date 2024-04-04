@@ -78,15 +78,6 @@ function Navigation() {
 										<LinkContainer to="/recruiterdashboard">
 											<Nav.Link>Dashboard</Nav.Link>
 										</LinkContainer>
-										<LinkContainer to="/new-job-posting">
-											<Nav.Link>Post Job</Nav.Link>
-										</LinkContainer>
-										<LinkContainer to="/job-posting">
-											<Nav.Link>Job Postings</Nav.Link>
-										</LinkContainer>
-										<LinkContainer to="/job-applicant">
-											<Nav.Link>Applicants</Nav.Link>
-										</LinkContainer>
 									</>
 								)}
 								<NavDropdown title="Menu" id="basic-nav-dropdown">

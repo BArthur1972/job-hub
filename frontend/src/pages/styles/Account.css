@@ -17,7 +17,17 @@
 	padding: 20px;
 }
 
+.company_info {
+	padding: 20px;
+}
+
 .user_image_box {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.company_image_box {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -31,8 +41,16 @@
 	padding: 25px;
 }
 
+.company_info_box {
+	border: 1px solid #ccc;
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	padding: 25px;
+}
+
 .account_container {
-	height: 660px;
+	height: fit-content;
 	margin-top: 50px;
 	margin-bottom: 50px;
 	border: 1px solid #ccc;
@@ -42,6 +60,7 @@
 .user_email_box,
 .user_bio_box,
 .user_password_box,
+.user_phone_box,
 .user_date_joined_box {
 	display: flex;
 	flex-direction: row;
@@ -50,6 +69,7 @@
 .user_name,
 .user_email,
 .user_bio,
+.user_phone,
 .user_date_joined,
 .user_password {
 	padding: 20px;

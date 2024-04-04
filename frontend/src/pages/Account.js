@@ -2,14 +2,16 @@ import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import './styles/Account.css';
 import defaultProfilePic from '../assets/defaultProfilePic.jpg';
+import { useSelector } from 'react-redux';
 
 function Account() {
+    const { user, userRole } = useSelector((state) => state.user);
 
     return (
         <Container className='account_container'>
             <Row>
                 <div className='account_header'>
-                    <h3 className='header'>Your Account</h3>
+                    <h3 className='header'>{user.firstName}'s Profile</h3>
                 </div>
                 <div className='divider_1'></div>
             </Row >
@@ -22,18 +24,21 @@ function Account() {
                     />
                     <div className='change-profile-picture'>
                         <p>Profile Picture</p>
-					</div>
+                    </div>
                 </Col>
                 <Col md={8}>
                     <div className='user_info_box'>
                         <div className='user_name_box'>
-                            <p className='user_name'>Username: N/A</p>
+                            <p className='user_name'>Username: {user.firstName} {user.lastName}</p>
                         </div>
                         <div className='user_email_box'>
-                            <p className='user_email'>Email: N/A</p>
+                            <p className='user_email'>Email: {user.email}</p>
+                        </div>
+                        <div className='user_phone_box'>
+                            <p className='user_phone'>Phone: {user.contactNumber}</p>
                         </div>
                         <div className='user_bio_box'>
-                            <p className='user_bio'>Bio: N/A</p>
+                            <p className='user_bio'>Bio: {user.bio}</p>
                         </div>
                         <div className='user_password_box'>
                             <p className='user_password'>Password: **********</p>
