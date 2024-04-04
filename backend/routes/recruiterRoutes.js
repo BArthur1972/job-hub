@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const Recruiter = require('../models/Recruiter');
+const Company = require('../models/Company');
 const auth = require('../middleware/recruiterAuth');
 
 // Get all recruiters
@@ -30,6 +31,10 @@ router.get('/:recruiterID', async (req, res) => {
 // Signup a new recruiter
 router.post('/signup', async (req, res) => {
     try {
+        const getCompanyByName = await Company.getCompanyByName(req.body.companyName);
+        req.body.companyID = getCompanyByName[0].companyID;
+        delete req.body.companyName;
+        console.log(req.body);
         const recruiter = await Recruiter.signupRecruiter(req.body);
         const recruiterWithToken = await Recruiter.generateAuthTokenAndAddToRecruiter(recruiter);
         console.log({user:recruiterWithToken, token:recruiterWithToken.token});
