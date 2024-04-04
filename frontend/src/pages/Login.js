@@ -3,7 +3,6 @@ import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import "./styles/Login.css";
 import { useLoginJobSeekerMutation, useLoginRecruiterMutation } from '../services/appApi';
-import { useSelector } from 'react-redux';
 
 function Login() {
     // States for storing user data
@@ -14,8 +13,6 @@ function Login() {
     const [loginJobSeeker] = useLoginJobSeekerMutation();
     const [loginRecruiter] = useLoginRecruiterMutation();
     const navigate = useNavigate();
-
-    const { user, userRole } = useSelector((state) => state.user);
 
     async function handleLogin(e) {
         e.preventDefault();
@@ -32,10 +29,10 @@ function Login() {
                     console.log(response.data);
 
                     navigate("/recruiterdashboard");
+                } else if (response.error) {
+                    console.log("Error logging in recruiter");
+                    alert(response.error.data.error);
                 }
-            }).catch((error) => {
-                console.log("Error logging in recruiter")
-                console.log(error);
             });
 
         } else { // Log in a job seeker
@@ -49,19 +46,11 @@ function Login() {
                     console.log(response.data);
 
                     navigate("/jobseekerdashboard");
+                } else if (response.error) {
+                    console.log("Error logging in job seeker");
+                    alert(response.error.data.error)
                 }
-            }).catch((error) => {
-                console.log("Error logging in job seeker");
-                console.log(error);
-                // Display error message to the user
-                if (error.data === "User not found") {
-                    alert("User not found. Please check your email.");
-                } else if (error.data === "Incorrect password") {
-                    alert("Incorrect password. Please try again.");
-                } else {
-                    alert("An error occurred. Please try again.");
-                }
-            });
+            })
         }
     }
 

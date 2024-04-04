@@ -19,7 +19,7 @@ function Account() {
                 <Col md={4} className='user_image_box'>
                     <img
                         alt=""
-                        src={defaultProfilePic}
+                        src={user.profilePicture || defaultProfilePic}
                         style={{ width: 240, height: 250, borderRadius: "50%", objectFit: "cover", marginTop: 30 }}
                     />
                     <div className='change-profile-picture'>
@@ -29,16 +29,16 @@ function Account() {
                 <Col md={8}>
                     <div className='user_info_box'>
                         <div className='user_name_box'>
-                            <p className='user_name'>Username: {user.firstName} {user.lastName}</p>
+                            <p className='user_name'>Username: {user.firstName || "N/A"} {user.lastName || "N/A"}</p>
                         </div>
                         <div className='user_email_box'>
-                            <p className='user_email'>Email: {user.email}</p>
+                            <p className='user_email'>Email: {user.email || "N/A"}</p>
                         </div>
                         <div className='user_phone_box'>
-                            <p className='user_phone'>Phone: {user.contactNumber}</p>
+                            <p className='user_phone'>Phone: {user.contactNumber || "N/A"}</p>
                         </div>
                         <div className='user_bio_box'>
-                            <p className='user_bio'>Bio: {user.bio}</p>
+                            <p className='user_bio'>Bio: {user.bio || "N/A"}</p>
                         </div>
                         <div className='user_password_box'>
                             <p className='user_password'>Password: **********</p>
