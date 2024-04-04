@@ -42,11 +42,6 @@ function Navigation() {
 		}
 	}
 
-	const goToAccountSettings = () => {
-		// Redirect to account settings page
-		navigate('/account');
-	}
-
 	return (
 		<Navbar bg="light" expand="lg">
 			<Container>
@@ -95,7 +90,7 @@ function Navigation() {
 									</>
 								)}
 								<NavDropdown title="Menu" id="basic-nav-dropdown">
-									<NavDropdown.Item onClick={goToAccountSettings}>My Account</NavDropdown.Item>
+									<NavDropdown.Item onClick={() => navigate('/account')}>My Account</NavDropdown.Item>
 									<NavDropdown.Divider />
 									<NavDropdown.Item>
 										<Button variant="danger" onClick={handleLogout}>Logout</Button>

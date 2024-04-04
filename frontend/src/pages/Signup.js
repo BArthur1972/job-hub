@@ -161,7 +161,7 @@ function Signup() {
                             />
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="formBasicRole">
-                            <Form.Label>Are you a recruiting or a seeking a job?<span style={{ color: "red" }}>*</span></Form.Label>
+                            <Form.Label>Are you looking for a job or recruiting?<span style={{ color: "red" }}>*</span></Form.Label>
                             <Form.Control
                                 as="select"
                                 onChange={(e) => setRole(e.target.value)}
