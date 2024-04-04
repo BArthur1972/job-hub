@@ -22,35 +22,36 @@ function App() {
 	return (
 		<BrowserRouter>
 			<Navigation />
-				<Routes>
-					<Route path="/" element={<LandingPage />} />
-					{/* Conditionally render the login and signup pages depending on the presence of a user */}
-					{!user && (
-						<>
-							<Route path="/login" element={<Login />} />
-							<Route path="/signup" element={<Signup />} />
-						</>
-					)}
+			<Routes>
+				<Route path="/" element={<LandingPage />} />
+				{/* Conditionally render the login and signup pages depending on the presence of a user */}
+				{!user && (
+					<>
+						<Route path="/login" element={<Login />} />
+						<Route path="/signup" element={<Signup />} />
+					</>
+				)}
 
-					{/* Conditionally render the dashboard depending on the user role */}
-					{userRole === 'jobseeker' && (
-						<>
-							<Route path="/additional-info" element={<AdditionalInfo />} />
-							<Route path="/jobseekerdashboard" element={<JobSeekerDashboard />} />
-						</>
-						
-					)}
-					{userRole === 'recruiter' && (
+				{/* Conditionally render the dashboard depending on the user role */}
+				{userRole === 'jobseeker' && (
+					<>
+						<Route path="/additional-info" element={<AdditionalInfo />} />
+						<Route path="/jobseekerdashboard" element={<JobSeekerDashboard />} />
+						<Route path='/all-jobs' element={<AllJobs />} />
+						<Route path='/job-applications' element={<JobApplication />} />
+					</>
+
+				)}
+				{userRole === 'recruiter' && (
+					<>
 						<Route path="/recruiterdashboard" element={<RecruiterDashboard />} />
-					)}
-
-					<Route path="/account" element={<Account />} />
-					<Route path='/all-jobs' element={<AllJobs />} />
-					<Route path='/job-applications' element={<JobApplication />} />
-					<Route path="/new-job-posting" element={<NewJobPosting />} />
-					<Route path="/job-posting" element={<JobPostings />} />
-					<Route path="/job-applicant" element={<ApplicantListPage />} />
-				</Routes>
+						<Route path="/new-job-posting" element={<NewJobPosting />} />
+						<Route path="/job-posting" element={<JobPostings />} />
+						<Route path="/job-applicant" element={<ApplicantListPage />} />
+					</>
+				)}
+				<Route path="/account" element={<Account />} />
+			</Routes>
 		</BrowserRouter>
 	);
 }

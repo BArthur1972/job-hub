@@ -64,13 +64,44 @@ function Navigation() {
 							</LinkContainer>
 						)}
 						{user && (
-							<NavDropdown title="Menu" id="basic-nav-dropdown">
-								<NavDropdown.Item onClick={goToAccountSettings}>My Account</NavDropdown.Item>
-								<NavDropdown.Divider />
-								<NavDropdown.Item>
-									<Button variant="danger" onClick={handleLogout}>Logout</Button>
-								</NavDropdown.Item>
-							</NavDropdown>
+							<>
+								{userRole === 'jobseeker' && (
+									<>
+										<LinkContainer to="/jobseekerdashboard">
+											<Nav.Link>Dashboard</Nav.Link>
+										</LinkContainer>
+										<LinkContainer to="/all-jobs">
+											<Nav.Link>Jobs</Nav.Link>
+										</LinkContainer>
+										<LinkContainer to="/job-applications">
+											<Nav.Link>Applications</Nav.Link>
+										</LinkContainer>
+									</>	
+								)}
+								{userRole === 'recruiter' && (
+									<>
+										<LinkContainer to="/recruiterdashboard">
+											<Nav.Link>Dashboard</Nav.Link>
+										</LinkContainer>
+										<LinkContainer to="/new-job-posting">
+											<Nav.Link>Post Job</Nav.Link>
+										</LinkContainer>
+										<LinkContainer to="/job-posting">
+											<Nav.Link>Job Postings</Nav.Link>
+										</LinkContainer>
+										<LinkContainer to="/job-applicant">
+											<Nav.Link>Applicants</Nav.Link>
+										</LinkContainer>
+									</>
+								)}
+								<NavDropdown title="Menu" id="basic-nav-dropdown">
+									<NavDropdown.Item onClick={goToAccountSettings}>My Account</NavDropdown.Item>
+									<NavDropdown.Divider />
+									<NavDropdown.Item>
+										<Button variant="danger" onClick={handleLogout}>Logout</Button>
+									</NavDropdown.Item>
+								</NavDropdown>
+							</>
 						)}
 					</Nav>
 				</Navbar.Collapse>
