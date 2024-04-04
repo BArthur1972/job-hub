@@ -1,4 +1,5 @@
 const dbConnection = require('../config/dbConnection');
+const Utils = require('./utils');
 
 class Company {
 
@@ -18,8 +19,22 @@ class Company {
         });
     }
 
-    static toJSON(companies) {
-        return JSON.parse(JSON.stringify(companies));
+    // Get company by name
+    static getCompanyByName(companyName) {
+        return new Promise((resolve, reject) => {
+            const query = `SELECT * FROM Company WHERE companyName = '${companyName}'`;
+            console.log(query);
+            dbConnection.query(query, (err, result) => {
+                if (err) {
+                    console.log('Error getting company by name: ', err);
+                    reject('Error getting company by name');
+                } else {
+                    const companyJSON = Utils.toJSON(result);
+                    console.log(companyJSON);
+                    resolve(companyJSON);
+                }
+            });
+        });
     }
 }
 

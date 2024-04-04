@@ -16,12 +16,10 @@ function Signup() {
     const [bio, setBio] = useState("");
     const [role, setRole] = useState("");
     const [profilePicture, setProfilePicture] = useState("");
-    const [companyID, setCompanyID] = useState(0);
+    const [companyName, setCompanyName] = useState("");
     const navigate = useNavigate();
     const [signupJobSeeker] = useSignupJobSeekerMutation();
     const [signupRecruiter] = useSignupRecruiterMutation();
-
-    const { user, userRole } = useSelector((state) => state.user);
 
     async function handleSignup(e) {
         e.preventDefault();
@@ -35,7 +33,7 @@ function Signup() {
                 contactNumber,
                 bio,
                 profilePicture,
-                companyID
+                companyName,
             };
 
             await signupRecruiter(recruiter).then((response) => {
@@ -174,19 +172,18 @@ function Signup() {
                             </Form.Control>
                         </Form.Group>
 
-                        {role==="recruiter" ? <Form.Group className="mb-3" controlId="formBasicNumber">
-                            <Form.Label>Company ID</Form.Label>
+                        {role === "recruiter" ? <Form.Group className="mb-3" controlId="formBasicNumber">
+                            <Form.Label>Company Name</Form.Label>
                             <Form.Control
                                 type="text"
-                                placeholder="Enter Your Company ID"
-                                onChange={(e) => setCompanyID(e.target.value)}
-                                value={companyID}
+                                placeholder="Enter Your Company Name. Ex: Google, Microsoft, etc."
+                                onChange={(e) => setCompanyName(e.target.value)}
+                                value={companyName}
                             />
                         </Form.Group> : <></>}
 
                         <Button variant="primary" type="submit">
                             Sign Up
-                            {/*TODO: Add a spinner*/}
                         </Button>
                         <div className="py-4">
                             <p className="text-center">
