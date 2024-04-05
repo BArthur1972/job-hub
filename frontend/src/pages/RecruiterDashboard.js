@@ -1,18 +1,31 @@
 import React from "react";
 import { Container, Row, Col, Button, Card } from "react-bootstrap";
 import { HiOutlinePlusSmall } from "react-icons/hi2";
-import { FaClipboardCheck } from "react-icons/fa6";
-import { FaUser } from "react-icons/fa";
+import { FaClipboardCheck, FaUser } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import {useSelector} from "react-redux";
 
 function RecruiterDashboard() {
+
+  const { user } = useSelector((state) => state.user);
+
+
   return (
     <Container
-      fluid
-      className="vh-100 d-flex justify-content-center align-items-center p-4"
+      className="flex justify-content-center align-items-center p-4 mt-5"
     >
-      <Row className="w-80 bg-light rounded-3 shadow-xl">
-        <Card className="border">
+      <Row className="w-80 bg-light rounded-3 shadow">
+        <Col className="text-center text-md-left">
+          <h1 className="text-4xl text-black font-bold mb-2">
+            Welcome Back {user.firstName}!
+          </h1>
+          <p className="text-black font-medium">
+            Manage your job postings and applicants here.
+          </p>
+        </Col>
+      </Row>
+      <Row className="w-80 bg-light rounded-3 shadow">
+        <Card className="border-0">
           <Card.Body className="p-0">
             <Row className="bg-primary rounded-top py-3 px-4">
               <Col className="d-flex justify-content-end ms-auto">

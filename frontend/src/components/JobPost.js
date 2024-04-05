@@ -5,7 +5,7 @@ import { Card, Form, Image } from "react-bootstrap";
 import { HiOutlineUsers } from "react-icons/hi2";
 import { TbEyeSearch } from "react-icons/tb";
 import { FaRegEyeSlash } from "react-icons/fa6";
-import styles from './styles.module.css';
+import styles from './styles/JobPost.module.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 
 const statusColors = {
@@ -13,7 +13,7 @@ const statusColors = {
   CLosed: "#ef4444", // red-500
 };
 
-const JobPostCard = ({
+const JobPost = ({
   id,
   companyName,
   jobTitle,
@@ -98,4 +98,4 @@ const JobPostCard = ({
   );
 };
 
-export default JobPostCard;
+export default JobPost;

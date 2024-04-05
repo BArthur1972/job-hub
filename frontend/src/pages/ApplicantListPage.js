@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
 import { Container, Row, Col, Form } from 'react-bootstrap';
 import { initialApplicants } from './data/applicants';
-import ApplicantCard from '../components/applicantlist/applicantCard';
+import ApplicantCard from '../components/ApplicantCard';
 
 const ApplicantListPage = () => {
   const [applicants, setApplicants] = useState(initialApplicants);

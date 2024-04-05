@@ -1,11 +1,32 @@
-import React, { useState } from "react";
-import JobPostingCard from "../components/joblist/JobPostingCard";
+import React, { useState, useEffect } from "react";
+import Job from "../components/Job";
 import { Container, Row, Col, Form, Button, InputGroup } from "react-bootstrap";
 import { jobPostings } from "./data/jobs";
+import { useGetAllJobListingsMutation } from "../services/appApi";
+
 
 const AllJobs = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [filteredJobs, setFilteredJobs] = useState(jobPostings);
+  const [filteredJobs, setFilteredJobs] = useState([]);
+
+
+  const [getAllJobListings] = useGetAllJobListingsMutation();
+
+  useEffect(() => {
+    const fetchJobas = async () => {
+      const response = await getAllJobListings();
+      if (response.data) {
+        setFilteredJobs(response.data);
+        console.log(response.data);
+      }
+    }
+    fetchJobas();
+  }, [getAllJobListings]);
+
+ 
+
+
+
 
   const handleSearch = (event) => {
     const query = event.target.value.toLowerCase();
@@ -50,9 +71,10 @@ const AllJobs = () => {
             </InputGroup>
           </Form.Group>
           <Row>
+            
             {filteredJobs.map((job, index) => (
               <Col key={index} md={6} lg={4} className="mb-4">
-                <JobPostingCard {...job} />
+                <Job {...job} />
               </Col>
             ))}
             {filteredJobs.length === 0 && (
