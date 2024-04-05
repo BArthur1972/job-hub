@@ -8,7 +8,7 @@ import {
   FaTimesCircle,
 } from "react-icons/fa";
 
-import styles from "./styles.module.css";
+import styles from "./styles/applicantCard.module.css";
 
 const statusColors = {
   Applied: "#8b8b8b",

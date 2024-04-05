@@ -2,9 +2,14 @@ import React from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { jobPostings } from "./data/jobs";
-import JobPostingCard from "../components/joblist/JobPostingCard";
+import Job from "../components/Job";
+import {useSelector} from "react-redux";
 
 function JobSeekerDashboard() {
+
+	const { user } = useSelector((state) => state.user);
+
+
 	return (
 		<Container fluid className="d-flex justify-content-center align-items-center">
 			{/* Main Content Column */}
@@ -14,7 +19,7 @@ function JobSeekerDashboard() {
 					<Row className="mb-5">
 						<Col className="text-center text-md-left">
 							<h1 className="text-4xl text-black font-bold mb-2">
-								Welcome Back, Collins!
+								Welcome Back {user.firstName}!
 							</h1>
 							<p className="text-black font-medium">
 								Find exciting new opportunities tailored to your preferences.
@@ -45,7 +50,7 @@ function JobSeekerDashboard() {
 								{jobPostings.map((job, index) => (
 									<Col key={index}>
 										<div>
-											<JobPostingCard {...job} />
+											<Job {...job} />
 										</div>
 									</Col>
 								))}

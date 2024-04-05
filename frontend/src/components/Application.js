@@ -11,7 +11,7 @@ const statusColors = {
   Rejected: "#ef4444", // red-500
 };
 
-const JobCard = ({
+const Application = ({
   id,
   companyName,
   jobTitle,
@@ -77,4 +77,4 @@ const JobCard = ({
   );
 };
 
-export default JobCard;
+export default Application;

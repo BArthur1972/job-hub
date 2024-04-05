@@ -2,10 +2,13 @@ import React, { useState } from "react";
 import { MdExpandMore } from "react-icons/md";
 import { Card, Badge, Button, Row, Col } from "react-bootstrap";
 
-const generateLogoUrl = (companyName) =>
-  `https://logo.clearbit.com/${companyName.toLowerCase()}.com?size=70`;
+const generateLogoUrl = (companyName) => {
+  companyName = "Google";
+  
+  return `https://logo.clearbit.com/${companyName}.com`;
+};
 
-const JobPostingCard = ({
+const Job = ({
   companyName,
   jobTitle,
   fields,
@@ -85,4 +88,4 @@ const JobPostingCard = ({
   );
 };
 
-export default JobPostingCard;
+export default Job;

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import { Container, Row, Col, Form } from "react-bootstrap";
-import JobStatusCard from "../components/jobstatus/JobStatusCard";
+import Application from "../components/Application";
 import {initialApplications} from './data/appliedJobs'
 
 
@@ -61,7 +61,7 @@ const JobApplication = () => {
         </Form>
         {filteredApplications.length > 0 ? (
           filteredApplications.map((app, index) => (
-            <JobStatusCard
+            <Application
               key={index}
               {...app}
               onUpdateStatus={(id, newStatus) => {
