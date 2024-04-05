@@ -126,6 +126,14 @@ const appApi = createApi({
                 url: '/joblisting/',
                 method: 'GET',
             }),
+       }),
+
+        // Get all job seeker education
+        getAllJobSeekerEducation: builder.mutation({
+            query: (id) => ({
+                url: `/education/getAll/${id}`,
+                method: 'GET',
+            }),
         }),
 
         // create a new job listing
@@ -134,6 +142,22 @@ const appApi = createApi({
                 url: '/joblisting/create',
                 method: 'POST',
                 body: payload,
+              }),
+        }),
+
+        // Get all job seeker experience
+        getAllJobSeekerExperience: builder.mutation({
+            query: (id) => ({
+                url: `/experience/getAll/${id}`,
+                method: 'GET',
+            }),
+        }),
+
+        // Get all job seeker skills
+        getAllJobSeekerSkills: builder.mutation({
+            query: (id) => ({
+                url: `/skills/getAll/${id}`,
+                method: 'GET',
             }),
         }),
     }),
@@ -154,6 +178,8 @@ export const {
     useAddJobSeekerSkillsMutation,
     useGetAllJobListingsMutation,
     useCreateJobListingMutation,
- } = appApi;
+    useGetAllJobSeekerEducationMutation,
+    useGetAllJobSeekerExperienceMutation,
+    useGetAllJobSeekerSkillsMutation } = appApi;
 
 export default appApi;
