@@ -1,4 +1,5 @@
 const dbConnection = require("../config/dbConnection");
+const Utils = require("./utils");
 
 class JobSeekerExperience {
         // Insert job seeker experience into the database
@@ -13,6 +14,21 @@ class JobSeekerExperience {
                     } else {
                         console.log("Inserted job seeker experience: ", result);
                         resolve(result);
+                    }
+                });
+            });
+        }
+
+        // Get all job seeker experience from the database
+        static getExperience(seekerID) {
+            return new Promise((resolve, reject) => {
+                const query = `SELECT * FROM JobSeekerExperience WHERE seekerID = ${seekerID}`;
+                dbConnection.query(query, (err, result) => {
+                    if (err) {
+                        console.log("Error getting job seeker experience: ", err);
+                        reject(err.sqlMessage);
+                    } else {
+                        resolve(Utils.toJSON(result));
                     }
                 });
             });
