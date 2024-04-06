@@ -1,4 +1,5 @@
 const dbConnection = require("../config/dbConnection");
+const Utils = require("./utils");
 
 class JobSeekerEducation {
         // Insert job seeker education into the database
@@ -13,6 +14,21 @@ class JobSeekerEducation {
                     } else {
                         console.log("Inserted job seeker education: ", result);
                         resolve(result);
+                    }
+                });
+            });
+        }
+
+        // Get all job seeker education from the database
+        static getEducation(seekerID) {
+            return new Promise((resolve, reject) => {
+                const query = `SELECT * FROM JobSeekerEducation WHERE seekerID = ${seekerID}`;
+                dbConnection.query(query, (err, result) => {
+                    if (err) {
+                        console.log("Error getting job seeker education: ", err);
+                        reject(err.sqlMessage);
+                    } else {
+                        resolve(Utils.toJSON(result));
                     }
                 });
             });
