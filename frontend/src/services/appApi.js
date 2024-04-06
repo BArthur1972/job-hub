@@ -227,6 +227,14 @@ const appApi = createApi({
                 method: 'GET',
             }),
         }),
+
+        // Get Applicants for all job listings by a recruiter
+        getApplicantsByRecruiterId: builder.mutation({
+            query: (id) => ({
+                url: `/application/applicants/${id}`,
+                method: 'GET',
+            }),
+        }),
     }),
 });
 
@@ -255,6 +263,7 @@ export const {
     useGetApplicationsByStatusMutation,
     useCreateApplicationMutation,
     useUpdateApplicationMutation,
-    useDeleteApplicationMutation } = appApi;
+    useDeleteApplicationMutation,
+    useGetApplicantsByRecruiterIdMutation } = appApi;
 
 export default appApi;

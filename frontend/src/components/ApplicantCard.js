@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Card, Form, Button } from "react-bootstrap";
 import ProfileModal from "./ProfileModal";
 import {
@@ -8,7 +8,7 @@ import {
 	FaCheckCircle,
 	FaTimesCircle,
 } from "react-icons/fa";
-
+import { useUpdateApplicationMutation } from "../services/appApi";
 import styles from "./styles/applicantCard.module.css";
 
 const statusColors = {
@@ -19,7 +19,8 @@ const statusColors = {
 };
 
 const ApplicantCard = ({
-	id,
+	seekerID,
+	jobID,
 	name,
 	jobTitle,
 	status,
@@ -27,13 +28,26 @@ const ApplicantCard = ({
 	email,
 	onUpdateStatus
 }) => {
+
+	const [updateApplication] = useUpdateApplicationMutation();
+	const [statusChanged, setStatusChanged] = useState(false);
+
+	const handleUpdateApplicantStatus = () => {
+		updateApplication({ seekerID, jobID, status })
+			.then((response) => {
+				console.log(response.data);
+				alert("Job application status updated to " + status + " successfully!");
+				setStatusChanged(false);
+			})
+			.catch((error) => {
+				console.error("Error updating application: ", error);
+			});
+	}
+
 	const handleStatusChange = (e) => {
 		const newStatus = e.target.value;
-		onUpdateStatus(id, newStatus);
-	};
-
-	const handleViewProfile = () => {
-
+		onUpdateStatus(seekerID, newStatus);
+		setStatusChanged(true);
 	};
 
 	return (
@@ -45,13 +59,14 @@ const ApplicantCard = ({
 						<Card.Title className={`${styles.name} text-truncate`}>
 							{name}
 						</Card.Title>
+						<Card.Text className={styles.jobID}>Job ID: {jobID}</Card.Text>
 						<Card.Text className={styles.jobTitle}>{jobTitle}</Card.Text>
 						<Card.Text className={styles.location}>{location}</Card.Text>
 						<Card.Text className={styles.email}>{email}</Card.Text>
 					</div>
 				</div>
 				<div className="d-flex align-items-center">
-					<ProfileModal />
+					<ProfileModal seekerID={seekerID} />
 					<Form.Select
 						value={status}
 						onChange={handleStatusChange}
@@ -71,6 +86,7 @@ const ApplicantCard = ({
 						{status === "Hired" && <FaCheckCircle />}
 						{status === "Rejected" && <FaTimesCircle />}
 					</span>
+					{statusChanged && <Button variant="primary" className="update-button" onClick={handleUpdateApplicantStatus}> Update </Button>}
 				</div>
 			</Card.Body>
 		</Card>

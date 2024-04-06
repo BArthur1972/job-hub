@@ -3,47 +3,52 @@ import styles from "./styles/applicantCard.module.css";
 import { Button, Modal } from 'react-bootstrap';
 import { Col, Row } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
-import { useGetAllJobSeekerEducationMutation, useGetAllJobSeekerExperienceMutation, useGetAllJobSeekerSkillsMutation } from '../services/appApi';
-import { useSelector } from 'react-redux';
+import { useGetJobSeekerByIdMutation, useGetAllJobSeekerEducationMutation, useGetAllJobSeekerExperienceMutation, useGetAllJobSeekerSkillsMutation } from '../services/appApi';
 import "./styles/ProfileModal.css";
 
-function ProfileModal() {
+function ProfileModal(props) {
     const [show, setShow] = React.useState(false);
-
-    const { user, userRole } = useSelector((state) => state.user);
+    const [jobSeeker, setJobSeeker] = useState([]);
     const [educationList, setEducationList] = useState([]);
     const [experienceList, setExperienceList] = useState([]);
     const [skillsList, setSkillsList] = useState([]);
 
-    // const [getJobSeekerEducation] = useGetAllJobSeekerEducationMutation();
-    // const [getJobSeekerExperience] = useGetAllJobSeekerExperienceMutation();
-    // const [getJobSeekerSkills] = useGetAllJobSeekerSkillsMutation();
+    const [getJobSeekerById] = useGetJobSeekerByIdMutation();
+    const [getJobSeekerEducation] = useGetAllJobSeekerEducationMutation();
+    const [getJobSeekerExperience] = useGetAllJobSeekerExperienceMutation();
+    const [getJobSeekerSkills] = useGetAllJobSeekerSkillsMutation();
 
-    // // Fetch the job seeker's education when the component mounts
-    // useEffect(() => {
-    //     const fetchEducation = async () => {
-    //         console.log(user.seekerID);
-    //         await getJobSeekerEducation(user.seekerID).then((response) => {
-    //             setEducationList(response.data);
-    //         });
-    //     }
+    // Fetch the job seeker's education when the component mounts
+    useEffect(() => {
+        const fetchJobSeeker = async () => {
+            await getJobSeekerById(props.seekerID).then((response) => {
+                setJobSeeker(response.data[0]);
+            });
+        }
 
-    //     const fetchExperience = async () => {
-    //         await getJobSeekerExperience(user.seekerID).then((response) => {
-    //             setExperienceList(response.data);
-    //         });
-    //     }
+        const fetchEducation = async () => {
+            await getJobSeekerEducation(props.seekerID).then((response) => {
+                setEducationList(response.data);
+            });
+        }
 
-    //     const fetchSkills = async () => {
-    //         await getJobSeekerSkills(user.seekerID).then((response) => {
-    //             setSkillsList(response.data);
-    //         });
-    //     }
+        const fetchExperience = async () => {
+            await getJobSeekerExperience(props.seekerID).then((response) => {
+                setExperienceList(response.data);
+            });
+        }
 
-    //     fetchEducation();
-    //     fetchExperience();
-    //     fetchSkills();
-    // }, [getJobSeekerEducation, getJobSeekerExperience, getJobSeekerSkills, user.seekerID]);
+        const fetchSkills = async () => {
+            await getJobSeekerSkills(props.seekerID).then((response) => {
+                setSkillsList(response.data);
+            });
+        }
+
+        fetchJobSeeker();
+        fetchEducation();
+        fetchExperience();
+        fetchSkills();
+    }, [getJobSeekerById, getJobSeekerEducation, getJobSeekerExperience, getJobSeekerSkills, props.seekerID]);
 
     const formatDateAsMonthDayYear = (date) => {
         const formattedDate = new Date(date);
@@ -65,7 +70,7 @@ function ProfileModal() {
                 View Profile
             </Button>
             {/* Modal */}
-            <Modal show={show} onHide={handleClose}>
+            <Modal size='lg' show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>Applicant Profile</Modal.Title>
                 </Modal.Header>
@@ -76,10 +81,10 @@ function ProfileModal() {
                             <div className='personal_info_box'>
                                 <h4>Personal Information</h4>
                                 <ul>
-                                    <li>{user.firstName} {user.lastName}</li>
-                                    <li>{user.email}</li>
-                                    <li>{user.contactNumber}</li>
-                                    <li>{user.bio}</li>
+                                    <li>{jobSeeker.firstName} {jobSeeker.lastName}</li>
+                                    <li>{jobSeeker.email}</li>
+                                    <li>{jobSeeker.contactNumber}</li>
+                                    <li>{jobSeeker.bio}</li>
                                 </ul>
                             </div>
                         </Col>

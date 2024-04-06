@@ -35,10 +35,12 @@ function Account() {
             });
         }
 
-        fetchEducation();
-        fetchExperience();
-        fetchSkills();
-    }, [getJobSeekerEducation, getJobSeekerExperience, getJobSeekerSkills, user.seekerID]);
+        if (userRole === "jobseeker") {
+            fetchEducation();
+            fetchExperience();
+            fetchSkills();
+        }
+    }, [getJobSeekerEducation, getJobSeekerExperience, getJobSeekerSkills, user.seekerID, userRole]);
 
     const formatDateAsMonthDayYear = (date) => {
         const formattedDate = new Date(date);
