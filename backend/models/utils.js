@@ -36,8 +36,8 @@ class Utils {
         });
     }
 
-    static toJSON(users) {
-        return JSON.parse(JSON.stringify(users));
+    static toJSON(response) {
+        return JSON.parse(JSON.stringify(response));
     }
 }
 
