@@ -3,17 +3,13 @@ import { Container, Row, Col, Button, Card } from "react-bootstrap";
 import { HiOutlinePlusSmall } from "react-icons/hi2";
 import { FaClipboardCheck, FaUser } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import {useSelector} from "react-redux";
+import { useSelector } from "react-redux";
 
 function RecruiterDashboard() {
-
   const { user } = useSelector((state) => state.user);
 
-
   return (
-    <Container
-      className="flex justify-content-center align-items-center p-4 mt-5"
-    >
+    <Container className="flex justify-content-center align-items-center p-4 mt-5">
       <Row className="w-80 bg-light rounded-3 shadow">
         <Col className="text-center text-md-left">
           <h1 className="text-4xl text-black font-bold mb-2">
