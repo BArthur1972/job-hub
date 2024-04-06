@@ -1,5 +1,5 @@
 import React from "react";
-import { FaHourglassHalf, FaBuilding } from "react-icons/fa";
+import { FaHourglassHalf, FaBuilding, FaFileAlt } from "react-icons/fa";
 import { FaLocationDot } from "react-icons/fa6";
 import { Card, Form, Image } from "react-bootstrap";
 
@@ -57,20 +57,9 @@ const Application = ({
             className="text-xl me-md-4 d-flex align-items-center"
             style={{ color: statusColors[status] }}
           >
-            <FaHourglassHalf />
           </span>
-          <Form.Select
-            value={status}
-            onChange={handleStatusChange}
-            className="form-select mt-2 mt-md-0"
-            style={{ width: "auto" }}
-          >
-            <option value="Interested">Interested</option>
-            <option value="Applied">Applied</option>
-            <option value="Interview">Interview</option>
-            <option value="Offer">Offer</option>
-            <option value="Rejected">Rejected</option>
-          </Form.Select>
+          {/** Only show the status. THey should not be able to change it */}
+          <Form.Label className="text-sm text-gray-600">Status: {status}</Form.Label>
         </div>
       </Card.Body>
     </Card>

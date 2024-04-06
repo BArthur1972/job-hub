@@ -7,23 +7,12 @@ import {
 	useGetCompanyByIdMutation
 } from "../services/appApi";
 
-// {
-//   id: 1,
-//   companyName: "Google",
-//   jobTitle: "Frontend Developer",
-//   status: "Interested",
-//   location: "Mountain View, CA",
-// },
-
-const JobApplication = () => {
+function JobApplication() {
 	const [applications, setApplications] = useState([]);
 	const [searchTerm, setSearchTerm] = useState("");
 	const [filterStatus, setFilterStatus] = useState("");
 	const [getAllJobApplications] = useGetAllApplicationsMutation();
 	const [getCompanyById] = useGetCompanyByIdMutation();
-
-
-
 
 	const fetchCompanyName = async (companyID) => {
 		try {
@@ -37,7 +26,6 @@ const JobApplication = () => {
 			return "Unknown Company";
 		}
 	};
-
 
 	useEffect(() => {
 		const fetchApplications = async () => {
@@ -110,10 +98,9 @@ const JobApplication = () => {
 					<Form.Group className="w-auto">
 						<Form.Select value={filterStatus} onChange={handleFilterChange}>
 							<option value="">All Statuses</option>
-							<option value="Interested">Interested</option>
 							<option value="Applied">Applied</option>
-							<option value="Interview">Interview</option>
-							<option value="Offer">Offer</option>
+							<option value="Interviewing">Interviewing</option>
+							<option value="Offer">Hired</option>
 							<option value="Rejected">Rejected</option>
 						</Form.Select>
 					</Form.Group>

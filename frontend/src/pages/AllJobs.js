@@ -54,7 +54,7 @@ const AllJobs = () => {
 			}
 		};
 		fetchJobs();
-	}, [getAllJobListing, getCompanyById, fetchCompanyName]);
+	}, [getAllJobListing, getCompanyById]);
 
 	const handleSearch = (event) => {
 		const query = event.target.value.toLowerCase();
