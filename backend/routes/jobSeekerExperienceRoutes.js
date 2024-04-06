@@ -10,7 +10,19 @@ router.post('/insert', auth, async (req, res) => {
         res.status(200).send({data: "Job seeker experience added successfully"});
     } catch (err) {
         console.log("Error adding job seeker experience: ", err);
-        res.status(500).send(err);
+        res.status(500).send({error: err});
+    }
+});
+
+// Get all job seeker experience
+router.get('/getAll/:seekerID', auth, async (req, res) => {
+    try {
+        const { seekerID } = req.params;
+        const experience = await JobSeekerExperience.getExperience(seekerID);
+        res.status(200).send(experience);
+    } catch (err) {
+        console.log("Error getting job seeker experience: ", err);
+        res.status(500).send({error: err});
     }
 });
 

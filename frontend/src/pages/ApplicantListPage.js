@@ -5,7 +5,7 @@ import { Container, Row, Col, Form } from 'react-bootstrap';
 import { initialApplicants } from './data/applicants';
 import ApplicantCard from '../components/ApplicantCard';
 
-const ApplicantListPage = () => {
+function ApplicantListPage() {
   const [applicants, setApplicants] = useState(initialApplicants);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState('');

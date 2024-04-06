@@ -98,7 +98,4 @@ router.delete("/delete", async (req, res) => {
   }
 });
 
-
-router.get("/")
-
 module.exports = router;

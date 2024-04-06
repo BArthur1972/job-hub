@@ -70,6 +70,8 @@ const AllJobs = () => {
     setFilteredJobs(jobPostings);
   };
 
+ 
+
   return (
     <Container
       fluid

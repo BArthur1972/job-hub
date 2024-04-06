@@ -82,6 +82,64 @@
 	align-items: center;
 }
 
+.jobseeker_info_box {
+	border: 1px solid #ccc;
+	display: flex;
+	margin: 20px;
+	flex-direction: column;
+	width: 95%;
+	height: 100%;
+	padding: 25px;
+}
+
+.jobseeker_info_box {
+    border: 1px solid #ccc;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.skills_box h4, .education_box h4, .experience_box h4 {
+    text-decoration: underline;
+    margin-bottom: 20px;
+}
+
+.education_item, .experience_item {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+
+.education_item ul, .experience_item ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.education_item li, .experience_item li {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.skills_box ul {
+    list-style-type: none;
+    padding-left: 0;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.skills_box li {
+    display: inline-block;
+    background-color: #007bff;
+    color: white;
+    padding: 5px 10px;
+    margin: 5px;
+    border-radius: 20px;
+    font-size: 14px;
+}
+
 @media screen and (max-width: 768px) {
 	.account_container {
 		display: inline;
