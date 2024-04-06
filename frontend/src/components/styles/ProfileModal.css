@@ -1,0 +1,55 @@
+.jobseeker_info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.jobseeker_info_box {
+    flex: 1;
+    margin-right: 20px;
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.skills_box, .education_box, .experience_box {
+    margin-bottom: 20px;
+}
+
+.skills_box h4, .education_box h4, .experience_box h4 {
+    text-decoration: underline;
+    margin-bottom: 10px;
+}
+
+.skills_box ul, .education_box ul, .experience_box ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.skills_box li, .education_box li, .experience_box li {
+    display: block;
+    margin-bottom: 5px;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: #e9ecef;
+}
+
+.experience_item {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+
+.experience_item ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.experience_item li {
+    display: block;
+    margin-bottom: 5px;
+}

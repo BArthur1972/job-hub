@@ -4,8 +4,7 @@ import { Container, Row, Col, Form } from "react-bootstrap";
 import Application from "../components/Application";
 import {initialApplications} from './data/appliedJobs'
 
-
-const JobApplication = () => {
+function JobApplication() {
   const [applications, setApplications] = useState(initialApplications);
   const [searchTerm, setSearchTerm] = useState("");
   const [filterStatus, setFilterStatus] = useState("");

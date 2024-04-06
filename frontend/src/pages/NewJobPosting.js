@@ -6,7 +6,7 @@ import "./styles/AdditionalInfo.css";
 import { useCreateJobListingMutation } from "../services/appApi";
 import { useSelector } from "react-redux";
 
-const NewJobPosting = () => {
+function NewJobPosting() {
   const [jobPost, setJobPost] = useState({
     jobID: "",
     jobTitle: "",
