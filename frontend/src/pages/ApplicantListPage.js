@@ -20,6 +20,7 @@ function ApplicantListPage() {
 		setFilterStatus(event.target.value);
 	};
 
+	console.log(applicants);
 	const filteredApplicants = applicants.filter((applicant) => {
 		const matchSearchTerm =
 			applicant.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
