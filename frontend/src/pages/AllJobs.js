@@ -3,17 +3,17 @@ import Job from "../components/Job";
 import { Container, Row, Col, Form, Button, InputGroup } from "react-bootstrap";
 import { jobPostings } from "./data/jobs";
 import {
-  useGetAllJobListingsMutation,
+  useGetAllApplicationsMutation,
   useGetCompanyByIdMutation,
-
 } from "../services/appApi";
 
 const AllJobs = () => {
+
+  const [jobList, setJobList] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredJobs, setFilteredJobs] = useState([]);
-  const [getAllJobListings] = useGetAllJobListingsMutation();
+  const [getAllApplications] = useGetAllApplicationsMutation();
   const [getCompanyById] = useGetCompanyByIdMutation();
-
 
   const fetchCompanyName = async (companyID) => {
     try {
@@ -31,7 +31,7 @@ const AllJobs = () => {
   useEffect(() => {
     const fetchJobs = async () => {
       try {
-        const response = await getAllJobListings();
+        const response = await getAllApplications();
         if (response.data) {
           const transformedJobs = await Promise.all(
             response.data.map(async (job) => ({
@@ -44,7 +44,7 @@ const AllJobs = () => {
               jobType: job.employmentType,
             }))
           );
-          setFilteredJobs(transformedJobs);
+          setJobList(transformedJobs);
         }
       } catch (error) {
         console.error("Error fetching job listings:", error);
@@ -52,7 +52,7 @@ const AllJobs = () => {
     };
 
     fetchJobs();
-  }, [getAllJobListings]);
+  }, [getAllApplications]);
 
   const handleSearch = (event) => {
     const query = event.target.value.toLowerCase();
@@ -69,8 +69,6 @@ const AllJobs = () => {
     setSearchQuery("");
     setFilteredJobs(jobPostings);
   };
-
- 
 
   return (
     <Container
@@ -99,7 +97,7 @@ const AllJobs = () => {
             </InputGroup>
           </Form.Group>
           <Row>
-            {filteredJobs.map((job, index) => (
+            {jobList.map((job, index) => (
               <Col key={index} md={6} lg={4} className="mb-4">
                 <Job {...job} />
               </Col>

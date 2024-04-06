@@ -128,6 +128,14 @@ const appApi = createApi({
       }),
     }),
 
+    // getJobListingById
+    getJobListingById: builder.mutation({
+      query: (id) => ({
+        url: `/joblisting/${id}`,
+        method: "GET",
+      }),
+    }),
+
     // get Company by id
     getCompanyById: builder.mutation({
       query: (id) => ({
@@ -220,6 +228,7 @@ export const {
   useAddJobSeekerExperienceMutation,
   useAddJobSeekerSkillsMutation,
   useGetAllJobListingsMutation,
+  useGetJobListingByIdMutation,
   useCreateJobListingMutation,
   useGetCompanyByIdMutation,
   useGetAllApplicationsMutation,

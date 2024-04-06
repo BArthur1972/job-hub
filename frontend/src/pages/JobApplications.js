@@ -1,14 +1,69 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaSearch } from "react-icons/fa";
 import { Container, Row, Col, Form } from "react-bootstrap";
 import Application from "../components/Application";
-import {initialApplications} from './data/appliedJobs'
+import {
+  useGetAllApplicationsMutation,
+  useGetCompanyByIdMutation
+} from "../services/appApi";
 
+// {
+//   id: 1,
+//   companyName: "Google",
+//   jobTitle: "Frontend Developer",
+//   status: "Interested",
+//   location: "Mountain View, CA",
+// },
 
 const JobApplication = () => {
-  const [applications, setApplications] = useState(initialApplications);
+  const [applications, setApplications] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [filterStatus, setFilterStatus] = useState("");
+  const [getAllJobApplications] = getAllJobApplications();
+  const [getCompanyById] = useGetCompanyByIdMutation();
+
+
+
+
+  const fetchCompanyName = async (companyID) => {
+    try {
+      const response = await getCompanyById(Number(companyID));
+      if (response && response.data) {
+        return response.data[0].companyName;
+      }
+      return "Unknown Company";
+    } catch (error) {
+      console.error("Error fetching company name:", error);
+      return "Unknown Company";
+    }
+  };
+
+
+  useEffect(() => {
+    const fetchApplications = async () => {
+      try {
+        const response = await getAllJobApplications();
+        if (response.data) {
+          const transformedApplications = await Promise.all(
+            response.data.map(async (application) => ({
+              id: application.jobID,
+              companyName: await fetchCompanyName(application.companyID),
+              jobTitle: application.jobTitle,
+              status: application.status,
+              location: application.location,
+            }))
+          );
+          console.log("transformedApplications", transformedApplications);
+          setApplications(transformedApplications);
+        }
+      } catch (error) {
+        console.error("Error fetching job applications:", error);
+      }
+    };
+    fetchApplications();
+  }, [getAllJobApplications]);
+  
+
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
@@ -30,8 +85,12 @@ const JobApplication = () => {
     return matchSearchTerm && matchStatus;
   });
 
+
   return (
-    <Container fluid className="h-100 p-0 d-flex justify-content-center align-items-center">
+    <Container
+      fluid
+      className="h-100 p-0 d-flex justify-content-center align-items-center"
+    >
       <Col md={9} lg={10} className="p-4 overflow-auto">
         <h3 className="text-4xl text-black font-bold mb-2">
           Your Submitted Applications

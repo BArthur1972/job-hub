@@ -5,11 +5,12 @@ class Application {
   // Get all applications
   static getAllApplications() {
     return new Promise((resolve, reject) => {
-      const query = "SELECT * FROM Application";
+      const query =
+        "SELECT * FROM Application INNER JOIN JobListing ON Application.jobID = JobListing.jobID";
       dbConnection.query(query, (err, result) => {
         if (err) {
-          console.log("Error getting all applications: ", err);
-          reject("Error getting all applications");
+          console.log("Error getting all applications and job listings: ", err);
+          reject("Error getting all applications and job listings");
         } else {
           const applicationsJSON = Utils.toJSON(result);
           resolve(applicationsJSON);
