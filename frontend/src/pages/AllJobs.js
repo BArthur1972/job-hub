@@ -8,7 +8,7 @@ import {
 
 } from "../services/appApi";
 
-const AllJobs = () => {
+function AllJobs() {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredJobs, setFilteredJobs] = useState([]);
   const [getAllJobListings] = useGetAllJobListingsMutation();
@@ -30,27 +30,12 @@ const AllJobs = () => {
 
   useEffect(() => {
     const fetchJobs = async () => {
-      try {
-        const response = await getAllJobListings();
-        if (response.data) {
-          const transformedJobs = await Promise.all(
-            response.data.map(async (job) => ({
-              jobID: job.jobID,
-              companyName: await fetchCompanyName(job.companyID),
-              jobTitle: job.jobTitle,
-              experienceLevels: job.experienceRequired,
-              locations: job.location,
-              postedDate: new Date(job.postingDate).toDateString(),
-              jobType: job.employmentType,
-            }))
-          );
-          setFilteredJobs(transformedJobs);
-        }
-      } catch (error) {
-        console.error("Error fetching job listings:", error);
+      const response = await getAllJobListings();
+      if (response.data) {
+        setFilteredJobs(response.data);
+        console.log(response.data);
       }
-    };
-
+    }
     fetchJobs();
   }, [getAllJobListings]);
 

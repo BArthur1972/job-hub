@@ -4,13 +4,10 @@ import { Container, Row, Col, Form } from "react-bootstrap";
 import { initialJobPostings } from "./data/recuiterJobPosting";
 import JobPost from "../components/JobPost";
 
-
-const JobPostings = () => {
+function JobPostings() {
   const [applications, setApplications] = useState(initialJobPostings);
   const [searchTerm, setSearchTerm] = useState("");
   const [filterStatus, setFilterStatus] = useState("");
-
-
   const [jobId, setJobId] = useState("");
   const [jobTitle, setJobTitle] = useState("");
   const [location, setLocation] = useState([]);
@@ -24,10 +21,6 @@ const JobPostings = () => {
   const [qualifications, setQualifications] = useState("");
   const [experience, setExperience] = useState("");
   const [recruiterId, setRecruiterId] = useState("");
-
-
-
-
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
