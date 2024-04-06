@@ -1,34 +1,20 @@
 import React, { useState } from "react";
 import { MdExpandMore } from "react-icons/md";
-import { Card, Badge, Button, Row, Col } from "react-bootstrap";
-import {
-  useGetAllJobListingsMutation,
-  useGetCompanyByIdMutation,
-  useCreateApplicationMutation,
-} from "../services/appApi";
-
+import { Card, Badge, Button, Row, Col, Image } from "react-bootstrap";
+import { useCreateApplicationMutation } from "../services/appApi";
 import { useSelector } from "react-redux";
 
-const currentDate = new Date().toISOString().slice(0, 19).replace('T', ' '); // Format the date as 'YYYY-MM-DD HH:MM:SS'
+const currentDate = new Date().toISOString().slice(0, 19).replace("T", " ");
 
-const Job = ({
-  jobID,
-  companyName,
-  jobTitle,
-  experienceLevels,
-  locations,
-  postedDate,
-  jobType,
-}) => {
+const Job = ({ jobID, companyName, jobTitle, experienceLevels, locations, postedDate, jobType }) => {
   const generateLogoUrl = (companyName) => {
-    return `https://logo.clearbit.com/${companyName}.com`;
+    return `https://logo.clearbit.com/${companyName.toLowerCase().replace(/\s+/g, "")}.com?size=70`;
   };
 
   const [isExpanded, setIsExpanded] = useState(false);
   const toggleExpanded = () => setIsExpanded(!isExpanded);
 
   const { user } = useSelector((state) => state.user);
-
   const [createApplication] = useCreateApplicationMutation();
 
   const handleApply = async () => {
@@ -38,7 +24,6 @@ const Job = ({
       status: "Applied",
       dateApplied: currentDate,
     };
-
     await createApplication(application).then((response) => {
       if (response && response.data) {
         console.log("Application submitted successfully");
@@ -53,65 +38,53 @@ const Job = ({
   };
 
   return (
-    <Card className="job-posting-card mb-4 bg-gray-200">
-      <Card.Body>
+    <Card className="job-posting-card mb-4 shadow-sm">
+      <Card.Body className="p-4">
         <Row className="align-items-center">
           <Col xs="auto">
-            <img
+            <Image
               src={generateLogoUrl(companyName)}
               alt={`${companyName} Logo`}
-              className="company-logo rounded"
+              className="company-logo rounded-circle"
+              fluid
             />
           </Col>
           <Col>
-            <Card.Title>{companyName}</Card.Title>
-            <Card.Text>{jobTitle}</Card.Text>
-          </Col>
-
-          <Col xs="auto" className="d-flex align-items-center">
-            <Badge pill bg={jobType === "Intern" ? "primary" : "success"}>
-              {jobType}
-            </Badge>
-            <Button
-              variant="link"
-              onClick={toggleExpanded}
-              aria-expanded={isExpanded}
-            >
-              <MdExpandMore
-                className={`toggle-icon ms-2 ${isExpanded ? "rotated" : ""}`}
-              />
-            </Button>
-          </Col>
-        </Row>
-
-        {isExpanded && (
-          <section className="expanded-info mt-3">
-            <p>
-              <strong>Experience Level(s):</strong> {experienceLevels}
-            </p>
-            <p>
-              <strong>Location(s):</strong> {locations}
-            </p>
-            <p>
-              <strong>Posted:</strong> {postedDate}
-            </p>
-            <div className="action-buttons mt-3">
-              <Button
-                variant="outline-primary"
-                className="me-2"
-                onClick={() => handleApply()}
-              >
-                Apply
-              </Button>
-              <Button
-                variant="outline-secondary"
-                onClick={() => console.log("Saved", companyName, "for later")}
-              >
-                Save for Later
+            <div className="d-flex align-items-center justify-content-between mb-3">
+              <div>
+                <Card.Title className="mb-1">{companyName}</Card.Title>
+                <Card.Text className="h5 mb-1">{jobTitle}</Card.Text>
+              </div>
+              <Button variant="link" onClick={toggleExpanded} aria-expanded={isExpanded} className="toggle-button">
+                <MdExpandMore className={`toggle-icon ${isExpanded ? "rotated" : ""}`} />
               </Button>
             </div>
-          </section>
-        )}
+            <div className="d-flex align-items-center mb-3">
+              <Badge pill bg={jobType === "Intern" ? "primary" : "success"} className="me-2">
+                {jobType}
+              </Badge>
+              <p className="mb-0 text-muted">{postedDate}</p>
+            </div>
+            {isExpanded && (
+              <div className="expanded-info">
+                <p>
+                  <strong>Experience Level(s):</strong> {experienceLevels}
+                </p>
+                <p>
+                  <strong>Location(s):</strong> {locations}
+                </p>
+                <div className="action-buttons mt-3">
+                  <Button variant="primary" className="me-2" onClick={handleApply}>
+                    Apply
+                  </Button>
+                  <Button variant="outline-secondary" onClick={() => console.log("Saved", companyName, "for later")}>
+                    Save for Later
+                  </Button>
+                </div>
+              </div>
+            )}
+          </Col>
+        </Row>
       </Card.Body>
     </Card>
   );
