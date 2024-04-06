@@ -7,6 +7,7 @@ const jobSeekerEducationRoutes = require('./routes/jobSeekerEducationRoutes');
 const jobSeekerExperienceRoutes = require('./routes/jobSeekerExperienceRoutes');
 const jobSeekerSkillRoutes = require('./routes/jobSeekerSkillRoutes');
 const jobListingRoutes = require('./routes/jobListingRoutes');
+const applicationRoutes = require('./routes/applicationRoutes');
 const app = express();
 
 // Add middleware to parse incoming requests
@@ -24,6 +25,7 @@ app.use('/education', jobSeekerEducationRoutes);
 app.use('/experience', jobSeekerExperienceRoutes);
 app.use('/skills', jobSeekerSkillRoutes);
 app.use('/joblisting', jobListingRoutes);
+app.use('/application', applicationRoutes);
 
 const server = require('http').createServer(app);
 const PORT = 5001;

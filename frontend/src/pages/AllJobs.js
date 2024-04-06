@@ -2,31 +2,57 @@ import React, { useState, useEffect } from "react";
 import Job from "../components/Job";
 import { Container, Row, Col, Form, Button, InputGroup } from "react-bootstrap";
 import { jobPostings } from "./data/jobs";
-import { useGetAllJobListingsMutation } from "../services/appApi";
+import {
+  useGetAllJobListingsMutation,
+  useGetCompanyByIdMutation,
 
+} from "../services/appApi";
 
 const AllJobs = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredJobs, setFilteredJobs] = useState([]);
-
-
   const [getAllJobListings] = useGetAllJobListingsMutation();
+  const [getCompanyById] = useGetCompanyByIdMutation();
+
+
+  const fetchCompanyName = async (companyID) => {
+    try {
+      const response = await getCompanyById(Number(companyID));
+      if (response && response.data) {
+        return response.data[0].companyName;
+      }
+      return "Unknown Company";
+    } catch (error) {
+      console.error("Error fetching company name:", error);
+      return "Unknown Company";
+    }
+  };
 
   useEffect(() => {
-    const fetchJobas = async () => {
-      const response = await getAllJobListings();
-      if (response.data) {
-        setFilteredJobs(response.data);
-        console.log(response.data);
+    const fetchJobs = async () => {
+      try {
+        const response = await getAllJobListings();
+        if (response.data) {
+          const transformedJobs = await Promise.all(
+            response.data.map(async (job) => ({
+              jobID: job.jobID,
+              companyName: await fetchCompanyName(job.companyID),
+              jobTitle: job.jobTitle,
+              experienceLevels: job.experienceRequired,
+              locations: job.location,
+              postedDate: new Date(job.postingDate).toDateString(),
+              jobType: job.employmentType,
+            }))
+          );
+          setFilteredJobs(transformedJobs);
+        }
+      } catch (error) {
+        console.error("Error fetching job listings:", error);
       }
-    }
-    fetchJobas();
+    };
+
+    fetchJobs();
   }, [getAllJobListings]);
-
- 
-
-
-
 
   const handleSearch = (event) => {
     const query = event.target.value.toLowerCase();
@@ -43,6 +69,8 @@ const AllJobs = () => {
     setSearchQuery("");
     setFilteredJobs(jobPostings);
   };
+
+ 
 
   return (
     <Container
@@ -71,7 +99,6 @@ const AllJobs = () => {
             </InputGroup>
           </Form.Group>
           <Row>
-            
             {filteredJobs.map((job, index) => (
               <Col key={index} md={6} lg={4} className="mb-4">
                 <Job {...job} />

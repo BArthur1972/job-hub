@@ -14,4 +14,29 @@ router.get('/', async (req, res) => {
 });
 
 
+// Get company by name
+router.get('/company-name/:companyName', async (req, res) => {
+    try {
+      const company = await Company.getCompanyByName(req.params.companyName);
+      res.status(200).send(company);
+      console.log(company);
+    } catch (err) {
+      console.log('Error getting company by name: ', err);
+      res.status(500).send('Error getting company by name');
+    }
+  });
+  
+  // Get company by id
+  router.get('/company-id/:companyID', async (req, res) => {
+    try {
+      const company = await Company.getCompanyById(req.params.companyID);
+      res.status(200).send(company);
+      console.log(company);
+    } catch (err) {
+      console.log('Error getting company by id: ', err);
+      res.status(500).send('Error getting company by id');
+    }
+  });
+
+
 module.exports = router;
