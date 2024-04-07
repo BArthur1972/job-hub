@@ -15,7 +15,7 @@ function JobApplication() {
 	const [applications, setApplications] = useState([]);
 	const [searchTerm, setSearchTerm] = useState("");
 	const [filterStatus, setFilterStatus] = useState("");
-	const [getAllJobApplications] = useGetAllApplicationsMutation();
+
 	const [getJobApplications] = useGetApplicationsByJobSeekerIdMutation();
 	const [getCompanyById] = useGetCompanyByIdMutation();
 
