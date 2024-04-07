@@ -5,6 +5,7 @@ import { FaArrowLeft } from "react-icons/fa";
 import "./styles/AdditionalInfo.css";
 import { useCreateJobListingMutation } from "../services/appApi";
 import { useSelector } from "react-redux";
+import {locations} from "../pages/data/locations";
 
 function NewJobPosting() {
   const [jobPost, setJobPost] = useState({
@@ -107,11 +108,12 @@ function NewJobPosting() {
                   setJobPost({ ...jobPost, location: e.target.value })
                 }
               >
-                <option value="New York">New York</option>
-                <option value="Los Angeles">Los Angeles</option>
-                <option value="Chicago">Chicago</option>
-                <option value="Houston">Houston</option>
-                <option value="Miami">Miami</option>
+                <option value="">Select Location</option>
+                {locations.map((location) => (
+                  <option key={location} value={location}>
+                    {location}
+                  </option>
+                ))}
               </Form.Select>
             </Form.Group>
             <Form.Group className="mb-3" controlId="formEmploymentType">
