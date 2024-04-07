@@ -235,6 +235,31 @@ const appApi = createApi({
                 method: 'GET',
             }),
         }),
+
+        getJobListingsByRecruiterId: builder.mutation({
+            query: (id) => ({
+                url: `/joblisting/recruiter/${id}`,
+                method: 'GET',
+            }),
+        }),
+
+        // Update job listing by id
+        updateJobListingById: builder.mutation({
+            query: (payload) => ({
+                url: `/joblisting/update/`,
+                method: 'PUT',
+                body: payload,
+            }),
+        }),
+
+        // Delete job listing by id
+        deleteJobListingById: builder.mutation({
+            query: (payload) => ({
+                url: `/joblisting/delete/`,
+                method: 'DELETE',
+                body: payload,
+            }),
+        }),
     }),
 });
 
@@ -264,6 +289,9 @@ export const {
     useCreateApplicationMutation,
     useUpdateApplicationMutation,
     useDeleteApplicationMutation,
-    useGetApplicantsByRecruiterIdMutation } = appApi;
+    useGetApplicantsByRecruiterIdMutation,
+    useGetJobListingsByRecruiterIdMutation,
+    useUpdateJobListingByIdMutation,
+    useDeleteJobListingByIdMutation } = appApi;
 
 export default appApi;
