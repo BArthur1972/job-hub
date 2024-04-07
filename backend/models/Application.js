@@ -36,25 +36,25 @@ class Application {
 		});
 	}
 
+	
+
 	// Get applications by job seeker id
 	static getApplicationsByJobSeekerId(jobSeekerId) {
 		return new Promise((resolve, reject) => {
-			const query = `SELECT * FROM Application WHERE seekerID = '${Number(
-				jobSeekerId
-			)}'`;
-			console.log(query);
-			dbConnection.query(query, (err, result) => {
-				if (err) {
-					console.log("Error getting applications by job seeker id: ", err);
-					reject("Error getting applications by job seeker id");
-				} else {
-					const applicationsJSON = Utils.toJSON(result);
-					console.log(applicationsJSON);
-					resolve(applicationsJSON);
-				}
-			});
+		  const query = "SELECT * FROM Application INNER JOIN JobListing ON Application.jobID = JobListing.jobID WHERE Application.seekerID = ?";
+		  console.log(query);
+		  dbConnection.query(query, [jobSeekerId], (err, result) => {
+			if (err) {
+			  console.log("Error getting applications by job seeker id: ", err);
+			  reject("Error getting applications by job seeker id");
+			} else {
+			  const applicationsJSON = Utils.toJSON(result);
+			  console.log(applicationsJSON);
+			  resolve(applicationsJSON);
+			}
+		  });
 		});
-	}
+	  }
 
 	// Get applications by job listing id
 	static getApplicationsByJobListingId(jobListingId) {
