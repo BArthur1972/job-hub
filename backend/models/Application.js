@@ -175,6 +175,21 @@ class Application {
 			});
 		});
 	}
+
+	// Get number of applicants for a job listing
+	static getNumberOfApplicants(jobID) {
+		return new Promise((resolve, reject) => {
+			const query = `SELECT COUNT(*) as count FROM Application WHERE jobID = '${jobID}'`;
+			dbConnection.query(query, (err, result) => {
+				if (err) {
+					console.log("Error getting number of applicants: ", err);
+					reject("Error getting number of applicants");
+				} else {
+					resolve(result[0]);
+				}
+			});
+		});
+	}
 }
 
 module.exports = Application;
