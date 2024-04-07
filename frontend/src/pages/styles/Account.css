@@ -1,147 +1,109 @@
-.divider_1 {
-	margin-top: 20px;
-	margin-bottom: 20px;
-	border: 1px solid #ccc;
-}
-
-.header {
-	margin-top: 20px;
-	margin-bottom: 20px;
-}
-
-.change_profile_picture {
+.account__container {
+	padding: 2rem;
+	border: 1px solid #e0e0e0;
+  }
+  
+  .account__header {
 	display: flex;
-}
-
-.user_info {
-	padding: 20px;
-}
-
-.company_info {
-	padding: 20px;
-}
-
-.user_image_box {
+	justify-content: center;
+	margin-bottom: 1rem;
+  }
+  
+  .account__header-title {
+	font-size: 1.75rem;
+	font-weight: bold;
+  }
+  
+  .account__divider {
+	width: 100%;
+	height: 1px;
+	background-color: #e0e0e0;
+	margin: 1.5rem 0;
+  }
+  
+  .account__user-info {
 	display: flex;
-	flex-direction: column;
-	align-items: center;
-}
-
-.company_image_box {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-}
-
-.user_info_box {
-	border: 1px solid #ccc;
-	display: flex;
-	flex-direction: column;
-	height: 100%;
-	padding: 25px;
-}
-
-.company_info_box {
-	border: 1px solid #ccc;
-	display: flex;
-	flex-direction: column;
-	height: 100%;
-	padding: 25px;
-}
-
-.account_container {
-	height: fit-content;
-	margin-top: 50px;
-	margin-bottom: 50px;
-	border: 1px solid #ccc;
-}
-
-.user_name_box,
-.user_email_box,
-.user_bio_box,
-.user_password_box,
-.user_phone_box,
-.user_date_joined_box {
-	display: flex;
-	flex-direction: row;
-}
-
-.user_name,
-.user_email,
-.user_bio,
-.user_phone,
-.user_date_joined,
-.user_password {
-	padding: 20px;
-	margin: 0px;
-}
-
-.delete_account {
+	align-items: flex-start;
+  }
+  
+  .account__user-image {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-}
-
-.jobseeker_info_box {
-	border: 1px solid #ccc;
-	display: flex;
-	margin: 20px;
-	flex-direction: column;
-	width: 95%;
-	height: 100%;
-	padding: 25px;
-}
-
-.jobseeker_info_box {
-    border: 1px solid #ccc;
-    padding: 20px;
-    margin-bottom: 20px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-}
-
-.skills_box h4, .education_box h4, .experience_box h4 {
-    text-decoration: underline;
-    margin-bottom: 20px;
-}
-
-.education_item, .experience_item {
-    border: 1px solid #ccc;
-    padding: 10px;
-    margin-bottom: 15px;
-    border-radius: 5px;
-    box-shadow: 0 0 5px rgba(0,0,0,0.1);
-}
-
-.education_item ul, .experience_item ul {
-    list-style-type: none;
-    padding-left: 0;
-}
-
-.education_item li, .experience_item li {
-    display: block;
-    margin-bottom: 5px;
-}
-
-.skills_box ul {
-    list-style-type: none;
-    padding-left: 0;
-    display: flex;
-    flex-wrap: wrap;
-}
-
-.skills_box li {
-    display: inline-block;
-    background-color: #007bff;
-    color: white;
-    padding: 5px 10px;
-    margin: 5px;
-    border-radius: 20px;
-    font-size: 14px;
-}
-
-@media screen and (max-width: 768px) {
-	.account_container {
-		display: inline;
-	}
-}
+	margin-right: 2rem;
+  }
+  
+  .account__user-image-preview {
+	width: 240px;
+	height: 250px;
+	border-radius: 50%;
+	object-fit: cover;
+	margin-top: 30px;
+  }
+  
+  .account__user-image-change {
+	margin-top: 0.5rem;
+  }
+  
+  .account__user-details {
+	flex-grow: 1;
+  }
+  
+  .account__user-name,
+  .account__user-email,
+  .account__user-phone,
+  .account__user-bio,
+  .account__user-password {
+	margin-bottom: 0.75rem;
+  }
+  
+  .account__user-name-label,
+  .account__user-email-label,
+  .account__user-phone-label,
+  .account__user-bio-label,
+  .account__user-password-label {
+	font-weight: bold;
+	margin-right: 0.5rem;
+  }
+  
+  .account__jobseeker-info {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	grid-gap: 2rem;
+  }
+  
+  .account__skills,
+  .account__education,
+  .account__experience {
+	border: 1px solid #e0e0e0;
+	border-radius: 4px;
+	padding: 1rem;
+  }
+  
+  .account__skills-title,
+  .account__education-title,
+  .account__experience-title {
+	font-size: 1.25rem;
+	font-weight: bold;
+	margin-bottom: 1rem;
+  }
+  
+  .account__skills-list {
+	list-style-type: none;
+	padding: 0;
+  }
+  
+  .account__skills-item {
+	margin-bottom: 0.5rem;
+  }
+  
+  .account__education-item,
+  .account__experience-item {
+	margin-bottom: 1rem;
+  }
+  
+  .account__education-details,
+  .account__experience-details {
+	list-style-type: none;
+	padding: 0;
+  }

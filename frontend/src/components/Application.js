@@ -45,7 +45,7 @@ const Application = ({
               {jobTitle}
             </Card.Title>
             <Card.Text className="text-sm text-gray-600 d-flex align-items-center">
-              <FaBuilding className="me-2" /> {companyName}
+              <FaBuilding className="me-2 text-primary" /> {companyName}
             </Card.Text>
             <Card.Text className="text-xs text-gray-600 d-flex align-items-center">
               <FaLocationDot className="me-2" /> {location}

@@ -57,28 +57,44 @@ const Job = ({ jobID, companyName, jobTitle, experienceLevels, locations, posted
                     <Col>
                         <div className="d-flex align-items-center justify-content-between mb-3">
                             <div>
-                                <Card.Title className="mb-1">{companyName}</Card.Title>
-                                <Card.Text className="h5 mb-1">{jobTitle}</Card.Text>
+                                <Card.Title className="mb-1 text-primary">{companyName}</Card.Title>
+                                <Card.Text className="mb-1 text-dark fs-6 fw-bold">{jobTitle}</Card.Text>
                             </div>
                             <Button variant="link" onClick={toggleExpanded} aria-expanded={isExpanded} className="toggle-button">
                                 <MdExpandMore className={`toggle-icon ${isExpanded ? "rotated" : ""}`} />
                             </Button>
                         </div>
-                        <div className="d-flex align-items-center mb-3">
+                        <div className="d-flex  justify-content-between align-items-center mb-3 px-4 py-2" style={{background:'#ccd5db'}}>
                             <Badge pill bg={jobType === "Intern" ? "primary" : "success"} className="me-2">
                                 {jobType}
                             </Badge>
-                            <p className="mb-0 text-muted">Posted: {formatDate(postedDate)}</p>
+                            <p className="mb-0 text-muted "  style={{ fontSize: "13px", color: "#6B7280" }}>Posted: {formatDate(postedDate)}</p>
                         </div>
                         {isExpanded && (
                             <div className="expanded-info">
                                 <p>
-                                    <strong>Experience Level(s):</strong> {experienceLevels}
+                                    <strong className="text-dark">Experience Level(s):</strong>{" "}
+                                    <span
+                                        className="text-truncate"
+                                        style={{
+                                            fontSize: "13px",
+                                            maxWidth: "200px",
+                                            overflowWrap: "break-word",
+                                            wordBreak: "break-all",
+                                            color: "#6B7280",
+                                            display: "inline-block",
+                                            whiteSpace: "nowrap",
+                                            textOverflow: "ellipsis",
+                                        }}
+                                    >
+                                        {experienceLevels}
+                                    </span>
                                 </p>
                                 <p>
-                                    <strong>Location(s):</strong> {locations}
+                                    <strong className="text-dark">Location(s):</strong>{" "}
+                                    <span style={{ fontSize: "13px", color: "#6B7280" }}>{locations}</span>
                                 </p>
-                                <div className="action-buttons mt-3 d-flex justify-content">
+                                <div className="action-buttons mt-3 d-flex justify-content-end">
                                     <Button variant="primary" className="me-2" onClick={handleApply}>
                                         Apply Now
                                     </Button>

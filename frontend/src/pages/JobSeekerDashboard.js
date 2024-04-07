@@ -58,7 +58,7 @@ function JobSeekerDashboard() {
 
   return (
     <Container fluid className="d-flex justify-content-center align-items-center">
-      <Col md={9} lg={13} className="p-4 overflow-auto">
+      <Col md={9} lg={12} className="p-4 overflow-auto">
         <Container fluid>
           <Row className="mb-5">
             <Col className="text-center text-md-left">
