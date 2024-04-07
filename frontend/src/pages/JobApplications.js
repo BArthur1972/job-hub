@@ -4,14 +4,19 @@ import { Container, Row, Col, Form } from "react-bootstrap";
 import Application from "../components/Application";
 import {
 	useGetAllApplicationsMutation,
-	useGetCompanyByIdMutation
+	useGetCompanyByIdMutation,
+	useGetApplicationsByJobSeekerIdMutation,
 } from "../services/appApi";
+import { useSelector } from "react-redux";
+
 
 function JobApplication() {
+	const { user } = useSelector((state) => state.user);
 	const [applications, setApplications] = useState([]);
 	const [searchTerm, setSearchTerm] = useState("");
 	const [filterStatus, setFilterStatus] = useState("");
 	const [getAllJobApplications] = useGetAllApplicationsMutation();
+	const [getJobApplications] = useGetApplicationsByJobSeekerIdMutation();
 	const [getCompanyById] = useGetCompanyByIdMutation();
 
 	const fetchCompanyName = async (companyID) => {
@@ -30,7 +35,7 @@ function JobApplication() {
 	useEffect(() => {
 		const fetchApplications = async () => {
 			try {
-				const response = await getAllJobApplications();
+				const response = await getJobApplications(user.seekerID);
 				if (response.data) {
 					const transformedApplications = await Promise.all(
 						response.data.map(async (application) => ({
@@ -49,7 +54,7 @@ function JobApplication() {
 			}
 		};
 		fetchApplications();
-	}, [getAllJobApplications]);
+	}, [getJobApplications]);
 
 
 

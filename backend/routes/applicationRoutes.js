@@ -15,7 +15,7 @@ router.get("/", async (req, res) => {
 });
 
 // Get applications by job seeker id
-router.get("/:seekerID", async (req, res) => {
+router.get("/seeker/:seekerID", async (req, res) => {
 	try {
 		const { seekerID } = req.params;
 		const applications = await Application.getApplicationsByJobSeekerId(
