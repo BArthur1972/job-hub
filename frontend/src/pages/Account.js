@@ -5,142 +5,153 @@ import defaultProfilePic from '../assets/defaultProfilePic.jpg';
 import { useSelector } from 'react-redux';
 import { useGetAllJobSeekerEducationMutation, useGetAllJobSeekerExperienceMutation, useGetAllJobSeekerSkillsMutation } from '../services/appApi';
 
+function AccountHeader({ userName }) {
+  return (
+    <div className="account__header">
+      <h3 className="account__header-title">{userName}'s Profile</h3>
+    </div>
+  );
+}
+
+function UserInfo({ user }) {
+  return (
+    <div className="account__user-info">
+      <div className="account__user-image">
+        <img
+          alt=""
+          src={user.profilePicture || defaultProfilePic}
+          className="account__user-image-preview"
+        />
+        <div className="account__user-image-change">
+          <p>Profile Picture</p>
+        </div>
+      </div>
+      <div className="account__user-details">
+        <div className="account__user-name">
+          <p className="account__user-name-label">Username:</p>
+          <p className="account__user-name-value">
+            {user.firstName || 'N/A'} {user.lastName || 'N/A'}
+          </p>
+        </div>
+        <div className="account__user-email">
+          <p className="account__user-email-label">Email:</p>
+          <p className="account__user-email-value">{user.email || 'N/A'}</p>
+        </div>
+        <div className="account__user-phone">
+          <p className="account__user-phone-label">Phone:</p>
+          <p className="account__user-phone-value">{user.contactNumber || 'N/A'}</p>
+        </div>
+        <div className="account__user-bio">
+          <p className="account__user-bio-label">Bio:</p>
+          <p className="account__user-bio-value">{user.bio || 'N/A'}</p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function JobSeekerInfo({ skillsList, educationList, experienceList }) {
+  const formatDateAsMonthDayYear = (date) => {
+    const formattedDate = new Date(date);
+    return formattedDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+  };
+
+  return (
+    <div className="account__jobseeker-info">
+      <div className="account__skills">
+        <h4 className="account__skills-title">Skills</h4>
+        <ul className="account__skills-list">
+          {skillsList.map((skill, index) => (
+            <li key={index} className="account__skills-item">
+              {skill.skill}
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div className="account__education">
+        <h4 className="account__education-title">Education</h4>
+        {educationList.map((education, index) => (
+          <div key={index} className="account__education-item">
+            <ul className="account__education-details">
+              <li className="account__education-institution">{education.institution}</li>
+              <li className="account__education-degree">{education.degree}</li>
+              <li className="account__education-discipline">{education.discipline}</li>
+              <li className="account__education-dates">
+                {education.startYear} to {education.endYear}
+              </li>
+            </ul>
+          </div>
+        ))}
+      </div>
+      <div className="account__experience">
+        <h4 className="account__experience-title">Experience</h4>
+        {experienceList.map((experience, index) => (
+          <div key={index} className="account__experience-item">
+            <ul className="account__experience-details">
+              <li className="account__experience-role">{experience.role}</li>
+              <li className="account__experience-company">{experience.company}</li>
+              <li className="account__experience-dates">
+                {formatDateAsMonthDayYear(experience.startDate)} to{' '}
+                {experience.endDate ? formatDateAsMonthDayYear(experience.endDate) : 'Now'}
+              </li>
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function Account() {
-    const { user, userRole } = useSelector((state) => state.user);
-    const [educationList, setEducationList] = useState([]);
-    const [experienceList, setExperienceList] = useState([]);
-    const [skillsList, setSkillsList] = useState([]);
+  const { user, userRole } = useSelector((state) => state.user);
+  const [educationList, setEducationList] = useState([]);
+  const [experienceList, setExperienceList] = useState([]);
+  const [skillsList, setSkillsList] = useState([]);
 
-    const [getJobSeekerEducation] = useGetAllJobSeekerEducationMutation();
-    const [getJobSeekerExperience] = useGetAllJobSeekerExperienceMutation();
-    const [getJobSeekerSkills] = useGetAllJobSeekerSkillsMutation();
+  const [getJobSeekerEducation] = useGetAllJobSeekerEducationMutation();
+  const [getJobSeekerExperience] = useGetAllJobSeekerExperienceMutation();
+  const [getJobSeekerSkills] = useGetAllJobSeekerSkillsMutation();
 
-    // Fetch the job seeker's education when the component mounts
-    useEffect(() => {
-        const fetchEducation = async () => {
-            await getJobSeekerEducation(user.seekerID).then((response) => {
-                setEducationList(response.data);
-            });
-        }
+  useEffect(() => {
+    const fetchData = async () => {
+      if (userRole === 'jobseeker') {
+        const educationResponse = await getJobSeekerEducation(user.seekerID);
+        setEducationList(educationResponse.data);
 
-        const fetchExperience = async () => {
-            await getJobSeekerExperience(user.seekerID).then((response) => {
-                setExperienceList(response.data);
-            });
-        }
+        const experienceResponse = await getJobSeekerExperience(user.seekerID);
+        setExperienceList(experienceResponse.data);
 
-        const fetchSkills = async () => {
-            await getJobSeekerSkills(user.seekerID).then((response) => {
-                setSkillsList(response.data);
-            });
-        }
+        const skillsResponse = await getJobSeekerSkills(user.seekerID);
+        setSkillsList(skillsResponse.data);
+      }
+    };
 
-        if (userRole === "jobseeker") {
-            fetchEducation();
-            fetchExperience();
-            fetchSkills();
-        }
-    }, [getJobSeekerEducation, getJobSeekerExperience, getJobSeekerSkills, user.seekerID, userRole]);
+    fetchData();
+  }, [getJobSeekerEducation, getJobSeekerExperience, getJobSeekerSkills, user.seekerID, userRole]);
 
-    const formatDateAsMonthDayYear = (date) => {
-        const formattedDate = new Date(date);
-        return formattedDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
-    }
-
-    return (
-        <Container className='account_container'>
-            <Row>
-                <div className='account_header'>
-                    <h3 className='header'>{user.firstName}'s Profile</h3>
-                </div>
-                <div className='divider_1'></div>
-            </Row >
-            <Row className='user_info'>
-                <Col md={4} className='user_image_box'>
-                    <img
-                        alt=""
-                        src={user.profilePicture || defaultProfilePic}
-                        style={{ width: 240, height: 250, borderRadius: "50%", objectFit: "cover", marginTop: 30 }}
-                    />
-                    <div className='change-profile-picture'>
-                        <p>Profile Picture</p>
-                    </div>
-                </Col>
-                <Col md={8}>
-                    <div className='user_info_box'>
-                        <div className='user_name_box'>
-                            <p className='user_name'>Username: {user.firstName || "N/A"} {user.lastName || "N/A"}</p>
-                        </div>
-                        <div className='user_email_box'>
-                            <p className='user_email'>Email: {user.email || "N/A"}</p>
-                        </div>
-                        <div className='user_phone_box'>
-                            <p className='user_phone'>Phone: {user.contactNumber || "N/A"}</p>
-                        </div>
-                        <div className='user_bio_box'>
-                            <p className='user_bio'>Bio: {user.bio || "N/A"}</p>
-                        </div>
-                        <div className='user_password_box'>
-                            <p className='user_password'>Password: **********</p>
-                        </div>
-                        <div className='delete_account'>
-                        </div>
-                    </div>
-                </Col>
-            </Row>
-
-            <div className='divider_1'></div>
-
-            {/* When a user is a jobseeker, display the following */}
-            {userRole === "jobseeker" &&
-                <Row className='jobseeker_info'>
-                    <Col md={4} className='jobseeker_info_box'>
-                        {/* Box displaying the job seeker's skills */}
-                        <div className='skills_box'>
-                            <h4>Skills</h4>
-                            <ul>
-                                {skillsList.map((skill, index) => (
-                                    <li key={index}>{skill.skill}</li>
-                                ))}
-                            </ul>
-                        </div>
-
-                        {/* Box displaying the job seeker's education */}
-                        <div className='education_box'>
-                            <h4>Education</h4>
-                            {educationList.map((education, index) => (
-                                <div key={index} className='education_item'>
-                                    <ul>
-                                        <li>{education.institution}</li>
-                                        <li>{education.degree}</li>
-                                        <li>{education.discipline}</li>
-                                        <li>{education.startYear} to {education.endYear}</li>
-                                    </ul>
-                                </div>
-                            ))}
-                        </div>
-
-                        {/* Box displaying the job seeker's experience */}
-                        <div className='experience_box'>
-                            <h4>Experience</h4>
-                            <div className='experience_item'>
-                                {experienceList.map((experience, index) => (
-                                    <div key={index} className='experience_item'>
-                                        <ul>
-                                            <li>{experience.role}</li>
-                                            <li>{experience.company}</li>
-                                            <li>{formatDateAsMonthDayYear(experience.startDate)} to {experience.endDate ? formatDateAsMonthDayYear(experience.endDate) : "Now"}</li>
-                                        </ul>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    </Col>
-                </Row>
-            }
-
-        </Container>
-    )
+  return (
+    <Container className="account__container">
+      <Row>
+        <AccountHeader userName={user.firstName} />
+        <div className="account__divider" />
+      </Row>
+      <Row>
+        <UserInfo user={user} />
+      </Row>
+      {userRole === 'jobseeker' && (
+        <>
+          <div className="account__divider" />
+          <Row>
+            <JobSeekerInfo
+              skillsList={skillsList}
+              educationList={educationList}
+              experienceList={experienceList}
+            />
+          </Row>
+        </>
+      )}
+    </Container>
+  );
 }
 
 export default Account;

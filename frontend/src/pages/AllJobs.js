@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import Job from "../components/Job";
-import { Container, Row, Col, Form, Button, InputGroup, Spinner, Alert } from "react-bootstrap";
+import { Container, Row, Col, Form, Button, Spinner, Alert } from "react-bootstrap";
 import { useGetAllJobListingsMutation, useGetCompanyByIdMutation } from "../services/appApi";
 
 const AllJobs = () => {
 	const [jobList, setJobList] = useState([]);
-	const [searchQuery, setSearchQuery] = useState("");
+	const [searchTerm, setSearchTerm] = useState("");
+	const [filterStatus, setFilterStatus] = useState("Company");
 	const [filteredJobs, setFilteredJobs] = useState([]);
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState(null);
@@ -56,17 +57,36 @@ const AllJobs = () => {
 		fetchJobs();
 	}, [getAllJobListing, getCompanyById]);
 
-	const handleSearch = (event) => {
-		const query = event.target.value.toLowerCase();
-		setSearchQuery(query);
-		const filtered = jobList.filter((job) =>
-			job.companyName.toLowerCase().includes(query) || job.jobTitle.toLowerCase().includes(query)
-		);
+	const handleSearchChange = (event) => {
+		setSearchTerm(event.target.value);
+		const lowerCaseSearchTerm = event.target.value.toLowerCase();
+		let filtered;
+		switch (filterStatus) {
+			case "Company":
+				filtered = jobList.filter((job) =>
+					job.companyName.toLowerCase().includes(lowerCaseSearchTerm)
+				);
+				break;
+			case "Job Title":
+				filtered = jobList.filter((job) =>
+					job.jobTitle.toLowerCase().includes(lowerCaseSearchTerm)
+				);
+				break;
+			case "Location":
+				filtered = jobList.filter((job) =>
+					job.locations.toLowerCase().includes(lowerCaseSearchTerm)
+				);
+				break;
+			default:
+				filtered = jobList;
+		}
 		setFilteredJobs(filtered);
 	};
 
-	const clearSearch = () => {
-		setSearchQuery("");
+	const handleFilterChange = (event) => {
+		setFilterStatus(event.target.value);
+		// Reset search term and filter based on the new selection
+		setSearchTerm("");
 		setFilteredJobs(jobList);
 	};
 
@@ -74,21 +94,23 @@ const AllJobs = () => {
 		<Container fluid className="h-100 p-0 d-flex justify-content-center align-items-center">
 			<Col md={9} lg={11} className="p-4 overflow-auto">
 				<div className="p-4">
-					<Form.Group className="mb-4">
-						<InputGroup>
+					<Form className="mb-4 d-flex justify-content-between">
+						<Form.Group className="flex-grow-1 me-4">
 							<Form.Control
 								type="text"
-								value={searchQuery}
-								onChange={handleSearch}
-								placeholder="Search by company or job title..."
+								placeholder="Search..."
+								value={searchTerm}
+								onChange={handleSearchChange}
 							/>
-							<InputGroup.Text>
-								<Button variant="outline-secondary" onClick={clearSearch} aria-label="Clear search">
-									X
-								</Button>
-							</InputGroup.Text>
-						</InputGroup>
-					</Form.Group>
+						</Form.Group>
+						<Form.Group className="w-auto">
+							<Form.Select value={filterStatus} onChange={handleFilterChange}>
+								<option value="Company">Company</option>
+								<option value="Job Title">Job Title</option>
+								<option value="Location">Location</option>
+							</Form.Select>
+						</Form.Group>
+					</Form>
 
 					{error && (
 						<Alert variant="danger" className="mb-4">

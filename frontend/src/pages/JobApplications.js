@@ -1,21 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { FaSearch } from "react-icons/fa";
-import { Container, Row, Col, Form } from "react-bootstrap";
+import { Container, Col, Form, Spinner, Alert } from "react-bootstrap";
 import Application from "../components/Application";
 import {
-	useGetAllApplicationsMutation,
-	useGetCompanyByIdMutation,
 	useGetApplicationsByJobSeekerIdMutation,
+	useGetCompanyByIdMutation,
 } from "../services/appApi";
 import { useSelector } from "react-redux";
-
 
 function JobApplication() {
 	const { user } = useSelector((state) => state.user);
 	const [applications, setApplications] = useState([]);
 	const [searchTerm, setSearchTerm] = useState("");
 	const [filterStatus, setFilterStatus] = useState("");
-	const [getAllJobApplications] = useGetAllApplicationsMutation();
+	const [loading, setLoading] = useState(false);
+	const [error, setError] = useState(null);
+
 	const [getJobApplications] = useGetApplicationsByJobSeekerIdMutation();
 	const [getCompanyById] = useGetCompanyByIdMutation();
 
@@ -34,6 +34,8 @@ function JobApplication() {
 
 	useEffect(() => {
 		const fetchApplications = async () => {
+			setLoading(true);
+			setError(null);
 			try {
 				const response = await getJobApplications(user.seekerID);
 				if (response.data) {
@@ -51,12 +53,13 @@ function JobApplication() {
 				}
 			} catch (error) {
 				console.error("Error fetching job applications:", error);
+				setError("Error fetching job applications. Please try again later.");
+			} finally {
+				setLoading(false);
 			}
 		};
 		fetchApplications();
-	}, [getJobApplications]);
-
-
+	}, [getJobApplications, getCompanyById, user.seekerID]);
 
 	const handleSearchChange = (event) => {
 		setSearchTerm(event.target.value);
@@ -78,7 +81,6 @@ function JobApplication() {
 		return matchSearchTerm && matchStatus;
 	});
 
-
 	return (
 		<Container
 			fluid
@@ -89,7 +91,7 @@ function JobApplication() {
 					Your Submitted Applications
 				</h3>
 				<h5 className="text-black font-semibold mb-4">
-					{filteredApplications.length} Total Applications
+					{applications.length} Total Applications
 				</h5>
 				<Form className="mb-4 d-flex justify-content-between">
 					<Form.Group className="flex-grow-1 me-4">
@@ -110,7 +112,18 @@ function JobApplication() {
 						</Form.Select>
 					</Form.Group>
 				</Form>
-				{filteredApplications.length > 0 ? (
+				{error && (
+					<Alert variant="danger" className="mb-4">
+						{error}
+					</Alert>
+				)}
+				{loading ? (
+					<div className="text-center">
+						<Spinner animation="border" role="status">
+							<span className="visually-hidden">Loading...</span>
+						</Spinner>
+					</div>
+				) : filteredApplications.length > 0 ? (
 					filteredApplications.map((app, index) => (
 						<Application
 							key={index}
@@ -135,6 +148,6 @@ function JobApplication() {
 			</Col>
 		</Container>
 	);
-};
+}
 
 export default JobApplication;
