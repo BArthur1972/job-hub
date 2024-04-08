@@ -35,6 +35,7 @@ function ProfileModal(props) {
         const fetchExperience = async () => {
             await getJobSeekerExperience(props.seekerID).then((response) => {
                 setExperienceList(response.data);
+                console.log(experienceList)
             });
         }
 
@@ -126,7 +127,7 @@ function ProfileModal(props) {
                                             <ul>
                                                 <li>{experience.role}</li>
                                                 <li>{experience.company}</li>
-                                                <li>{formatDateAsMonthDayYear(experience.startDate)} to {experience.endDate ? formatDateAsMonthDayYear(experience.endDate) : "Now"}</li>
+                                                <li>{formatDateAsMonthDayYear(experience.startDate)} to {experience.endDate !== 'Present' ? formatDateAsMonthDayYear(experience.endDate) : experience.endDate}</li>
                                             </ul>
                                         </div>
                                     ))}

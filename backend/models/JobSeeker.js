@@ -50,8 +50,8 @@ class JobSeeker {
         // Hash password
         Utils.hashPassword(jobSeeker.password)
           .then((hashedPassword) => {
-            const query = `INSERT INTO JobSeeker (firstName, lastName, email, password, contactNumber, bio, state, country, resume, profilePicture)
-                                VALUES ('${jobSeeker.firstName}', '${jobSeeker.lastName}', '${jobSeeker.email}', '${hashedPassword}', '${jobSeeker.contactNumber}', '${jobSeeker.bio}', '${jobSeeker.state}', '${jobSeeker.country}', '${jobSeeker.resume}', '${jobSeeker.profilePicture}')`;
+            const query = `INSERT INTO JobSeeker (firstName, lastName, email, password, contactNumber, bio, location, resume, profilePicture)
+                                VALUES ('${jobSeeker.firstName}', '${jobSeeker.lastName}', '${jobSeeker.email}', '${hashedPassword}', '${jobSeeker.contactNumber}', '${jobSeeker.bio}', '${jobSeeker.location}', '${jobSeeker.resume}', '${jobSeeker.profilePicture}')`;
             dbConnection.query(query, jobSeeker, (err, result) => {
               if (err) {
                 console.log("Error inserting job seeker: ", err);
@@ -111,7 +111,7 @@ class JobSeeker {
   static updateJobSeeker(jobSeekerID, updatedFields) {
     return new Promise((resolve, reject) => {
       // Build the SQL query based on the fields in the updatedFields object
-      const query = `UPDATE JobSeeker SET state = '${updatedFields.state}', country = '${updatedFields.country}' WHERE seekerID = ${jobSeekerID}`;
+      const query = `UPDATE JobSeeker SET location = '${updatedFields.location}' WHERE seekerID = ${jobSeekerID}`;
       dbConnection.query(query, (err, result) => {
         if (err) {
           reject(err.sqlMessage);
