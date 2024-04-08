@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { Container, Row, Col, Form, Button, FormGroup, FormControl } from 'react-bootstrap';
+import { Container, Row, Col, Form, Button, FormGroup, FormControl, FormSelect } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import './styles/AdditionalInfo.css';
 import { useNavigate } from 'react-router-dom';
 import { skillList } from './data/skills';
 import { disciplines } from './data/disciplines';
+import { locations } from './data/locations';
 import { useSelector } from 'react-redux';
 import { useUpdateJobSeekerMutation, useAddJobSeekerEducationMutation, useAddJobSeekerExperienceMutation, useAddJobSeekerSkillsMutation } from '../services/appApi';
 
@@ -14,9 +15,8 @@ function AdditionalInfo() {
     // States for storing additional information
     const [educationLevel, setEducationLevel] = useState("");
     const [educationInfoList, setEducationInfoList] = useState([{ school: '', degree: '', discipline: '', startYear: 0, endYear: 0 }]);
-    const [experienceInfoList, setExperienceInfoList] = useState([{ company: '', role: '', startDate: '', endDate: '' }]);
-    const [country, setCountry] = useState("");
-    const [state, setState] = useState("");
+    const [experienceInfoList, setExperienceInfoList] = useState([{ company: '', role: '', startDate: "", endDate: "" }]);
+    const [location, setLocation] = useState("");
     const [skills, setSkills] = useState([]);
     const [referrerEmail, setReferrerEmail] = useState("");
     const [resumeFiles, setResumeFiles] = useState([]);
@@ -108,8 +108,8 @@ function AdditionalInfo() {
     };
 
     const updateJobSeekerExperienceHandler = async (experiences) => {
-         // Add the experience info
-         experiences.forEach(async (experienceInfo) => {
+        // Add the experience info
+        experiences.forEach(async (experienceInfo) => {
             try {
                 await addJobSeekerExperience({ seekerID: user.seekerID, experienceInfo }).then((response) => {
                     if (response && response.data) {
@@ -137,7 +137,7 @@ function AdditionalInfo() {
                 });
             } catch (err) {
                 console.log("Error adding job seeker skill: ", err);
-            } 
+            }
         });
     };
 
@@ -145,15 +145,32 @@ function AdditionalInfo() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        await updateJobSeekerHandler({ seekerID: user.seekerID, country, state });
+        if (location !== "") {
+            await updateJobSeekerHandler({ seekerID: user.seekerID, location: location });
+        }
 
-        await updateJobSeekerEducationHandler(educationInfoList);
-    
-        await updateJobSeekerExperienceHandler(experienceInfoList);
+        if (educationInfoList[0].school !== "" && educationInfoList[0].degree !== "" && educationInfoList[0].discipline !== "" && educationInfoList[0].startYear !== 0) {
+            educationInfoList.forEach((educationInfo) => {
+                if (educationInfo.endYear === 0) {
+                    educationInfo.endYear = "Present";
+                }
+            });
+            await updateJobSeekerEducationHandler(educationInfoList);
+        }
 
-        await updateJobSeekerSkillsHandler(skills);
-        
-        // Navigate to the dashboard and replace the current page in the history so the user can't go back to this page
+        if (experienceInfoList[0].company !== "" && experienceInfoList[0].role !== "" && experienceInfoList[0].startDate !== "") {
+            experienceInfoList.forEach((experienceInfo) => {
+                if (experienceInfo.endDate === "") {
+                    experienceInfo.endDate = "Present";
+                }
+            });
+            await updateJobSeekerExperienceHandler(experienceInfoList);
+        }
+
+        if (skills.length !== 0) {
+            await updateJobSeekerSkillsHandler(skills);
+        }
+
         navigate("/jobseekerdashboard", { replace: true });
     };
 
@@ -244,7 +261,7 @@ function AdditionalInfo() {
                             <Form.Label>Start Year<span style={{ color: "red" }}>*</span></Form.Label>
                             <FormControl
                                 type="number"
-                                style={{width: '100px'}}
+                                style={{ width: '100px' }}
                                 onChange={(e) => {
                                     const updatedEducationInfoList = [...educationInfoList];
                                     updatedEducationInfoList[index].startYear = e.target.value;
@@ -257,7 +274,7 @@ function AdditionalInfo() {
                             <Form.Label>End Year</Form.Label>
                             <FormControl
                                 type="number"
-                                style={{width: '100px'}}
+                                style={{ width: '100px' }}
                                 onChange={(e) => {
                                     const updatedEducationInfoList = [...educationInfoList];
                                     updatedEducationInfoList[index].endYear = e.target.value;
@@ -266,7 +283,7 @@ function AdditionalInfo() {
                                 value={educationInfo.endYear}
                             />
                         </FormGroup>
-                        <Button variant="danger" style={{borderRadius:"50%", width:"40px", height:"40px"}} onClick={() => removeEducationInfo(index)}>X</Button>
+                        <Button variant="danger" style={{ borderRadius: "50%", width: "40px", height: "40px" }} onClick={() => removeEducationInfo(index)}>X</Button>
                     </div>
                 ))}
 
@@ -326,30 +343,20 @@ function AdditionalInfo() {
                                 value={experienceInfo.endDate}
                             />
                         </FormGroup>
-                        <Button variant="danger" style={{borderRadius:"50%", width:"40px", height:"40px"}} onClick={() => removeExperienceInfo(index)}>X</Button>
+                        <Button variant="danger" style={{ borderRadius: "50%", width: "40px", height: "40px" }} onClick={() => removeExperienceInfo(index)}>X</Button>
                     </div>
                 ))}
 
                 <Link style={{ margin: "30px" }} variant="primary" onClick={addExperienceInfo}>Add An Experience</Link>
 
                 <FormGroup style={{ margin: "30px" }}>
-                    <Form.Label>In which country do you currently reside?<span style={{ color: "red" }}>*</span></Form.Label>
-                    <FormControl
-                        type="text"
-                        placeholder="Enter your country"
-                        onChange={(e) => setCountry(e.target.value)}
-                        value={country}
-                    />
-                </FormGroup>
-
-                <FormGroup style={{ margin: "30px" }}>
-                    <Form.Label>In which state do you currently reside?<span style={{ color: "red" }}>*</span></Form.Label>
-                    <FormControl
-                        type="text"
-                        placeholder="Enter your state"
-                        onChange={(e) => setState(e.target.value)}
-                        value={state}
-                    />
+                    <Form.Label>What is your location preference?<span style={{ color: "red" }}>*</span></Form.Label>
+                    <FormSelect value={location} onChange={(e) => setLocation(e.target.value)}>
+                        <option value="">Select Your Location</option>
+                        {locations.map((location, index) => (
+                            <option key={index} value={location}>{location}</option>
+                        ))}
+                    </FormSelect>
                 </FormGroup>
 
                 <FormGroup style={{ margin: "30px" }}>

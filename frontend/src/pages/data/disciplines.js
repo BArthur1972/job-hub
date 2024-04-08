@@ -62,5 +62,10 @@ export const disciplines = [
     "Theater Arts",
     "Urban Planning",
     "Veterinary Services",
+    "Software Development",
+    "Social Work",
+    "Machine Learning",
+    "Artificial Intelligence",
+    "Data Science",
     "Other"
 ];
