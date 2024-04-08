@@ -190,6 +190,22 @@ class Application {
 			});
 		});
 	}
+
+	// Get Number of applicants for a specific recruiter's job listings by recruiterID
+	static getNumberOfApplicantsByRecruiterId(recruiterID) {
+		return new Promise((resolve, reject) => {
+			const query = `SELECT COUNT(*) as count FROM Application INNER JOIN JobListing ON Application.jobID = JobListing.jobID WHERE JobListing.recruiterID = ${recruiterID}`;
+			dbConnection.query(query, (err, result) => {
+				if (err) {
+					console.log("Error getting number of applicants by recruiter id: ", err);
+					reject("Error getting number of applicants by recruiter id");
+				} else {
+					console.log(result);
+					resolve(result[0]);
+				}
+			});
+		});
+	}
 }
 
 module.exports = Application;
