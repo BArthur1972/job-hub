@@ -1,9 +1,8 @@
 const router = require('express').Router();
 const JobSeekerExperience = require('../models/JobSeekerExperience');
-const auth = require('../middleware/jobSeekerAuth');
 
 // Add a job seeker experience
-router.post('/insert', auth, async (req, res) => {
+router.post('/insert', async (req, res) => {
     try {
         const { seekerID, experienceInfo } = req.body;
         await JobSeekerExperience.insertExperience(seekerID, experienceInfo);
@@ -15,7 +14,7 @@ router.post('/insert', auth, async (req, res) => {
 });
 
 // Get all job seeker experience
-router.get('/getAll/:seekerID', auth, async (req, res) => {
+router.get('/getAll/:seekerID', async (req, res) => {
     try {
         const { seekerID } = req.params;
         const experience = await JobSeekerExperience.getExperience(seekerID);

@@ -1,12 +1,30 @@
-import React from "react";
-import { Container, Row, Col, Button, Card } from "react-bootstrap";
+import React, { useState, useEffect } from "react";
+import { Container, Row, Col, Card } from "react-bootstrap";
 import { HiOutlinePlusSmall } from "react-icons/hi2";
 import { FaClipboardCheck, FaUser } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { useGetNumberOfApplicantsByRecruiterIdMutation, useGetNumberOfJobListingsByRecruiterIdMutation } from "../services/appApi";
 
 function RecruiterDashboard() {
   const { user } = useSelector((state) => state.user);
+  const [numberOfJobListings, setNumberOfJobListings] = useState(0);
+  const [numberOfApplicants, setNumberOfApplicants] = useState(0);
+  const [getNumberOfJobListingsByRecruiterId] = useGetNumberOfJobListingsByRecruiterIdMutation();
+  const [getNumberOfApplicantsByRecruiterId] = useGetNumberOfApplicantsByRecruiterIdMutation();
+
+  useEffect(() => {
+	getNumberOfJobListingsByRecruiterId(user.recruiterID)
+	  .then((response) => {
+		console.log(response);
+		setNumberOfJobListings(response.data.count);
+	  });
+	getNumberOfApplicantsByRecruiterId(user.recruiterID)
+	  .then((response) => {
+		console.log(response);
+		setNumberOfApplicants(response.data.count);
+	  });
+  }, [getNumberOfApplicantsByRecruiterId, getNumberOfJobListingsByRecruiterId, user.recruiterID]);
 
   return (
     <Container className="flex justify-content-center align-items-center p-4 mt-5">
@@ -41,7 +59,7 @@ function RecruiterDashboard() {
                       <FaClipboardCheck className="me-3 text-primary display-4" />
                       <div>
                         <h5 className="mb-0">Job postings:</h5>
-                        <span className="fw-bold fs-4">10</span>
+                        <span className="fw-bold fs-4">{numberOfJobListings}</span>
                       </div>
                     </div>
                     <Link
@@ -61,7 +79,7 @@ function RecruiterDashboard() {
                       <FaUser className="me-3 text-primary display-4" />
                       <div>
                         <h5 className="mb-0">Job applicants:</h5>
-                        <span className="fw-bold fs-4">10</span>
+                        <span className="fw-bold fs-4">{numberOfApplicants}</span>
                       </div>
                     </div>
                     <Link
