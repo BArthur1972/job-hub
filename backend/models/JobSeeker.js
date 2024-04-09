@@ -111,8 +111,8 @@ class JobSeeker {
   static updateJobSeeker(jobSeekerID, updatedFields) {
     return new Promise((resolve, reject) => {
       // Build the SQL query based on the fields in the updatedFields object
-      const query = `UPDATE JobSeeker SET location = '${updatedFields.location}' WHERE seekerID = ${jobSeekerID}`;
-      dbConnection.query(query, (err, result) => {
+    const query = `UPDATE JobSeeker SET location = ?, resume = ? WHERE seekerID = ?`;
+    dbConnection.query(query, [updatedFields.location, updatedFields.resume, jobSeekerID], (err, result) => {
         if (err) {
           reject(err.sqlMessage);
         } else {
@@ -130,7 +130,6 @@ class JobSeeker {
     });
   }
 
-  // Get job seeker by email and password
   // Get job seeker by email and password
   static async getUserByCredentials(email, password) {
     const query = `SELECT * FROM JobSeeker WHERE email = '${email}'`;

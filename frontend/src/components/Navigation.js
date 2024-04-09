@@ -35,7 +35,7 @@ function Navigation() {
 					navigate('/login');
 				}
 			}).catch((error) => {
-				console.log("Error logging out job seeker")
+				console.log("Error logging out job seeker");
 				alert(error);
 				return;
 			});
