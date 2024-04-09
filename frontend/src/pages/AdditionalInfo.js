@@ -7,6 +7,7 @@ import { skillList } from './data/skills';
 import { disciplines } from './data/disciplines';
 import { locations } from './data/locations';
 import { useSelector } from 'react-redux';
+import { Cloudinary } from "@cloudinary/url-gen";
 import { useUpdateJobSeekerMutation, useAddJobSeekerEducationMutation, useAddJobSeekerExperienceMutation, useAddJobSeekerSkillsMutation } from '../services/appApi';
 
 function AdditionalInfo() {
@@ -19,7 +20,8 @@ function AdditionalInfo() {
     const [location, setLocation] = useState("");
     const [skills, setSkills] = useState([]);
     const [referrerEmail, setReferrerEmail] = useState("");
-    const [resumeFiles, setResumeFiles] = useState([]);
+    const [resumeFile, setResumeFile] = useState(null);
+    const [uploadingFile, setUploadingFile] = useState(false);
     const navigate = useNavigate();
 
     const [updateJobSeeker] = useUpdateJobSeekerMutation();
@@ -55,10 +57,39 @@ function AdditionalInfo() {
     const handleFileUpload = (e) => {
         e.preventDefault();
 
-        const files = e.target.files;
-        console.log(files);
-        setResumeFiles(files);
+        const file = e.target.files[0];
+        setResumeFile(file);
     };
+
+    async function uploadFile() {
+		const data = new FormData();
+		data.append("file", resumeFile);
+		console.log("Selected resume: ", resumeFile);
+        data.append("resource_type", "raw");
+		data.append("upload_preset", "chat_app_uploaded_file");
+        data.append("folder", "jobhub");
+
+		// Upload file to cloudinary using the cloudinary API
+		try {
+			setUploadingFile(true);
+			const cloudinary_cloud_name = process.env.REACT_APP_CLOUDINARY_CLOUD_NAME;
+			let res = await fetch(
+				`https://api.cloudinary.com/v1_1/${cloudinary_cloud_name}/upload`,
+				{
+					method: "post",
+					body: data,
+				}
+			);
+
+			const urlData = await res.json();
+			setUploadingFile(false);
+            console.log(urlData);
+			return urlData.url;
+		} catch (e) {
+			setUploadingFile(false);
+			console.log(e);
+		}
+	}
 
     // Function to handle skills change
     const handleSkillChange = (e) => {
@@ -145,8 +176,9 @@ function AdditionalInfo() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (location !== "") {
-            await updateJobSeekerHandler({ seekerID: user.seekerID, location: location });
+        if (location !== "" && resumeFile !== null) {
+            const resumeUrl = await uploadFile();
+            await updateJobSeekerHandler({ seekerID: user.seekerID, location: location, resume: resumeUrl });
         }
 
         if (educationInfoList[0].school !== "" && educationInfoList[0].degree !== "" && educationInfoList[0].discipline !== "" && educationInfoList[0].startYear !== 0) {
@@ -388,7 +420,6 @@ function AdditionalInfo() {
                     <Form.Label>Upload your Resume/CV<span style={{ color: "red" }}>*</span></Form.Label>
                     <FormControl
                         type="file"
-                        multiple
                         onChange={(e) => handleFileUpload(e)}
                     />
                 </FormGroup>

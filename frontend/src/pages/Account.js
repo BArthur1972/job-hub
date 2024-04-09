@@ -101,6 +101,15 @@ function JobSeekerInfo({ skillsList, educationList, experienceList }) {
 	);
 }
 
+function Resume(user) {
+	return (
+		<div className="account__resume">
+			<p className="account__resume-download">Download Resume</p>
+			<embed src={user.resume} type="application/pdf" width="100%" height="100%" />
+		</div>
+	);
+}
+
 function Account() {
 	const { user, userRole } = useSelector((state) => state.user);
 	const [educationList, setEducationList] = useState([]);
@@ -146,6 +155,10 @@ function Account() {
 							educationList={educationList}
 							experienceList={experienceList}
 						/>
+					</Row>
+					<div className="account__divider" />
+					<Row> 
+						<Resume user={user} />
 					</Row>
 				</>
 			)}
