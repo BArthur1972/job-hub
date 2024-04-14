@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
+import { FaPlusCircle } from 'react-icons/fa';
 import './styles/Signup.css';
 import defaultProfilePic from '../assets/defaultProfilePic.jpg';
 import { useSignupRecruiterMutation, useSignupJobSeekerMutation } from '../services/appApi';
-import { useSelector } from 'react-redux';
 
 function Signup() {
     // States for storing user data
@@ -15,16 +15,63 @@ function Signup() {
     const [contactNumber, setContactNumber] = useState("");
     const [bio, setBio] = useState("");
     const [role, setRole] = useState("");
-    const [profilePicture, setProfilePicture] = useState("");
     const [companyName, setCompanyName] = useState("");
     const navigate = useNavigate();
     const [signupJobSeeker] = useSignupJobSeekerMutation();
     const [signupRecruiter] = useSignupRecruiterMutation();
 
+    const [image, setImage] = useState("");
+    const [uploadingImage, setUploadingImage] = useState(false);
+    const [imagePreview, setImagePreview] = useState(null);
+
+    function validateImage(e) {
+        const file = e.target.files[0];
+
+        // Check if image size is greater than 10mb
+        if (file.size > 10485760) {
+            return alert("Max file size is 10 MB");
+        } else {
+            setImage(file);
+            setImagePreview(URL.createObjectURL(file));
+        }
+    }
+
+    async function uploadImage() {
+        const data = new FormData();
+        data.append("file", image);
+        data.append("upload_preset", "chat_app_uploaded_file");
+        data.append("folder", "jobhub/profile_pictures");
+
+        // Upload image to cloudinary api
+        try {
+            setUploadingImage(true);
+            const cloudinary_cloud_name = process.env.REACT_APP_CLOUDINARY_CLOUD_NAME;
+            let res = await fetch(
+                `https://api.cloudinary.com/v1_1/${cloudinary_cloud_name}/upload`,
+                {
+                    method: "post",
+                    body: data,
+                }
+            );
+
+            const urlData = await res.json();
+            setUploadingImage(false);
+            return urlData.url;
+        } catch (e) {
+            setUploadingImage(false);
+            console.log(e);
+        }
+    }
+
     async function handleSignup(e) {
         e.preventDefault();
 
-        if (role == "recruiter") {
+        let profilePicture = "";
+
+        // Upload image to cloudinary and get the url back 
+        if (image) { profilePicture = await uploadImage(); }
+
+        if (role === "recruiter") {
             const recruiter = {
                 firstName,
                 lastName,
@@ -42,6 +89,9 @@ function Signup() {
                     console.log(response.data);
 
                     navigate("/recruiterdashboard");
+                } else if (response.error) {
+                    console.log(response.error.data.error);
+                    alert("Error signing up recruiter: " + response.error.data.error);           
                 }
             }).catch((error) => {
                 console.log("Error signing up recruiter")
@@ -65,6 +115,9 @@ function Signup() {
                     console.log(response.data);
 
                     navigate("/additional-info");
+                } else if (response.error) {
+                    console.log(response.error.data.error);
+                    alert("Error signing up job seeker: " + response.error.data.error);
                 }
             }).catch((error) => {
                 console.log("Error signing up job seeker")
@@ -81,19 +134,19 @@ function Signup() {
                         <h1 className="text-center">Create An Account</h1>
                         <div className="signup-profile-pic__container">
                             <img
-                                src={defaultProfilePic}
+                                src={imagePreview || defaultProfilePic}
                                 className="signup-profile-pic"
                                 alt=""
                             />
                             <label htmlFor="image-upload" className="image-upload-label">
-                                <i className="fas fa-plus-circle add-picture-icon"></i>
+                                <FaPlusCircle className="add-picture-icon"></FaPlusCircle>
                             </label>
                             <input
                                 type="file"
                                 id="image-upload"
                                 hidden
                                 accept="image/png, image/jpeg"
-                                onChange={(e) => setProfilePicture(e.target.files[0])}
+                                onChange={validateImage}
                             />
                         </div>
                         <Form.Group className="mb-3" controlId="formBasicName">

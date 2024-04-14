@@ -33,7 +33,7 @@ const Job = ({ jobID, companyName, jobTitle, experienceLevels, locations, posted
             } else if (response.error) {
                 console.log("Error submitting application");
                 console.log(response.error);
-                alert(response.error.data.error);
+                alert("Error submitting application: " + response.error.data.error);
             }
         });
     };

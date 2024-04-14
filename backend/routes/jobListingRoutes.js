@@ -70,7 +70,7 @@ router.post("/create", async (req, res) => {
 		res.status(200).send(jobListing);
 	} catch (err) {
 		console.log("Error creating job listing: ", err);
-		res.status(500).send("Error creating job listing");
+		res.status(500).send({error: err});
 	}
 });
 

@@ -36,14 +36,12 @@ function NewJobPosting() {
         jobPost.recruiterID = user.recruiterID;
         await createJobListing(jobPost).then((response) => {
             if (response && response.data) {
-                console.log("Job posted successfully");
                 console.log(response.data);
                 alert("Job posted successfully");
-                navigate(-1);
+                navigate('/recruiterdashboard');
             } else if (response.error) {
-                console.log("Error posting job here");
-                console.log(response.error);
-                alert(response.error.data.error);
+                console.log(response.error.data.error);
+                alert("Error posting job: " + response.error.data.error);
             }
         });
     }

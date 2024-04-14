@@ -32,9 +32,12 @@ router.get('/:recruiterID', async (req, res) => {
 router.post('/signup', async (req, res) => {
     try {
         const getCompanyByName = await Company.getCompanyByName(req.body.companyName);
+        if (getCompanyByName.length === 0) {
+            return res.status(400).send({error: "Company does not exist. Please make sure your company is registered as a partner with us."});
+        }
         req.body.companyID = getCompanyByName[0].companyID;
         delete req.body.companyName;
-        console.log(req.body);
+        
         const recruiter = await Recruiter.signupRecruiter(req.body);
         const recruiterWithToken = await Recruiter.generateAuthTokenAndAddToRecruiter(recruiter);
         console.log({user:recruiterWithToken, token:recruiterWithToken.token});
