@@ -65,7 +65,7 @@ class JobSeeker {
                     resolve(jobSeeker[0]);
                   })
                   .catch((err) => {
-                    reject(err);
+                    reject(err.sqlMessage);
                   });
               }
             });

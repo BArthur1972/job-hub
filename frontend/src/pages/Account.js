@@ -19,7 +19,7 @@ function UserInfo({ user }) {
 			<div className="account__user-image">
 				<img
 					alt=""
-					src={user.profilePicture || defaultProfilePic}
+					src={user && user.profilePicture != "" ? user.profilePicture : defaultProfilePic}
 					className="account__user-image-preview"
 				/>
 				<div className="account__user-image-change">
@@ -58,7 +58,7 @@ function JobSeekerInfo({ skillsList, educationList, experienceList }) {
 
 	return (
 		<div className="account__jobseeker-info">
-			<div className="account__skills">
+			{skillsList.length > 0 && <div className="account__skills">
 				<h4 className="account__skills-title">Skills</h4>
 				<ul className="account__skills-list">
 					{skillsList.map((skill, index) => (
@@ -67,8 +67,8 @@ function JobSeekerInfo({ skillsList, educationList, experienceList }) {
 						</li>
 					))}
 				</ul>
-			</div>
-			<div className="account__education">
+			</div>}
+			{educationList.length > 0 && <div className="account__education">
 				<h4 className="account__education-title">Education</h4>
 				{educationList.map((education, index) => (
 					<div key={index} className="account__education-item">
@@ -82,8 +82,8 @@ function JobSeekerInfo({ skillsList, educationList, experienceList }) {
 						</ul>
 					</div>
 				))}
-			</div>
-			<div className="account__experience">
+			</div>}
+			{experienceList.length > 0 && <div className="account__experience">
 				<h4 className="account__experience-title">Experience</h4>
 				{experienceList.map((experience, index) => (
 					<div key={index} className="account__experience-item">
@@ -96,7 +96,7 @@ function JobSeekerInfo({ skillsList, educationList, experienceList }) {
 						</ul>
 					</div>
 				))}
-			</div>
+			</div>}
 		</div>
 	);
 }

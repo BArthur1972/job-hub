@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Card, Form, Button } from "react-bootstrap";
 import ProfileModal from "./ProfileModal";
 import {
-	FaUserCircle,
 	FaFileAlt,
 	FaPen,
 	FaCheckCircle,
@@ -10,6 +9,7 @@ import {
 } from "react-icons/fa";
 import { useUpdateApplicationMutation } from "../services/appApi";
 import styles from "./styles/applicantCard.module.css";
+import defaultProfilePicture from "../assets/defaultProfilePic.jpg";
 
 const statusColors = {
 	Applied: "#8b8b8b",
@@ -26,6 +26,7 @@ const ApplicantCard = ({
 	status,
 	location,
 	email,
+	profilePicture,
 	onUpdateStatus
 }) => {
 
@@ -54,7 +55,12 @@ const ApplicantCard = ({
 		<Card className={`${styles.card} mb-4`}>
 			<Card.Body className="d-flex justify-content-between align-items-center">
 				<div className="d-flex align-items-center">
-					<FaUserCircle size={48} className={`${styles.userIcon} me-4`} />
+					<img
+						className="me-4"
+						style={{ width: "70px", height: "70px", borderRadius: "50%" }}
+						src={profilePicture !== "" ? profilePicture : defaultProfilePicture}
+						alt=""
+					/>
 					<div>
 						<Card.Title className={`${styles.name} text-truncate`}>
 							{name}

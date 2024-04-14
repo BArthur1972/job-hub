@@ -59,7 +59,7 @@ class Recruiter {
                                 this.getRecruiterById(recruiterId).then((recruiter) => {
                                     resolve(recruiter[0]);
                                 }).catch((err) => {
-                                    reject(err);
+                                    reject(err.sqlMessage);
                                 });
                             }
                         });
