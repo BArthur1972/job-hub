@@ -4,7 +4,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 const appApi = createApi({
     reducerPath: 'appApi',
     baseQuery: fetchBaseQuery({
-        baseUrl: 'http://localhost:5001',
+        baseUrl: 'http://localhost:5002',
         prepareHeaders: (headers, { getState }) => {
             const user = getState().user;
             if (user && user.token) {
@@ -203,7 +203,7 @@ const appApi = createApi({
             }),
         }),
 
-        // delete an application
+        // Withdraw an application
         deleteApplication: builder.mutation({
             query: (payload) => ({
                 url: "/application/delete",

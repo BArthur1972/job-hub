@@ -147,6 +147,7 @@ class Application {
 					console.log("Error deleting application: ", err);
 					reject(err.sqlMessage);
 				} else {
+					console.log(result);
 					resolve("Application deleted successfully");
 				}
 			});
