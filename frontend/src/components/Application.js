@@ -1,7 +1,8 @@
 import React from "react";
-import { FaHourglassHalf, FaBuilding, FaFileAlt } from "react-icons/fa";
+import { FaBuilding, FaCalendarTimes } from "react-icons/fa";
 import { FaLocationDot } from "react-icons/fa6";
 import { Card, Form, Image } from "react-bootstrap";
+import WithdrawApplicationModal from "./WithdrawApplicationModal";
 
 const statusColors = {
   Interested: "#8b8b8b", // gray-400
@@ -17,6 +18,7 @@ const Application = ({
   jobTitle,
   status,
   location,
+  dateApplied,
   onUpdateStatus,
 }) => {
   const handleStatusChange = (e) => {
@@ -27,6 +29,11 @@ const Application = ({
   const logoURL = `https://logo.clearbit.com/${companyName
     .toLowerCase()
     .replace(/\s+/g, "")}.com?size=70`;
+
+  function formatDate(date) {
+    const options = { year: "numeric", month: "long", day: "numeric" };
+    return new Date(date).toLocaleDateString(undefined, options);
+  }
 
   return (
     <Card className="mb-4">
@@ -50,6 +57,9 @@ const Application = ({
             <Card.Text className="text-xs text-gray-600 d-flex align-items-center">
               <FaLocationDot className="me-2" /> {location}
             </Card.Text>
+            <Card.Text className="text-xs text-gray-600">
+              <FaCalendarTimes className="me-2" /> Applied on {formatDate(dateApplied)}
+            </Card.Text>
           </div>
         </div>
         <div className="d-flex flex-column flex-md-row align-items-start align-items-md-center mt-3 mt-md-0">
@@ -58,8 +68,8 @@ const Application = ({
             style={{ color: statusColors[status] }}
           >
           </span>
-          {/** Only show the status. THey should not be able to change it */}
           <Form.Label className="text-sm text-gray-600">Status: {status}</Form.Label>
+          <WithdrawApplicationModal jobID={id} />
         </div>
       </Card.Body>
     </Card>

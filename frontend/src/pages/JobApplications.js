@@ -46,6 +46,7 @@ function JobApplication() {
 							jobTitle: application.jobTitle,
 							status: application.status,
 							location: application.location,
+							dateApplied: application.dateApplied,
 						}))
 					);
 					console.log("transformedApplications", transformedApplications);
