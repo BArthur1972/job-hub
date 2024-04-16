@@ -4,6 +4,8 @@ import './styles/Account.css';
 import defaultProfilePic from '../assets/defaultProfilePic.jpg';
 import { useSelector } from 'react-redux';
 import { useGetAllJobSeekerEducationMutation, useGetAllJobSeekerExperienceMutation, useGetAllJobSeekerSkillsMutation } from '../services/appApi';
+import RecruiterAnalytics from '../components/RecruiterAnalytics';
+import JobSeekerAnalytics from '../components/JobSeekerAnalytics';
 
 function AccountHeader({ userName }) {
 	return (
@@ -146,6 +148,22 @@ function Account() {
 							educationList={educationList}
 							experienceList={experienceList}
 						/>
+					</Row>
+				</>
+			)}
+			{userRole === 'jobseeker' && (
+				<>
+					<div className="account__divider" />
+					<Row>
+						<JobSeekerAnalytics />
+					</Row>
+				</>
+			)}
+			{userRole === 'recruiter' && (
+				<>
+					<div className="account__divider" />
+					<Row>
+						<RecruiterAnalytics />
 					</Row>
 				</>
 			)}
