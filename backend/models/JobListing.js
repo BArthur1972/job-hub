@@ -187,22 +187,35 @@ class JobListing {
             })
           );
 
-          // Delete the job listing
-          dbConnection.query(
-            `DELETE FROM JobListing WHERE jobID = ${jobListingId} AND recruiterID = ${recruiterId}`,
-            (err, result) => {
-              if (err) {
-                console.log("Error deleting job listing: ", err);
-                reject({ error: "Error deleting job listing" });
-              } else {
-                resolve({ message: "Job listing deleted successfully" });
-              }
-            }
-          );
-        }
-      });
-    });
-  }
+                    // Delete the job listing
+                    dbConnection.query(`DELETE FROM JobListing WHERE jobID = ${jobListingId} AND recruiterID = ${recruiterId}`, (err, result) => {
+                        if (err) {
+                            console.log('Error deleting job listing: ', err);
+                            reject({ error: 'Error deleting job listing' });
+                        } else {
+                            resolve({ message: 'Job listing deleted successfully' });
+                        }
+                    });
+                }
+            });
+        });
+    }
+
+    // Get number of job listings for a specific recruiter by recruiterID
+	static getNumberOfJobListingsByRecruiterId(recruiterID) {
+		return new Promise((resolve, reject) => {
+			const query = `SELECT COUNT(*) as count FROM JobListing WHERE recruiterID = ${recruiterID}`;
+			dbConnection.query(query, (err, result) => {
+				if (err) {
+					console.log("Error getting number of job listings by recruiter id: ", err);
+					reject("Error getting number of job listings by recruiter id");
+				} else {
+					console.log(result);
+					resolve(result[0]);
+				}
+			});
+		});
+	}
 }
 
 module.exports = JobListing;

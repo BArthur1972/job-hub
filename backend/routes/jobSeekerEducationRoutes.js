@@ -1,9 +1,8 @@
 const router = require('express').Router();
 const JobSeekerEducation = require('../models/JobSeekerEducation');
-const auth = require('../middleware/jobSeekerAuth');
 
 // Add a job seeker education
-router.post('/insert', auth, async (req, res) => {
+router.post('/insert', async (req, res) => {
     try {
         const { seekerID, educationInfo } = req.body;
         await JobSeekerEducation.insertEducation(seekerID, educationInfo);
@@ -15,7 +14,7 @@ router.post('/insert', auth, async (req, res) => {
 });
 
 // Get all job seeker education
-router.get('/getAll/:seekerID', auth, async (req, res) => {
+router.get('/getAll/:seekerID', async (req, res) => {
     try {
         const { seekerID } = req.params;
         const education = await JobSeekerEducation.getEducation(seekerID);

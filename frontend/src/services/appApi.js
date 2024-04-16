@@ -260,6 +260,22 @@ const appApi = createApi({
                 body: payload,
             }),
         }),
+
+        // Get number of job listings for a specific recruiter by recruiterID
+        getNumberOfJobListingsByRecruiterId: builder.mutation({
+            query: (id) => ({
+                url: `/joblisting/count/${id}`,
+                method: 'GET',
+            }),
+        }),
+
+        // Get number of applicants for all job listings by a recruiter
+        getNumberOfApplicantsByRecruiterId: builder.mutation({
+            query: (id) => ({
+                url: `/application/count/${id}`,
+                method: 'GET',
+            }),
+        }),
     }),
 });
 
@@ -292,6 +308,8 @@ export const {
     useGetApplicantsByRecruiterIdMutation,
     useGetJobListingsByRecruiterIdMutation,
     useUpdateJobListingByIdMutation,
-    useDeleteJobListingByIdMutation } = appApi;
+    useDeleteJobListingByIdMutation,
+    useGetNumberOfApplicantsByRecruiterIdMutation,
+    useGetNumberOfJobListingsByRecruiterIdMutation } = appApi;
 
 export default appApi;

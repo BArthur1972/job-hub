@@ -98,7 +98,7 @@ router.delete("/delete", async (req, res) => {
 });
 
 // Get applicants for job listings by a recruiter id
-router.get("/applicants/:recruiterID", recruiterAuth, async (req, res) => {
+router.get("/applicants/:recruiterID", async (req, res) => {
 	try {
 		const { recruiterID } = req.params;
 		const applicants = await Application.getApplicantsByRecruiterId(recruiterID);
@@ -106,6 +106,19 @@ router.get("/applicants/:recruiterID", recruiterAuth, async (req, res) => {
 		console.log(applicants);
 	} catch (err) {
 		console.log("Error getting applications by recruiter id: ", err);
+		res.status(500).send({ error: err });
+	}
+});
+
+// Get number of applicants for a recruiter's job listings
+router.get("/count/:recruiterID", async (req, res) => {
+	try {
+		const { recruiterID } = req.params;
+		const count = await Application.getNumberOfApplicantsByRecruiterId(recruiterID);
+		res.status(200).send(count);
+		console.log(count);
+	} catch (err) {
+		console.log("Error getting number of applicants by recruiter id: ", err);
 		res.status(500).send({ error: err });
 	}
 });
