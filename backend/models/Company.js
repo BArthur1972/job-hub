@@ -26,7 +26,7 @@ class Company {
 			dbConnection.query(query, (err, result) => {
 				if (err) {
 					console.log("Error getting company by name: ", err);
-					reject("Error getting company by name");
+					reject(err.sqlMessage);
 				} else {
 					const companyJSON = Utils.toJSON(result);
 					console.log(companyJSON);

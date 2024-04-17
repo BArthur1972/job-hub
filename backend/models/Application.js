@@ -147,6 +147,7 @@ class Application {
 					console.log("Error deleting application: ", err);
 					reject(err.sqlMessage);
 				} else {
+					console.log(result);
 					resolve("Application deleted successfully");
 				}
 			});
@@ -166,7 +167,7 @@ class Application {
 					const applicationsWithJobSeeker = await Promise.all(
 						result.map(async (application) => {
 							const jobSeeker = await JobSeeker.getJobSeekerById(application.seekerID);
-							return { ...application, name: jobSeeker[0].firstName + " " + jobSeeker[0].lastName, email: jobSeeker[0].email };
+							return { ...application, name: jobSeeker[0].firstName + " " + jobSeeker[0].lastName, email: jobSeeker[0].email, profilePicture: jobSeeker[0].profilePicture };
 						})
 					);
 					// Resolve the promise with the processed applications

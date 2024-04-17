@@ -1,109 +1,126 @@
 .account__container {
-	padding: 2rem;
-	border: 1px solid #e0e0e0;
-  }
-  
-  .account__header {
-	display: flex;
-	justify-content: center;
-	margin-bottom: 1rem;
-  }
-  
-  .account__header-title {
-	font-size: 1.75rem;
-	font-weight: bold;
-  }
-  
-  .account__divider {
-	width: 100%;
-	height: 1px;
-	background-color: #e0e0e0;
-	margin: 1.5rem 0;
-  }
-  
-  .account__user-info {
-	display: flex;
-	align-items: flex-start;
-  }
-  
-  .account__user-image {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	margin-right: 2rem;
-  }
-  
-  .account__user-image-preview {
-	width: 240px;
-	height: 250px;
-	border-radius: 50%;
-	object-fit: cover;
-	margin-top: 30px;
-  }
-  
-  .account__user-image-change {
-	margin-top: 0.5rem;
-  }
-  
-  .account__user-details {
-	flex-grow: 1;
-  }
-  
-  .account__user-name,
-  .account__user-email,
-  .account__user-phone,
-  .account__user-bio,
-  .account__user-password {
-	margin-bottom: 0.75rem;
-  }
-  
-  .account__user-name-label,
-  .account__user-email-label,
-  .account__user-phone-label,
-  .account__user-bio-label,
-  .account__user-password-label {
-	font-weight: bold;
-	margin-right: 0.5rem;
-  }
-  
-  .account__jobseeker-info {
-	display: grid;
-	grid-template-columns: repeat(3, 1fr);
-	grid-gap: 2rem;
-  }
-  
-  .account__skills,
-  .account__education,
-  .account__experience {
-	border: 1px solid #e0e0e0;
-	border-radius: 4px;
-	padding: 1rem;
-  }
-  
-  .account__skills-title,
-  .account__education-title,
-  .account__experience-title {
-	font-size: 1.25rem;
-	font-weight: bold;
-	margin-bottom: 1rem;
-  }
-  
-  .account__skills-list {
-	list-style-type: none;
-	padding: 0;
-  }
-  
-  .account__skills-item {
-	margin-bottom: 0.5rem;
-  }
-  
-  .account__education-item,
-  .account__experience-item {
-	margin-bottom: 1rem;
-  }
-  
-  .account__education-details,
-  .account__experience-details {
-	list-style-type: none;
-	padding: 0;
-  }
+  padding: 2rem;
+  border: 1px solid #e0e0e0;
+}
+
+.account__header {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.account__header-title {
+  font-size: 1.75rem;
+  font-weight: bold;
+}
+
+.account__divider {
+  width: 100%;
+  height: 1px;
+  background-color: #e0e0e0;
+  margin: 1.5rem 0;
+}
+
+.account__user-info {
+  display: flex;
+  align-items: flex-start;
+}
+
+.account__user-image {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 2rem;
+}
+
+.account__user-image-preview {
+  width: 240px;
+  height: 250px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-top: 30px;
+}
+
+.account__user-image-change {
+  margin-top: 0.5rem;
+}
+
+.account__user-details {
+  flex-grow: 1;
+}
+
+.account__user-name,
+.account__user-email,
+.account__user-phone,
+.account__user-bio,
+.account__user-password {
+  margin-bottom: 0.75rem;
+}
+
+.account__user-name-label,
+.account__user-email-label,
+.account__user-phone-label,
+.account__user-bio-label,
+.account__user-password-label {
+  font-weight: bold;
+  margin-right: 0.5rem;
+}
+
+.account__jobseeker-info {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 2rem;
+}
+
+.account__skills,
+.account__education,
+.account__experience {
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  padding: 1rem;
+}
+
+.account__skills-title,
+.account__education-title,
+.account__experience-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.account__skills-list {
+  list-style: none;
+  padding: 0;
+}
+
+.account__skills-item {
+  margin-bottom: 0.5rem;
+}
+
+.account__education-item,
+.account__experience-item {
+  margin-bottom: 1rem;
+}
+
+.account__education-details,
+.account__experience-details {
+  list-style-type: none;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 0 10px #e0e0e0;
+}
+
+.account__skills-item {
+  display: inline-block;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  padding: 5px 10px;
+  border-radius: 50%;
+  background-color: #007bff;
+  color: #fff;
+  font-size: 13px;
+  font-weight: bold;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Job from "../components/Job";
-import { Container, Row, Col, Form, Button, Spinner, Alert } from "react-bootstrap";
+import { Container, Row, Col, Form, Spinner, Alert } from "react-bootstrap";
 import { useGetAllJobListingsMutation, useGetCompanyByIdMutation } from "../services/appApi";
 
 const AllJobs = () => {
@@ -42,6 +42,9 @@ const AllJobs = () => {
 							locations: job.location,
 							postedDate: new Date(job.postingDate).toDateString(),
 							jobType: job.employmentType,
+							skills: job.skillsRequired.split(","),
+							salary: job.salary,
+							description: job.jobDescription,
 						}))
 					);
 					setJobList(transformedJobs);

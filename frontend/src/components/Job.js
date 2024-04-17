@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { MdExpandMore } from "react-icons/md";
 import { Card, Badge, Button, Row, Col, Image } from "react-bootstrap";
+import JobDetailsModal from "../components/JobDetailsModal";
 import { useCreateApplicationMutation } from "../services/appApi";
 import { useSelector } from "react-redux";
 
 const currentDate = new Date().toISOString().slice(0, 19).replace("T", " ");
 
-const Job = ({ jobID, companyName, jobTitle, experienceLevels, locations, postedDate, jobType }) => {
+const Job = ({ jobID, companyName, jobTitle, experienceLevels, locations, postedDate, jobType, skills, salary, description }) => {
     const generateLogoUrl = (companyName) => {
         return `https://logo.clearbit.com/${companyName.toLowerCase().replace(/\s+/g, "")}.com?size=70`;
     };
@@ -32,7 +33,7 @@ const Job = ({ jobID, companyName, jobTitle, experienceLevels, locations, posted
             } else if (response.error) {
                 console.log("Error submitting application");
                 console.log(response.error);
-                alert(response.error.data.error);
+                alert("Error submitting application: " + response.error.data.error);
             }
         });
     };
@@ -64,11 +65,11 @@ const Job = ({ jobID, companyName, jobTitle, experienceLevels, locations, posted
                                 <MdExpandMore className={`toggle-icon ${isExpanded ? "rotated" : ""}`} />
                             </Button>
                         </div>
-                        <div className="d-flex  justify-content-between align-items-center mb-3 px-4 py-2" style={{background:'#ccd5db'}}>
+                        <div className="d-flex  justify-content-between align-items-center mb-3 px-4 py-2" style={{ background: '#ccd5db' }}>
                             <Badge pill bg={jobType === "Intern" ? "primary" : "success"} className="me-2">
                                 {jobType}
                             </Badge>
-                            <p className="mb-0 text-muted "  style={{ fontSize: "13px", color: "#6B7280" }}>Posted: {formatDate(postedDate)}</p>
+                            <p className="mb-0 text-muted " style={{ fontSize: "13px", color: "#6B7280" }}>Posted: {formatDate(postedDate)}</p>
                         </div>
                         {isExpanded && (
                             <div className="expanded-info">
@@ -95,6 +96,18 @@ const Job = ({ jobID, companyName, jobTitle, experienceLevels, locations, posted
                                     <span style={{ fontSize: "13px", color: "#6B7280" }}>{locations}</span>
                                 </p>
                                 <div className="action-buttons mt-3 d-flex justify-content-end">
+                                    <JobDetailsModal
+                                        jobID={jobID}
+                                        jobTitle={jobTitle}
+                                        companyName={companyName}
+                                        experienceLevels={experienceLevels}
+                                        locations={locations}
+                                        postedDate={postedDate}
+                                        jobType={jobType}
+                                        skills={skills}
+                                        salary={salary}
+                                        description={description}
+                                    />
                                     <Button variant="primary" className="me-2" onClick={handleApply}>
                                         Apply Now
                                     </Button>

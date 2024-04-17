@@ -88,9 +88,9 @@ router.put("/update", async (req, res) => {
 router.delete("/delete", async (req, res) => {
 	try {
 		const { seekerID, jobID } = req.body;
-		const application = await Application.deleteApplication(seekerID, jobID);
-		res.status(200).send(application);
-		console.log(application);
+		await Application.deleteApplication(seekerID, jobID);
+		res.status(200).send({message: "Application deleted successfully"});
+		console.log("Application deleted successfully");
 	} catch (err) {
 		console.log("Error deleting application: ", err);
 		res.status(500).send({ error: err });

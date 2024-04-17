@@ -84,28 +84,27 @@ class JobListing {
     });
   }
 
-  static createJobListing(jobListing) {
-    return new Promise((resolve, reject) => {
-      const query = `INSERT INTO JobListing (jobID, jobTitle, jobDescription, companyID, location, employmentType, postingDate, salary, skillsRequired, experienceRequired, qualificationsRequired, expirationDate, recruiterID)
-                            VALUES ('${jobListing.jobID}', '${jobListing.jobTitle}', '${jobListing.jobDescription}', ${jobListing.companyID}, '${jobListing.location}', '${jobListing.employmentType}', '${jobListing.postingDate}', '${jobListing.salary}', '${jobListing.skillsRequired}', '${jobListing.experienceRequired}', '${jobListing.qualificationsRequired}', '${jobListing.expirationDate}', ${jobListing.recruiterID})`;
-      dbConnection.query(query, jobListing, (err, result) => {
-        if (err) {
-          console.log("Error inserting job listing: ", err);
-          reject(err.sqlMessage);
-        } else {
-          // Get the newly created job listing and return it
-          const jobListingId = result.insertId;
-          this.getJobListingById(jobListingId)
-            .then((jobListing) => {
-              resolve(jobListing[0]);
-            })
-            .catch((err) => {
-              reject(err);
+    static createJobListing(jobListing) {
+        return new Promise((resolve, reject) => {
+            const query = `INSERT INTO JobListing (jobID, jobTitle, jobDescription, companyID, location, employmentType, postingDate, salary, skillsRequired, experienceRequired, qualificationsRequired, expirationDate, recruiterID)
+                            VALUES ('${jobListing.jobID}', '${jobListing.jobTitle}', "${jobListing.jobDescription}", ${jobListing.companyID}, '${jobListing.location}', '${jobListing.employmentType}', '${jobListing.postingDate}', '${jobListing.salary}', '${jobListing.skillsRequired}', "${jobListing.experienceRequired}", "${jobListing.qualificationsRequired}", '${jobListing.expirationDate}', ${jobListing.recruiterID})`;
+            dbConnection.query(query, jobListing, (err, result) => {
+                if (err) {
+                    console.log("Error inserting job listing: ", err);
+                    reject(err.sqlMessage);
+                } else {
+                    // Get the newly created job listing and return it
+                    const jobListingId = result.insertId;
+                    // TODO: Fix this. Does not return the job listing
+                    this.getJobListingById(jobListingId).then((jobListing) => {
+                        resolve(jobListing);
+                    }).catch((err) => {
+                        reject(err.sqlMessage);
+                    });
+                }
             });
-        }
-      });
-    });
-  }
+        });
+    }
 
   // Get job listings by recruiter id
   static getJobListingsByRecruiterId(recruiterId) {
