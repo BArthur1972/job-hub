@@ -15,7 +15,7 @@ function JobSeekerAnalytics() {
   const user = useSelector((state) => state.user);
   const [getAllApplications] = useGetAllApplicationsMutation();
   const [applications, setApplications] = useState([]);
-  const [applicantStatusCounts, setApplicantStatusCounts] = useState({
+  const [applicationStatusCount, setapplicationStatusCount] = useState({
     Applied: 0,
     Interviewing: 0,
     Hired: 0,
@@ -34,28 +34,35 @@ function JobSeekerAnalytics() {
       setApplications(response.data);
     };
 
-    const fetchApplicantStatusCounts = () => {
-      const counts = { ...applicantStatusCounts };
+    const fetchapplicationStatusCount = () => {
+      const counts = {applicationStatusCount };
       applications.forEach((application) => {
         counts[application.status] = (counts[application.status] || 0) + 1;
       });
-      setApplicantStatusCounts(counts);
+      setapplicationStatusCount(counts);
     };
 
     const fetchEmploymentTypeCounts = () => {
-      const counts = { ...employmentTypeCounts };
+      const counts = {employmentTypeCounts };
       applications.forEach((application) => {
-        counts[application.employmentType] = (counts[application.employmentType] || 0) + 1;
+        counts[application.employmentType] =
+          (counts[application.employmentType] || 0) + 1;
       });
       setEmploymentTypeCounts(counts);
     };
 
     fetchApplications();
-    fetchApplicantStatusCounts();
+    fetchapplicationStatusCount();
     fetchEmploymentTypeCounts();
-  }, [getAllApplications, user.seekerID, applications, applicantStatusCounts, employmentTypeCounts]);
+  }, [
+    getAllApplications,
+    user.seekerID,
+    applications,
+    applicationStatusCount,
+    employmentTypeCounts,
+  ]);
 
-  const applicationStatusData = Object.entries(applicantStatusCounts)
+  const applicationStatusData = Object.entries(applicationStatusCount)
     .filter(([_, value]) => value > 0)
     .map(([name, value]) => ({
       name,
@@ -77,10 +84,7 @@ function JobSeekerAnalytics() {
   const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
   const checkForData = () => {
-    return (
-      applicationStatusData.length > 0 &&
-      employmentTypeData.length > 0
-    );
+    return applicationStatusData.length > 0 && employmentTypeData.length > 0;
   };
 
   return (
@@ -121,7 +125,7 @@ function JobSeekerAnalytics() {
                   fontWeight: "bold",
                 }}
               >
-                What's the status of your current Applicants?
+                What's the status of your current Applications?
               </span>
               <span
                 style={{
@@ -130,9 +134,7 @@ function JobSeekerAnalytics() {
                   fontWeight: "bold",
                 }}
               >
-                (Total Nō:{" "}
-                {applications.length}
-                )
+                (Total Nō: {applications.length})
               </span>
             </div>
             <ResponsiveContainer width="100%" height={300}>
@@ -185,7 +187,7 @@ function JobSeekerAnalytics() {
                   fontWeight: "bold",
                 }}
               >
-                Which employment types are people applying to?
+                Which employment types are you applying to?
               </span>
             </div>
             <ResponsiveContainer width="100%" height={300}>
