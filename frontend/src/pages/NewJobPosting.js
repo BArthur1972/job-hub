@@ -6,7 +6,6 @@ import "./styles/AdditionalInfo.css";
 import { locations} from "./data/locations";
 import { useCreateJobListingMutation } from "../services/appApi";
 import { useSelector } from "react-redux";
-import {locations} from "../pages/data/locations";
 
 function NewJobPosting() {
     const [jobPost, setJobPost] = useState({
