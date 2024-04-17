@@ -123,4 +123,30 @@ router.get("/count/:recruiterID", async (req, res) => {
 	}
 });
 
+// Get applicant status counts for a recruiter's job listings
+router.get("/status/:recruiterID", async (req, res) => {
+	try {
+		const { recruiterID } = req.params;
+		const counts = await Application.getApplicantStatusCounts(recruiterID);
+		res.status(200).send(counts);
+		console.log(counts);
+	} catch (err) {
+		console.log("Error getting applicant status counts by recruiter id: ", err);
+		res.status(500).send({ error: err });
+	}
+});
+
+// Get employment type counts for a recruiter's job listings
+router.get("/employment/:recruiterID", async (req, res) => {
+	try {
+		const { recruiterID } = req.params;
+		const counts = await Application.getEmploymentTypeCounts(recruiterID);
+		res.status(200).send(counts);
+		console.log(counts);
+	} catch (err) {
+		console.log("Error getting employment type counts by recruiter id: ", err);
+		res.status(500).send({ error: err });
+	}
+});
+
 module.exports = router;
