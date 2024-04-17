@@ -23,8 +23,7 @@ function RecruiterAnalytics() {
         }
 
         fetchApplicantStatusCounts(user.recruiterID);
-        fetchEmploymentTypeCounts(user.recruiterID);
-    }, [getApplicantStatusCounts, getEmploymentTypeCounts, user.recruiterID]);
+        fetchEmploymentTypeCounts(user.recruiterID); }, [getApplicantStatusCounts, getEmploymentTypeCounts, user.recruiterID]);
 
 
     const applicantStatusData = Object.entries(applicantStatusCounts).filter(([_, value]) => value > 0).map(([name, value]) => ({
