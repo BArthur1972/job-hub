@@ -21,7 +21,7 @@ function UserInfo({ user }) {
 			<div className="account__user-image">
 				<img
 					alt=""
-					src={user && user.profilePicture != "" ? user.profilePicture : defaultProfilePic}
+					src={user && user.profilePicture !== "" ? user.profilePicture : defaultProfilePic}
 					className="account__user-image-preview"
 				/>
 				<div className="account__user-image-change">
