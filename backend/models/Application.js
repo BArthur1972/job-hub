@@ -36,8 +36,6 @@ class Application {
 		});
 	}
 
-	
-
 	// Get applications by job seeker id
 	static getApplicationsByJobSeekerId(jobSeekerId) {
 		return new Promise((resolve, reject) => {
@@ -203,6 +201,54 @@ class Application {
 				} else {
 					console.log(result);
 					resolve(result[0]);
+				}
+			});
+		});
+	}
+
+	// Get applicant status counts for a recruiter's job listings
+	static getApplicantStatusCounts(recruiterID) {
+		return new Promise((resolve, reject) => {
+			const query = `SELECT status FROM Application INNER JOIN JobListing ON Application.jobID = JobListing.jobID WHERE JobListing.recruiterID = ${recruiterID}`;
+			dbConnection.query(query, (err, result) => {
+				if (err) {
+					console.log("Error getting applicant status counts by recruiter id: ", err);
+					reject("Error getting applicant status counts by recruiter id");
+				} else {
+					const counts = {
+						Applied: 0,
+						Interviewing: 0,
+						Hired: 0,
+						Rejected: 0,
+					};
+					result.forEach((application) => {
+						counts[application.status]++;
+					});
+					resolve(counts);
+				}
+			});
+		});
+	}
+
+	// Get number of applications based on employment type for a recruiter's job listings
+	static getEmploymentTypeCounts(recruiterID) {
+		return new Promise((resolve, reject) => {
+			const query = `SELECT  employmentType FROM JobListing INNER JOIN Application ON JobListing.jobID = Application.jobID WHERE JobListing.recruiterID = ${recruiterID}`;
+			dbConnection.query(query, (err, result) => {
+				if (err) {
+					console.log("Error getting employment type counts by recruiter id: ", err);
+					reject("Error getting employment type counts by recruiter id");
+				} else {
+					const counts = {
+						"Full-Time": 0,
+						"Part-Time": 0,
+						Contract: 0,
+						Internship: 0,
+					};
+					result.forEach((application) => {
+						counts[application.employmentType]++;
+					});
+					resolve(counts);
 				}
 			});
 		});

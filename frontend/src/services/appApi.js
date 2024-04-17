@@ -276,6 +276,22 @@ const appApi = createApi({
                 method: 'GET',
             }),
         }),
+
+        // Get Applicant Status Counts for all job listings by a recruiter
+        getApplicantStatusCounts: builder.mutation({
+            query: (id) => ({
+                url: `/application/status/${id}`,
+                method: 'GET',
+            }),
+        }),
+
+        // Get Employment Type Counts for all job listings by a recruiter
+        getEmploymentTypeCounts: builder.mutation({
+            query: (id) => ({
+                url: `/application/employment/${id}`,
+                method: 'GET',
+            }),
+        }),
     }),
 });
 
@@ -310,6 +326,8 @@ export const {
     useUpdateJobListingByIdMutation,
     useDeleteJobListingByIdMutation,
     useGetNumberOfApplicantsByRecruiterIdMutation,
-    useGetNumberOfJobListingsByRecruiterIdMutation } = appApi;
+    useGetNumberOfJobListingsByRecruiterIdMutation,
+    useGetApplicantStatusCountsMutation,
+    useGetEmploymentTypeCountsMutation } = appApi;
 
 export default appApi;
