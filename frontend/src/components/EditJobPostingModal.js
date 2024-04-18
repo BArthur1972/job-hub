@@ -71,11 +71,13 @@ function EditJobPostingModal(props) {
                         <Form.Group className="mb-3" controlId="formLocation">
                             <Form.Label>Location *</Form.Label>
                             <Form.Select
+
                                 value={jobPost.location}
                                 onChange={(e) =>
                                     setJobPost({ ...jobPost, location: e.target.value })
                                 }
                             >
+                            
                                 {locations.map((location) => (
                                     <option key={location} value={location}>{location}</option>
                                 ))}

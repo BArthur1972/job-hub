@@ -108,67 +108,62 @@ function Account() {
 	const [educationList, setEducationList] = useState([]);
 	const [experienceList, setExperienceList] = useState([]);
 	const [skillsList, setSkillsList] = useState([]);
-
 	const [getJobSeekerEducation] = useGetAllJobSeekerEducationMutation();
 	const [getJobSeekerExperience] = useGetAllJobSeekerExperienceMutation();
 	const [getJobSeekerSkills] = useGetAllJobSeekerSkillsMutation();
-
+  
 	useEffect(() => {
-		const fetchData = async () => {
-			if (userRole === 'jobseeker') {
-				const educationResponse = await getJobSeekerEducation(user.seekerID);
-				setEducationList(educationResponse.data);
-
-				const experienceResponse = await getJobSeekerExperience(user.seekerID);
-				setExperienceList(experienceResponse.data);
-
-				const skillsResponse = await getJobSeekerSkills(user.seekerID);
-				setSkillsList(skillsResponse.data);
-			}
-		};
-
-		fetchData();
-	}, [getJobSeekerEducation, getJobSeekerExperience, getJobSeekerSkills, user.seekerID, userRole]);
-
+	  const fetchData = async () => {
+		if (userRole === 'jobseeker' && user?.seekerID) {
+		  const educationResponse = await getJobSeekerEducation(user.seekerID);
+		  setEducationList(educationResponse.data);
+  
+		  const experienceResponse = await getJobSeekerExperience(user.seekerID);
+		  setExperienceList(experienceResponse.data);
+  
+		  const skillsResponse = await getJobSeekerSkills(user.seekerID);
+		  setSkillsList(skillsResponse.data);
+		}
+	  };
+	  fetchData();
+	}, [getJobSeekerEducation, getJobSeekerExperience, getJobSeekerSkills, user?.seekerID, userRole]);
+  
 	return (
-		<Container className="account__container">
+	  <Container className="account__container">
+		<Row>
+		  <AccountHeader userName={user?.firstName} />
+		  <div className="account__divider" />
+		</Row>
+		<Row>
+		  <UserInfo user={user} />
+		</Row>
+		{userRole === 'jobseeker' && user?.seekerID && (
+		  <>
+			<div className="account__divider" />
 			<Row>
-				<AccountHeader userName={user.firstName} />
-				<div className="account__divider" />
+			  <JobSeekerInfo skillsList={skillsList} educationList={educationList} experienceList={experienceList} />
 			</Row>
+		  </>
+		)}
+		{userRole === 'jobseeker' && user?.seekerID && (
+		  <>
+			<div className="account__divider" />
 			<Row>
-				<UserInfo user={user} />
+			  <JobSeekerAnalytics />
 			</Row>
-			{userRole === 'jobseeker' && (
-				<>
-					<div className="account__divider" />
-					<Row>
-						<JobSeekerInfo
-							skillsList={skillsList}
-							educationList={educationList}
-							experienceList={experienceList}
-						/>
-					</Row>
-				</>
-			)}
-			{userRole === 'jobseeker' && (
-				<>
-					<div className="account__divider" />
-					<Row>
-						<JobSeekerAnalytics />
-					</Row>
-				</>
-			)}
-			{userRole === 'recruiter' && (
-				<>
-					<div className="account__divider" />
-					<Row>
-						<RecruiterAnalytics />
-					</Row>
-				</>
-			)}
-		</Container>
+		  </>
+		)}
+		{userRole === 'recruiter' && (
+		  <>
+			<div className="account__divider" />
+			<Row>
+			  <RecruiterAnalytics />
+			</Row>
+		  </>
+		)}
+		
+	  </Container>
 	);
-}
-
-export default Account;
+  }
+  
+  export default Account;
