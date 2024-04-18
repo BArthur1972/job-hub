@@ -30,7 +30,7 @@ function JobSeekerAnalytics() {
 
   useEffect(() => {
     const fetchApplications = async () => {
-      const response = await getAllApplications(user.seekerID);
+      const response = await getAllApplications(user?.seekerID);
       setApplications(response.data);
     };
 
@@ -56,7 +56,7 @@ function JobSeekerAnalytics() {
     fetchEmploymentTypeCounts();
   }, [
     getAllApplications,
-    user.seekerID,
+    user?.seekerID,
     applications,
     applicationStatusCount,
     employmentTypeCounts,
@@ -86,6 +86,7 @@ function JobSeekerAnalytics() {
   const checkForData = () => {
     return applicationStatusData.length > 0 && employmentTypeData.length > 0;
   };
+
 
   return (
     checkForData() && (
