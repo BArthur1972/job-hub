@@ -17,40 +17,44 @@ function AccountHeader({ userName }) {
 
 function UserInfo({ user }) {
 	return (
-		<div className="account__user-info">
-			<div className="account__user-image">
-				<img
-					alt=""
-					src={user && user.profilePicture !== "" ? user.profilePicture : defaultProfilePic}
-					className="account__user-image-preview"
-				/>
-				<div className="account__user-image-change">
-					<p>Profile Picture</p>
-				</div>
-			</div>
-			<div className="account__user-details">
-				<div className="account__user-name">
-					<p className="account__user-name-label">Username:</p>
-					<p className="account__user-name-value">
-						{user.firstName || 'N/A'} {user.lastName || 'N/A'}
-					</p>
-				</div>
-				<div className="account__user-email">
-					<p className="account__user-email-label">Email:</p>
-					<p className="account__user-email-value">{user.email || 'N/A'}</p>
-				</div>
-				<div className="account__user-phone">
-					<p className="account__user-phone-label">Phone:</p>
-					<p className="account__user-phone-value">{user.contactNumber || 'N/A'}</p>
-				</div>
-				<div className="account__user-bio">
-					<p className="account__user-bio-label">Bio:</p>
-					<p className="account__user-bio-value">{user.bio || 'N/A'}</p>
-				</div>
-			</div>
+	  <div className="account__user-info">
+		<div className="account__user-image">
+		  <img
+			alt=""
+			src={user && user.profilePicture !== "" ? user.profilePicture : defaultProfilePic}
+			className="account__user-image-preview"
+		  />
+		  <div className="account__user-image-change">
+			<p>Profile Picture</p>
+		  </div>
 		</div>
+		<div className="account__user-details">
+		  {user && (
+			<>
+			  <div className="account__user-name">
+				<p className="account__user-name-label">Username:</p>
+				<p className="account__user-name-value">
+				  {user.firstName || 'N/A'} {user.lastName || 'N/A'}
+				</p>
+			  </div>
+			  <div className="account__user-email">
+				<p className="account__user-email-label">Email:</p>
+				<p className="account__user-email-value">{user.email || 'N/A'}</p>
+			  </div>
+			  <div className="account__user-phone">
+				<p className="account__user-phone-label">Phone:</p>
+				<p className="account__user-phone-value">{user.contactNumber || 'N/A'}</p>
+			  </div>
+			  <div className="account__user-bio">
+				<p className="account__user-bio-label">Bio:</p>
+				<p className="account__user-bio-value">{user.bio || 'N/A'}</p>
+			  </div>
+			</>
+		  )}
+		</div>
+	  </div>
 	);
-}
+  }
 
 function JobSeekerInfo({ skillsList, educationList, experienceList }) {
 	const formatDateAsMonthDayYear = (date) => {
@@ -161,7 +165,7 @@ function Account() {
 			</Row>
 		  </>
 		)}
-		
+
 	  </Container>
 	);
   }

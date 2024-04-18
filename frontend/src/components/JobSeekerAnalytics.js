@@ -9,11 +9,11 @@ import {
 } from "recharts";
 import { Container, Row } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import { useGetAllApplicationsMutation } from "../services/appApi";
+import { useGetApplicationsByJobSeekerIdMutation } from "../services/appApi";
 
 function JobSeekerAnalytics() {
   const user = useSelector((state) => state.user);
-  const [getAllApplications] = useGetAllApplicationsMutation();
+  const [getAllJobApplicationById] = useGetApplicationsByJobSeekerIdMutation();
   const [applications, setApplications] = useState([]);
   const [applicationStatusCount, setapplicationStatusCount] = useState({
     Applied: 0,
@@ -30,37 +30,29 @@ function JobSeekerAnalytics() {
 
   useEffect(() => {
     const fetchApplications = async () => {
-      const response = await getAllApplications(user?.seekerID);
+      const response = await getAllJobApplicationById(user.seekerID);
       setApplications(response.data);
-    };
 
-    const fetchapplicationStatusCount = () => {
-      const counts = {applicationStatusCount };
-      applications.forEach((application) => {
+      const counts = { Applied: 0, Interviewing: 0, Hired: 0, Rejected: 0 };
+      const employmentTypeCounts = {
+        "Full-Time": 0,
+        "Part-Time": 0,
+        Contract: 0,
+        Internship: 0,
+      };
+
+      response.data.forEach((application) => {
         counts[application.status] = (counts[application.status] || 0) + 1;
+        employmentTypeCounts[application.employmentType] =
+          (employmentTypeCounts[application.employmentType] || 0) + 1;
       });
-      setapplicationStatusCount(counts);
-    };
 
-    const fetchEmploymentTypeCounts = () => {
-      const counts = {employmentTypeCounts };
-      applications.forEach((application) => {
-        counts[application.employmentType] =
-          (counts[application.employmentType] || 0) + 1;
-      });
-      setEmploymentTypeCounts(counts);
+      setapplicationStatusCount(counts);
+      setEmploymentTypeCounts(employmentTypeCounts);
     };
 
     fetchApplications();
-    fetchapplicationStatusCount();
-    fetchEmploymentTypeCounts();
-  }, [
-    getAllApplications,
-    user?.seekerID,
-    applications,
-    applicationStatusCount,
-    employmentTypeCounts,
-  ]);
+  }, [getAllJobApplicationById, user.seekerID]);
 
   const applicationStatusData = Object.entries(applicationStatusCount)
     .filter(([_, value]) => value > 0)
@@ -86,7 +78,6 @@ function JobSeekerAnalytics() {
   const checkForData = () => {
     return applicationStatusData.length > 0 && employmentTypeData.length > 0;
   };
-
 
   return (
     checkForData() && (
