@@ -4,13 +4,11 @@ import { Card, Badge, Button, Row, Col, Image } from "react-bootstrap";
 import JobDetailsModal from "../components/JobDetailsModal";
 import { useCreateApplicationMutation } from "../services/appApi";
 import { useSelector } from "react-redux";
+import { IoSkullOutline } from "react-icons/io5";
 
 const currentDate = new Date().toISOString().slice(0, 19).replace("T", " ");
 
 const Job = ({ jobID, companyName, jobTitle, experienceLevels, locations, postedDate, jobType, skills, salary, description }) => {
-    const generateLogoUrl = (companyName) => {
-        return `https://logo.clearbit.com/${companyName.toLowerCase().replace(/\s+/g, "")}.com?size=70`;
-    };
 
     const [isExpanded, setIsExpanded] = useState(false);
     const toggleExpanded = () => setIsExpanded(!isExpanded);
@@ -48,12 +46,7 @@ const Job = ({ jobID, companyName, jobTitle, experienceLevels, locations, posted
             <Card.Body className="p-4">
                 <Row className="align-items-center">
                     <Col xs="auto">
-                        <Image
-                            src={generateLogoUrl(companyName)}
-                            alt={`${companyName} Logo`}
-                            className="company-logo rounded-circle"
-                            fluid
-                        />
+                        <IoSkullOutline size={50} className="rounded-circle" />
                     </Col>
                     <Col>
                         <div className="d-flex align-items-center justify-content-between mb-3">

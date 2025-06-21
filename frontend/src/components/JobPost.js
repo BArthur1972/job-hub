@@ -6,25 +6,16 @@ import styles from './styles/JobPost.module.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import EditJobPostingModal from "./EditJobPostingModal";
 import DeleteJobPostingModal from "./DeleteJobPostingModal";
+import { IoSkullOutline } from "react-icons/io5";
 
 function JobPost(props) {
 	const { jobID, jobTitle, companyName, location, applicants } = props.jobListing;
-	const logoURL = `https://logo.clearbit.com/${companyName
-		.toLowerCase()
-		.replace(/\s+/g, "")}.com?size=70`;
 
 	return (
 		<Card className="mb-4">
 			<Card.Body className="d-flex flex-column flex-md-row justify-content-between align-items-center">
 				<div className="d-flex align-items-center">
-					<Image
-						src={logoURL}
-						onError={(e) => (e.currentTarget.src = "path/to/default/logo.png")}
-						alt={`${companyName} Logo`}
-						className="me-4 rounded"
-						width={48}
-						height={48}
-					/>
+					<IoSkullOutline size={50} className="rounded-circle" />
 					<div>
 						<Card.Title className="text-md text-gray-600 truncate">
 							{jobTitle}
