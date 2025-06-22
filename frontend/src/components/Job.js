@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { MdExpandMore } from "react-icons/md";
-import { Card, Badge, Button, Row, Col, Image } from "react-bootstrap";
+import { Card, Badge, Button, Row, Col } from "react-bootstrap";
 import JobDetailsModal from "../components/JobDetailsModal";
 import { useCreateApplicationMutation } from "../services/appApi";
 import { useSelector } from "react-redux";

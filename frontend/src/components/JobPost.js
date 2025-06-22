@@ -1,6 +1,6 @@
 import React from "react";
 import { FaLocationDot, FaIdCard } from "react-icons/fa6";
-import { Card, Image } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 import { HiOutlineUsers } from "react-icons/hi2";
 import styles from './styles/JobPost.module.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
