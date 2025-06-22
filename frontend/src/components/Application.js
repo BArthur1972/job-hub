@@ -1,8 +1,9 @@
 import React from "react";
 import { FaBuilding, FaCalendarTimes } from "react-icons/fa";
 import { FaLocationDot } from "react-icons/fa6";
-import { Card, Form, Image } from "react-bootstrap";
+import { Card, Form } from "react-bootstrap";
 import WithdrawApplicationModal from "./WithdrawApplicationModal";
+import { IoSkullOutline } from "react-icons/io5";
 
 const statusColors = {
   Interested: "#8b8b8b", // gray-400
@@ -26,10 +27,6 @@ const Application = ({
     onUpdateStatus(id, newStatus);
   };
 
-  const logoURL = `https://logo.clearbit.com/${companyName
-    .toLowerCase()
-    .replace(/\s+/g, "")}.com?size=70`;
-
   function formatDate(date) {
     const options = { year: "numeric", month: "long", day: "numeric" };
     return new Date(date).toLocaleDateString(undefined, options);
@@ -39,14 +36,7 @@ const Application = ({
     <Card className="mb-4">
       <Card.Body className="d-flex flex-column flex-md-row justify-content-between align-items-center">
         <div className="d-flex align-items-center">
-          <Image
-            src={logoURL}
-            onError={(e) => (e.currentTarget.src = "path/to/default/logo.png")}
-            alt={`${companyName} Logo`}
-            className="me-4 rounded"
-            width={48}
-            height={48}
-          />
+          <IoSkullOutline size={50} className="rounded-circle" style={{paddingRight: "10px"}} />
           <div>
             <Card.Title className="text-md text-gray-600 truncate">
               {jobTitle}
